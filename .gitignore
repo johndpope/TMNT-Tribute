@@ -18,6 +18,10 @@
 x64/
 x86/
 bld/
+Game/
+SDL/
+SDL_image/
+SDL_mixer/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
