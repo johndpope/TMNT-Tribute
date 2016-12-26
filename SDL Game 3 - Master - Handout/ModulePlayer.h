@@ -22,9 +22,19 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	Animation* current_animation = nullptr;
-	Animation idle;
-	Animation up;
+	Animation idle_right;
+	Animation idle_left;
+	Animation up_right;
 	Animation down;
+	Animation left;
+	Animation right;
+	Animation kick_right;
+	Animation attack_right1;
+	Animation attack_right2;
+	Animation attack_right3;
+	Animation jump_attack_right1;
+	Animation jump_attack_right2;
+	Animation jump_attack_right3;
 	Collider* col;
 	iPoint position;
 	bool destroyed = false;

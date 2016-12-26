@@ -12,20 +12,38 @@
 
 ModulePlayer::ModulePlayer(bool active) : Module(active)
 {
-	// idle animation (just the ship)
-	idle.frames.push_back({66, 1, 32, 14});
+	// idle animation
+	idle_right.frames.push_back({ 21, 30, 50, 60 });
+	idle_right.frames.push_back({ 103, 30, 50, 60 });
+	idle_right.frames.push_back({ 185, 30, 50, 60 });
+	idle_right.frames.push_back({ 267, 30, 50, 60 });
+	idle_right.loop = true;
+	idle_right.speed = 0.05f;
+
 
 	// move upwards
-	up.frames.push_back({100, 1, 32, 14});
-	up.frames.push_back({132, 0, 32, 14});
-	up.loop = false;
-	up.speed = 0.1f;
+	up_right.frames.push_back({ 434, 599, 50, 64 });
+	up_right.frames.push_back({ 517, 599, 50, 64 });
+	up_right.frames.push_back({ 599, 599, 50, 64 });
+	up_right.frames.push_back({ 683, 599, 50, 64});
+	up_right.frames.push_back({ 765, 599, 50, 64});
+	up_right.frames.push_back({ 27, 693, 50, 64 });
+	up_right.frames.push_back({ 107, 693, 50, 64 });
+	up_right.frames.push_back({ 188, 693, 50, 64 });
+	up_right.loop = true;
+	up_right.speed = 0.15f;
 
-	// Move down
-	down.frames.push_back({33, 1, 32, 14});
-	down.frames.push_back({0, 1, 32, 14});
-	down.loop = false;
-	down.speed = 0.1f;
+	// move right
+	right.frames.push_back({596, 504, 50, 68 });
+	right.frames.push_back({ 685, 504, 50, 68 });
+	right.frames.push_back({ 767, 504, 50, 68 });
+	right.frames.push_back({ 30, 600, 50, 68 });
+	right.frames.push_back({ 111, 600, 50, 68 });
+	right.frames.push_back({ 196, 600, 50, 68 });
+	right.frames.push_back({ 272, 600, 50, 68 });
+	right.frames.push_back({ 355, 600, 50, 68 });
+	right.loop = true;
+	right.speed = 0.15f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -36,7 +54,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/ship.png");
+	graphics = App->textures->Load("rtype/michelangeloderecha.png");
 
 	destroyed = false;
 	position.x = 150;
@@ -62,7 +80,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	if (destroyed == false)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space);
+		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_level);
 		destroyed = true;
 		
 	}
@@ -87,20 +105,20 @@ update_status ModulePlayer::Update()
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		position.y += speed;
-		if(current_animation != &down)
+		if(current_animation != &right)
 		{
 			down.Reset();
-			current_animation = &down;
+			current_animation = &right;
 		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		position.y -= speed;
-		if(current_animation != &up)
+		if(current_animation != &up_right)
 		{
-			up.Reset();
-			current_animation = &up;
+			up_right.Reset();
+			current_animation = &up_right;
 		}
 	}
 
@@ -112,7 +130,7 @@ update_status ModulePlayer::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
 	   && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
-		current_animation = &idle;
+		current_animation = &idle_right;
 
 	// Draw everything --------------------------------------
 	if (destroyed == false)

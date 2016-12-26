@@ -5,11 +5,11 @@
 
 struct SDL_Texture;
 
-class ModuleSceneSpace : public Module
+class ModuleSceneLevel : public Module
 {
 public:
-	ModuleSceneSpace(bool active = true);
-	~ModuleSceneSpace();
+	ModuleSceneLevel(bool active = true);
+	~ModuleSceneLevel();
 
 	bool Start();
 	update_status Update();

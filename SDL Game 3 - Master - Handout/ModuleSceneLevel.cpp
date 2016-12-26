@@ -6,28 +6,28 @@
 #include "ModulePlayer.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
-#include "ModuleSceneSpace.h"
+#include "ModuleSceneLevel.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
-ModuleSceneSpace::ModuleSceneSpace(bool active) : Module(active)
+ModuleSceneLevel::ModuleSceneLevel(bool active) : Module(active)
 {}
 
-ModuleSceneSpace::~ModuleSceneSpace()
+ModuleSceneLevel::~ModuleSceneLevel()
 {}
 
 // Load assets
-bool ModuleSceneSpace::Start()
+bool ModuleSceneLevel::Start()
 {
 	LOG("Loading space scene");
 	
-	background = App->textures->Load("rtype/background.png");
+	background = App->textures->Load("rtype/stage.png");
 
 	App->player->Enable();
 	App->particles->Enable();
 	App->collision->Enable();
 
-	App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
+	//App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
 	
 
 
@@ -43,7 +43,7 @@ bool ModuleSceneSpace::Start()
 }
 
 // UnLoad assets
-bool ModuleSceneSpace::CleanUp()
+bool ModuleSceneLevel::CleanUp()
 {
 	LOG("Unloading space scene");
 
@@ -56,13 +56,13 @@ bool ModuleSceneSpace::CleanUp()
 }
 
 // Update: draw background
-update_status ModuleSceneSpace::Update()
+update_status ModuleSceneLevel::Update()
 {
 	// Move camera forward -----------------------------
 	int scroll_speed = 1;
 
-	App->player->position.x += 1;
-	App->renderer->camera.x -= 3;
+	App->player->position.x += 0;
+	App->renderer->camera.x -= 0;
 	
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);

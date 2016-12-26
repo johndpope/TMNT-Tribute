@@ -22,7 +22,7 @@ bool ModuleSceneIntro::Start()
 	
 	background = App->textures->Load("rtype/intro.png");
 
-	App->audio->PlayMusic("rtype/intro.ogg", 1.0f);
+	//App->audio->PlayMusic("rtype/intro.ogg", 1.0f);
 	if(fx == 0)
 		fx = App->audio->LoadFx("rtype/starting.wav");
 
@@ -48,7 +48,7 @@ update_status ModuleSceneIntro::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && App->fade->isFading() == false)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_space, this);
+		App->fade->FadeToBlack((Module*)App->scene_level, this);
 		App->audio->PlayFx(fx);
 	}
 
