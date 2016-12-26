@@ -39,6 +39,7 @@ public:
 	Animation jump_attack_right3;
 	Collider* col;
 	iPoint position;
+	bool idle_direction;
 	bool destroyed = false;
 };
 

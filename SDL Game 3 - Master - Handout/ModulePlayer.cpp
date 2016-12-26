@@ -73,7 +73,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	left.frames.push_back({ 679, 600, 50, 68 });
 	left.frames.push_back({ 598, 600, 50, 68 });
 	left.frames.push_back({ 514, 600, 50, 68 });
-	left.frames.push_back({ 428, 600, 50, 68 });
+	left.frames.push_back({ 427, 600, 50, 68 });
 	left.loop = true;
 	left.speed = 0.15f;
 }
@@ -89,6 +89,7 @@ bool ModulePlayer::Start()
 	graphics = App->textures->Load("rtype/michelangeloderecha.png");
 	graphics2 = App->textures->Load("rtype/michelangeloizquierda.png");
 
+	idle_direction = false;
 	destroyed = false;
 	position.x = 150;
 	position.y = 120;
@@ -126,50 +127,90 @@ update_status ModulePlayer::Update()
 {
 	int speed = 1;
 
+		
+
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		position.x -= speed;
+		idle_direction = true;
+		if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+		{
+			left.Reset();
+			current_animation = &left;
+		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		position.x += speed;
+		idle_direction = false;
+		if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+		{
+			right.Reset();
+			current_animation = &right;
+		}
 	}
 
+	
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		position.y += speed;
-		if(current_animation != &right)
+		if(idle_direction)
 		{
-			down.Reset();
-			current_animation = &right;
+			if(current_animation != &left)
+			{
+				left.Reset();
+				current_animation = &left;
+			}	
+		}
+		else
+		{
+			if (current_animation != &right)
+			{
+				right.Reset();
+				current_animation = &right;
+			}
 		}
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		position.y -= speed;
-		if(current_animation != &up_left)
+		if (idle_direction)
 		{
-			up_right.Reset();
-			current_animation = &up_left;
+			if (current_animation != &up_left)
+			{
+				up_left.Reset();
+				current_animation = &up_left;
+			}
+		}
+		else
+		{
+			if (current_animation != &up_right)
+			{
+				up_right.Reset();
+				current_animation = &up_right;
+			}
 		}
 	}
-
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
 	{
-		// TODO 6: Shoot a laser using the particle system
-		App->particles->AddParticle(App->particles->laser, position.x + 28, position.y, COLLIDER_PLAYER_SHOT);
+		if (idle_direction)
+			current_animation = &idle_left;
+		else
+			current_animation = &idle_right;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE
-	   && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
-		current_animation = &left;
 
 	// Draw everything --------------------------------------
 	if (destroyed == false)
 	{
-		App->renderer->Blit(graphics2, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		if (idle_direction)
+			App->renderer->Blit(graphics2, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		else
+			App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		
 		col->SetPos(position.x, position.y);
 	}
 
