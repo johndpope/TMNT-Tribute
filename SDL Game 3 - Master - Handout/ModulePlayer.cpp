@@ -7,6 +7,8 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
+#include<stdlib.h>
+#include<time.h>
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -175,10 +177,11 @@ bool ModulePlayer::Start()
 	isGoingUp = false;
 	isJumping = false;
 	destroyed = false;
-	attackStep = -1;
+	attackStep = 0;
 	position.x = 150;
 	position.y = 120;
 	posAux = 0;
+	srand(time(NULL));
 	col = App->collision->AddCollider({ position.x, position.y, 32, 14 }, COLLIDER_PLAYER,this);
 	col->SetPos(position.x, position.y);
 
@@ -216,7 +219,7 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && !isJumping)
 	{
 		isAttacking = true;
-		attackStep += 1;
+		attackStep = rand() % 2;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT && !isAttacking && !isJumping)
@@ -263,7 +266,6 @@ update_status ModulePlayer::Update()
 
 				case 1:
 					current_animation = &attack_right2;
-					attackStep = -1;
 					break;
 			}
 			
@@ -277,7 +279,6 @@ update_status ModulePlayer::Update()
 
 				case 1:
 					current_animation = &attack_left2;
-					attackStep = -1;
 					break;
 			}
 	}
@@ -291,7 +292,6 @@ update_status ModulePlayer::Update()
 		isAttacking = false;
 	}
 
-//	if (jump_right.Finished() || jump_left.Finished())ç
 	if(posAux <= position.y  && isJumping)
 	{
 		jump_right.Reset();
