@@ -30,16 +30,12 @@ public:
 	Animation down;
 	Animation left;
 	Animation right;
-	Animation kick_right;
 	Animation attack_right1;
 	Animation attack_right2;
 	Animation attack_right3;
-	Animation jump_attack_right1;
-	Animation jump_attack_right2;
-	Animation jump_attack_right3;
 	Collider* col;
 	iPoint position;
-	bool idle_direction;
+	bool idle_direction,isAttacking;
 	bool destroyed = false;
 };
 

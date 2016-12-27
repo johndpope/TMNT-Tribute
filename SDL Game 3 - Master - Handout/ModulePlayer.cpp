@@ -76,6 +76,17 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	left.frames.push_back({ 427, 600, 50, 68 });
 	left.loop = true;
 	left.speed = 0.15f;
+
+
+	// Attack right 1
+	
+	attack_right1.frames.push_back({ 422, 116, 72, 70 });
+	attack_right1.frames.push_back({ 494, 114, 83, 70 });
+	attack_right1.frames.push_back({ 576, 114, 83, 70 });
+	attack_right1.frames.push_back({ 672, 114, 83, 70 });
+	attack_right1.frames.push_back({ 14, 211, 83, 70 });
+	attack_right1.loop = true;
+	attack_right1.speed = 0.12f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -90,6 +101,7 @@ bool ModulePlayer::Start()
 	graphics2 = App->textures->Load("rtype/michelangeloizquierda.png");
 
 	idle_direction = false;
+	isAttacking = false;
 	destroyed = false;
 	position.x = 150;
 	position.y = 120;
@@ -128,8 +140,27 @@ update_status ModulePlayer::Update()
 	int speed = 1;
 
 		
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking)
+	{
+		isAttacking = true;
+		
+	}
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (isAttacking)
+	{
+		if (!idle_direction)
+		{
+			current_animation = &attack_right1;
+		}
+	}
+
+	if (attack_right1.Finished())
+	{
+		attack_right1.Reset();
+		isAttacking = false;
+	}
+
+	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isAttacking)
 	{
 		position.x -= speed;
 		idle_direction = true;
@@ -140,7 +171,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isAttacking)
 	{
 		position.x += speed;
 		idle_direction = false;
@@ -152,7 +183,7 @@ update_status ModulePlayer::Update()
 	}
 
 	
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking)
 	{
 		position.y += speed;
 		if(idle_direction)
@@ -173,7 +204,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking)
 	{
 		position.y -= speed;
 		if (idle_direction)
@@ -194,7 +225,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && !isAttacking)
 	{
 		if (idle_direction)
 			current_animation = &idle_left;
