@@ -34,10 +34,11 @@ public:
 	Animation attack_right2;
 	Animation attack_left1;
 	Animation attack_left2;
+	Animation jump_left, jump_right;
 	Collider* col;
 	iPoint position;
-	int attackStep;
-	bool idle_direction,isAttacking;
+	int attackStep, posAux;
+	bool idle_direction,isAttacking, isJumping,isGoingUp;
 	bool destroyed = false;
 };
 

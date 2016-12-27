@@ -39,7 +39,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	up_right.frames.push_back({ 107, 693, 50, 64 });
 	up_right.frames.push_back({ 188, 693, 50, 64 });
 	up_right.loop = true;
-	up_right.speed = 0.15f;
+	up_right.speed = 0.2f;
 
 	// move upwards
 	up_left.frames.push_back({ 350, 599, 50, 64 });
@@ -51,7 +51,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	up_left.frames.push_back({ 677, 693, 50, 64 });
 	up_left.frames.push_back({ 595, 693, 50, 64 });
 	up_left.loop = true;
-	up_left.speed = 0.15f;
+	up_left.speed = 0.2f;
 
 	// move right
 	right.frames.push_back({596, 504, 50, 68 });
@@ -63,7 +63,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	right.frames.push_back({ 272, 600, 50, 68 });
 	right.frames.push_back({ 355, 600, 50, 68 });
 	right.loop = true;
-	right.speed = 0.15f;
+	right.speed = 0.2f;
 
 	// move left
 	left.frames.push_back({ 181, 504, 50, 68 });
@@ -75,7 +75,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	left.frames.push_back({ 514, 600, 50, 68 });
 	left.frames.push_back({ 427, 600, 50, 68 });
 	left.loop = true;
-	left.speed = 0.15f;
+	left.speed = 0.2f;
 
 
 	// Attack right 1
@@ -86,7 +86,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack_right1.frames.push_back({ 14, 211, 83, 70 });
 	attack_right1.loop = true;
 	attack_right1.speed = 0.3f;
-	attack_right1.pivotY = 7;
+	attack_right1.pivotY = 10;
 
 	// Attack right 2
 	attack_right2.frames.push_back({ 105, 207, 66, 73 });
@@ -97,7 +97,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack_right2.frames.push_back({ 518, 207, 66, 73 });
 	attack_right2.loop = true;
 	attack_right2.speed = 0.3f;
-	attack_right2.pivotY = 7;
+	attack_right2.pivotY = 10;
 
 	// Attack left 1
 	attack_left1.frames.push_back({ 408-83, 116, 73, 70 });
@@ -107,7 +107,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack_left1.frames.push_back({ 816-83, 211, 83, 70 });
 	attack_left1.loop = true;
 	attack_left1.speed = 0.3f;
-	attack_left1.pivotY = 15;
+	attack_left1.pivotY = 12;
 	attack_left1.pivotX = 30;
 
 	// Attack left 2
@@ -119,8 +119,44 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	attack_left2.frames.push_back({ 302-67, 207, 70, 73 });
 	attack_left2.loop = true;
 	attack_left2.speed = 0.3f;
-	attack_left2.pivotY = 15;
+	attack_left2.pivotY = 12;
 	attack_left2.pivotX = 30;
+
+
+	// jump right 
+	jump_right.frames.push_back({ 353, 312, 40, 73 });
+	jump_right.frames.push_back({ 353, 312, 40, 73 });
+	jump_right.frames.push_back({ 353, 312, 40, 73 });
+	jump_right.frames.push_back({ 438, 312, 40, 73 });
+	jump_right.frames.push_back({ 516, 312, 40, 73 });
+	jump_right.frames.push_back({ 598, 312, 40, 73 });
+	jump_right.frames.push_back({ 685, 312, 40, 73 });
+	jump_right.frames.push_back({ 765, 312, 40, 73 });
+	jump_right.frames.push_back({ 24, 405, 40, 73 });
+	jump_right.frames.push_back({ 106, 405, 40, 73 });
+	jump_right.frames.push_back({ 188, 405, 40, 73 });
+	jump_right.frames.push_back({ 273, 405, 40, 73 });
+
+	jump_right.loop = true;
+	jump_right.speed = 0.25f;
+
+	//jump left
+	jump_left.frames.push_back({ 431, 312, 40, 73 });
+	jump_left.frames.push_back({ 431, 312, 40, 73 });
+	jump_left.frames.push_back({ 431, 312, 40, 73 });
+	jump_left.frames.push_back({ 350, 312, 40, 73 });
+	jump_left.frames.push_back({ 262, 312, 40, 73 });
+	jump_left.frames.push_back({ 180, 312, 40, 73 });
+	jump_left.frames.push_back({ 106, 312, 40, 73 });
+	jump_left.frames.push_back({ 21, 312, 40, 73 });
+	jump_left.frames.push_back({ 755, 405, 40, 73 });
+	jump_left.frames.push_back({ 672, 405, 40, 73 });
+	jump_left.frames.push_back({ 595, 405, 40, 73 });
+	jump_left.frames.push_back({ 515, 405, 40, 73 });
+
+	jump_left.loop = true;
+	jump_left.speed = 0.25f;
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -136,10 +172,13 @@ bool ModulePlayer::Start()
 
 	idle_direction = false;
 	isAttacking = false;
+	isGoingUp = false;
+	isJumping = false;
 	destroyed = false;
 	attackStep = -1;
 	position.x = 150;
 	position.y = 120;
+	posAux = 0;
 	col = App->collision->AddCollider({ position.x, position.y, 32, 14 }, COLLIDER_PLAYER,this);
 	col->SetPos(position.x, position.y);
 
@@ -173,12 +212,43 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 update_status ModulePlayer::Update()
 {
 	int speed = 2;
-
 		
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking)
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && !isJumping)
 	{
 		isAttacking = true;
 		attackStep += 1;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT && !isAttacking && !isJumping)
+	{
+		isJumping = true;
+		isGoingUp = true;
+		posAux = position.y;
+	}
+
+	if (posAux - 120 >= position.y && isJumping)
+	{
+		isGoingUp = false;
+	}
+
+	if (isJumping)
+	{
+		
+		if (!idle_direction)
+		{
+			current_animation = &jump_right;
+			jump_left.GetCurrentFrame();
+		}
+		else
+		{
+			current_animation = &jump_left;
+			jump_right.GetCurrentFrame();
+		}
+
+		if (isGoingUp)
+			position.y -= 5;
+		else
+			position.y += 5;
 	}
 
 	if (isAttacking)
@@ -201,14 +271,14 @@ update_status ModulePlayer::Update()
 		else
 			switch (attackStep)
 			{
-			case 0:
-				current_animation = &attack_left1;
-				break;
+				case 0:
+					current_animation = &attack_left1;
+					break;
 
-			case 1:
-				current_animation = &attack_left2;
-				attackStep = -1;
-				break;
+				case 1:
+					current_animation = &attack_left2;
+					attackStep = -1;
+					break;
 			}
 	}
 
@@ -221,11 +291,19 @@ update_status ModulePlayer::Update()
 		isAttacking = false;
 	}
 
+//	if (jump_right.Finished() || jump_left.Finished())ç
+	if(posAux <= position.y  && isJumping)
+	{
+		jump_right.Reset();
+		jump_left.Reset();
+		isJumping = false;
+	}
+
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isAttacking)
 	{
 		position.x -= speed;
 		idle_direction = true;
-		if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+		if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && !isJumping)
 		{
 			left.Reset();
 			current_animation = &left;
@@ -236,7 +314,7 @@ update_status ModulePlayer::Update()
 	{
 		position.x += speed;
 		idle_direction = false;
-		if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+		if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && !isJumping)
 		{
 			right.Reset();
 			current_animation = &right;
@@ -244,12 +322,12 @@ update_status ModulePlayer::Update()
 	}
 
 	
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking && !isJumping)
 	{
 		position.y += speed;
 		if(idle_direction)
 		{
-			if(current_animation != &left)
+			if(current_animation != &left && !isJumping)
 			{
 				left.Reset();
 				current_animation = &left;
@@ -257,7 +335,7 @@ update_status ModulePlayer::Update()
 		}
 		else
 		{
-			if (current_animation != &right)
+			if (current_animation != &right && !isJumping)
 			{
 				right.Reset();
 				current_animation = &right;
@@ -265,12 +343,12 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking && !isJumping)
 	{
 		position.y -= speed;
-		if (idle_direction)
+		if (idle_direction )
 		{
-			if (current_animation != &up_left)
+			if (current_animation != &up_left && !isJumping)
 			{
 				up_left.Reset();
 				current_animation = &up_left;
@@ -278,7 +356,7 @@ update_status ModulePlayer::Update()
 		}
 		else
 		{
-			if (current_animation != &up_right)
+			if (current_animation != &up_right && !isJumping)
 			{
 				up_right.Reset();
 				current_animation = &up_right;
@@ -286,7 +364,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && !isAttacking)
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && !isAttacking && !isJumping)
 	{
 		if (idle_direction)
 			current_animation = &idle_left;
