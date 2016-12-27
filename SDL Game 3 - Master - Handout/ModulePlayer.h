@@ -32,9 +32,11 @@ public:
 	Animation right;
 	Animation attack_right1;
 	Animation attack_right2;
-	Animation attack_right3;
+	Animation attack_left1;
+	Animation attack_left2;
 	Collider* col;
 	iPoint position;
+	int attackStep;
 	bool idle_direction,isAttacking;
 	bool destroyed = false;
 };

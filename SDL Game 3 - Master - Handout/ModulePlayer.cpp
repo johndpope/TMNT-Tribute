@@ -79,14 +79,48 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 
 
 	// Attack right 1
-	
 	attack_right1.frames.push_back({ 422, 116, 72, 70 });
 	attack_right1.frames.push_back({ 494, 114, 83, 70 });
 	attack_right1.frames.push_back({ 576, 114, 83, 70 });
 	attack_right1.frames.push_back({ 672, 114, 83, 70 });
 	attack_right1.frames.push_back({ 14, 211, 83, 70 });
 	attack_right1.loop = true;
-	attack_right1.speed = 0.12f;
+	attack_right1.speed = 0.3f;
+	attack_right1.pivotY = 7;
+
+	// Attack right 2
+	attack_right2.frames.push_back({ 105, 207, 66, 73 });
+	attack_right2.frames.push_back({ 188, 207, 66, 73 });
+	attack_right2.frames.push_back({ 257, 207, 66, 73 });
+	attack_right2.frames.push_back({ 339, 207, 66, 73 });
+	attack_right2.frames.push_back({ 431, 207, 66, 73 });
+	attack_right2.frames.push_back({ 518, 207, 66, 73 });
+	attack_right2.loop = true;
+	attack_right2.speed = 0.3f;
+	attack_right2.pivotY = 7;
+
+	// Attack left 1
+	attack_left1.frames.push_back({ 408-83, 116, 73, 70 });
+	attack_left1.frames.push_back({ 326-83, 114, 83, 70 });
+	attack_left1.frames.push_back({ 244-83, 114, 83, 70 });
+	attack_left1.frames.push_back({ 148-83, 114, 83, 70 });
+	attack_left1.frames.push_back({ 816-83, 211, 83, 70 });
+	attack_left1.loop = true;
+	attack_left1.speed = 0.3f;
+	attack_left1.pivotY = 15;
+	attack_left1.pivotX = 30;
+
+	// Attack left 2
+	attack_left2.frames.push_back({ 714-67, 207, 70, 73 });
+	attack_left2.frames.push_back({ 632-67, 207, 70, 73 });
+	attack_left2.frames.push_back({ 563-67, 207, 70, 73 });
+	attack_left2.frames.push_back({ 481-67, 207, 70, 73 });
+	attack_left2.frames.push_back({ 389-67, 207, 70, 73 });
+	attack_left2.frames.push_back({ 302-67, 207, 70, 73 });
+	attack_left2.loop = true;
+	attack_left2.speed = 0.3f;
+	attack_left2.pivotY = 15;
+	attack_left2.pivotX = 30;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -103,6 +137,7 @@ bool ModulePlayer::Start()
 	idle_direction = false;
 	isAttacking = false;
 	destroyed = false;
+	attackStep = -1;
 	position.x = 150;
 	position.y = 120;
 	col = App->collision->AddCollider({ position.x, position.y, 32, 14 }, COLLIDER_PLAYER,this);
@@ -137,26 +172,52 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	int speed = 1;
+	int speed = 2;
 
 		
 	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking)
 	{
 		isAttacking = true;
-		
+		attackStep += 1;
 	}
 
 	if (isAttacking)
 	{
 		if (!idle_direction)
 		{
-			current_animation = &attack_right1;
+			switch (attackStep)
+			{
+				case 0:
+					current_animation = &attack_right1;
+					break;
+
+				case 1:
+					current_animation = &attack_right2;
+					attackStep = -1;
+					break;
+			}
+			
 		}
+		else
+			switch (attackStep)
+			{
+			case 0:
+				current_animation = &attack_left1;
+				break;
+
+			case 1:
+				current_animation = &attack_left2;
+				attackStep = -1;
+				break;
+			}
 	}
 
-	if (attack_right1.Finished())
+	if (attack_right1.Finished() || attack_right2.Finished() || attack_left1.Finished() || attack_left2.Finished())
 	{
 		attack_right1.Reset();
+		attack_right2.Reset();
+		attack_left1.Reset();
+		attack_left2.Reset();
 		isAttacking = false;
 	}
 
@@ -238,9 +299,9 @@ update_status ModulePlayer::Update()
 	if (destroyed == false)
 	{
 		if (idle_direction)
-			App->renderer->Blit(graphics2, position.x, position.y, &(current_animation->GetCurrentFrame()));
+			App->renderer->Blit(graphics2, position.x-current_animation->pivotX, position.y-current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 		else
-			App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+			App->renderer->Blit(graphics,position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 		
 		col->SetPos(position.x, position.y);
 	}

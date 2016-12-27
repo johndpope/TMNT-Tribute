@@ -9,6 +9,8 @@ public:
 	bool loop = true;
 	float speed = 1.0f;
 	vector<SDL_Rect> frames;
+	int pivotX = 0;
+	int pivotY = 0;
 
 private:
 	float current_frame = 0.0f;
