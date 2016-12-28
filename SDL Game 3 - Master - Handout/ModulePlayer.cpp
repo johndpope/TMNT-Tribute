@@ -159,6 +159,41 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	jump_left.loop = true;
 	jump_left.speed = 0.25f;
 
+
+	//jump attack right 1
+	jump_right_attack_1.frames.push_back({ 345, 511, 57, 52 });
+	jump_right_attack_1.frames.push_back({ 425, 511, 57, 52 });
+	jump_right_attack_1.frames.push_back({ 509, 511, 57, 52 });
+
+	jump_right_attack_1.loop = true;
+	jump_right_attack_1.speed = 0.12f;
+
+	//jump attack left 1
+	jump_left_attack_1.frames.push_back({ 420, 511, 57, 52 });
+	jump_left_attack_1.frames.push_back({ 337, 511, 57, 52 });
+	jump_left_attack_1.frames.push_back({ 252, 511, 57, 52 });
+
+	jump_left_attack_1.loop = true;
+	jump_left_attack_1.speed = 0.12f;
+
+
+
+	//jump attack right 2
+	jump_right_attack_2.frames.push_back({ 345, 511, 57, 52 });
+	jump_right_attack_2.frames.push_back({ 425, 511, 57, 52 });
+	jump_right_attack_2.frames.push_back({ 509, 511, 57, 52 });
+
+	jump_right_attack_2.loop = true;
+	jump_right_attack_2.speed = 0.12f;
+
+	//jump attack left 2
+	jump_left_attack_2.frames.push_back({ 420, 511, 57, 52 });
+	jump_left_attack_2.frames.push_back({ 337, 511, 57, 52 });
+	jump_left_attack_2.frames.push_back({ 252, 511, 57, 52 });
+
+	jump_left_attack_2.loop = true;
+	jump_left_attack_2.speed = 0.12f;
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -177,6 +212,7 @@ bool ModulePlayer::Start()
 	isGoingUp = false;
 	isJumping = false;
 	destroyed = false;
+	jumpAttack = false;
 	attackStep = 0;
 	position.x = 150;
 	position.y = 120;
@@ -216,13 +252,19 @@ update_status ModulePlayer::Update()
 {
 	int speed = 2;
 		
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && !isJumping)
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
 		isAttacking = true;
 		attackStep = rand() % 2;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT && !isAttacking && !isJumping)
+	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && isJumping)
+	{
+		jumpAttack = true;
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
 		isJumping = true;
 		isGoingUp = true;
@@ -236,22 +278,61 @@ update_status ModulePlayer::Update()
 
 	if (isJumping)
 	{
-		
-		if (!idle_direction)
+		if (!jumpAttack)
 		{
-			current_animation = &jump_right;
-			jump_left.GetCurrentFrame();
-		}
-		else
-		{
-			current_animation = &jump_left;
-			jump_right.GetCurrentFrame();
-		}
+			if (!idle_direction)
+			{
+				current_animation = &jump_right;
+				jump_left.GetCurrentFrame();
+			}
+			else
+			{
+				current_animation = &jump_left;
+				jump_right.GetCurrentFrame();
+			}
 
-		if (isGoingUp)
-			position.y -= 5;
+			if (isGoingUp)
+			{
+				position.y -= 5;
+			}
+			else
+			{
+				position.y += 5;
+			}
+		}
 		else
-			position.y += 5;
+		{
+			if(!idle_direction)
+			{
+				if (isGoingUp)
+				{
+					current_animation = &jump_right_attack_2;
+					position.x += 4;
+					position.y += 4;
+				}
+				else
+				{
+					current_animation = &jump_right_attack_1;
+					position.x += 4;
+					position.y += 4;
+				}
+			}
+			else
+			{
+				if (isGoingUp)
+				{
+					current_animation = &jump_left_attack_2;
+					position.x += 4;
+					position.y += 4;
+				}
+				else
+				{
+					current_animation = &jump_left_attack_1;
+					position.x += 4;
+					position.y += 4;
+				}
+			}
+		}
 	}
 
 	if (isAttacking)
@@ -292,14 +373,17 @@ update_status ModulePlayer::Update()
 		isAttacking = false;
 	}
 
-	if(posAux <= position.y  && isJumping)
+	if(posAux <= position.y && isJumping)
 	{
 		jump_right.Reset();
 		jump_left.Reset();
+		jump_right_attack_1.Reset();
+		jump_left_attack_1.Reset();
 		isJumping = false;
+		jumpAttack = false;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isAttacking)
+	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isAttacking && !jumpAttack)
 	{
 		position.x -= speed;
 		idle_direction = true;
@@ -310,7 +394,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isAttacking)
+	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isAttacking && !jumpAttack)
 	{
 		position.x += speed;
 		idle_direction = false;
@@ -322,7 +406,7 @@ update_status ModulePlayer::Update()
 	}
 
 	
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking && !isJumping)
+	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
 		position.y += speed;
 		if(idle_direction)
@@ -343,7 +427,7 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking && !isJumping)
+	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
 		position.y -= speed;
 		if (idle_direction )
