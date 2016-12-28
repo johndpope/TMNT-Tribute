@@ -179,20 +179,48 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 
 
 	//jump attack right 2
-	jump_right_attack_2.frames.push_back({ 345, 511, 57, 52 });
-	jump_right_attack_2.frames.push_back({ 425, 511, 57, 52 });
-	jump_right_attack_2.frames.push_back({ 509, 511, 57, 52 });
+
+	jump_right_attack_2.frames.push_back({ 751, 398, 64, 70 });
+	jump_right_attack_2.frames.push_back({ 751, 398, 64, 70 });
+
+	jump_right_attack_2.frames.push_back({ 28, 509, 64, 70 });
+	jump_right_attack_2.frames.push_back({ 28, 509, 64, 70 });
+
+	jump_right_attack_2.frames.push_back({ 97, 509, 64, 70 });
+	jump_right_attack_2.frames.push_back({ 97, 509, 64, 70 });
+
+	jump_right_attack_2.frames.push_back({ 168, 509, 64, 70 });
+	jump_right_attack_2.frames.push_back({ 168, 509, 64, 70 });
+
+	jump_right_attack_2.frames.push_back({ 260, 509, 64, 70 });
+	jump_right_attack_2.frames.push_back({ 260, 509, 64, 70 });
 
 	jump_right_attack_2.loop = true;
-	jump_right_attack_2.speed = 0.12f;
+	jump_right_attack_2.speed = 0.35f;
+
+
+
 
 	//jump attack left 2
-	jump_left_attack_2.frames.push_back({ 420, 511, 57, 52 });
-	jump_left_attack_2.frames.push_back({ 337, 511, 57, 52 });
-	jump_left_attack_2.frames.push_back({ 252, 511, 57, 52 });
+
+	jump_left_attack_2.frames.push_back({ 9, 398, 64, 70 });
+	jump_left_attack_2.frames.push_back({ 9, 398, 64, 70 });
+
+	jump_left_attack_2.frames.push_back({ 758, 509, 64, 70 });
+	jump_left_attack_2.frames.push_back({ 758, 509, 64, 70 });
+
+	jump_left_attack_2.frames.push_back({ 665, 509, 64, 70 });
+	jump_left_attack_2.frames.push_back({ 665, 509, 64, 70 });
+
+	jump_left_attack_2.frames.push_back({ 585, 509, 70, 70 });
+	jump_left_attack_2.frames.push_back({ 585, 509, 70, 70 });
+
+	jump_left_attack_2.frames.push_back({ 498, 509, 64, 70 });
+	jump_left_attack_2.frames.push_back({ 498, 509, 64, 70 });
 
 	jump_left_attack_2.loop = true;
-	jump_left_attack_2.speed = 0.12f;
+	jump_left_attack_2.speed = 0.35f;
+
 
 }
 
@@ -250,8 +278,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	int speed = 2;
-		
 	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
 		isAttacking = true;
@@ -271,7 +297,7 @@ update_status ModulePlayer::Update()
 		posAux = position.y;
 	}
 
-	if (posAux - 120 >= position.y && isJumping)
+	if (posAux - jumpHeight >= position.y && isJumping)
 	{
 		isGoingUp = false;
 	}
@@ -293,43 +319,41 @@ update_status ModulePlayer::Update()
 
 			if (isGoingUp)
 			{
-				position.y -= 5;
+				position.y -= jumpSpeed;
 			}
 			else
 			{
-				position.y += 5;
+				position.y += jumpSpeed;
 			}
 		}
 		else
 		{
 			if(!idle_direction)
 			{
-				if (isGoingUp)
+				if (!isGoingUp)
 				{
 					current_animation = &jump_right_attack_2;
-					position.x += 4;
-					position.y += 4;
+					position.y += jumpAttackSpeed;
 				}
 				else
 				{
 					current_animation = &jump_right_attack_1;
-					position.x += 4;
-					position.y += 4;
+					position.x += jumpAttackSpeed;
+					position.y += jumpAttackSpeed;
 				}
 			}
 			else
 			{
-				if (isGoingUp)
+				if (!isGoingUp)
 				{
 					current_animation = &jump_left_attack_2;
-					position.x += 4;
-					position.y += 4;
+					position.y += jumpAttackSpeed;
 				}
 				else
 				{
 					current_animation = &jump_left_attack_1;
-					position.x += 4;
-					position.y += 4;
+					position.x -= jumpAttackSpeed;
+					position.y += jumpAttackSpeed;
 				}
 			}
 		}
@@ -379,13 +403,15 @@ update_status ModulePlayer::Update()
 		jump_left.Reset();
 		jump_right_attack_1.Reset();
 		jump_left_attack_1.Reset();
+		jump_right_attack_2.Reset();
+		jump_left_attack_2.Reset();
 		isJumping = false;
 		jumpAttack = false;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isAttacking && !jumpAttack)
 	{
-		position.x -= speed;
+		position.x -= walkSpeed;
 		idle_direction = true;
 		if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && !isJumping)
 		{
@@ -396,7 +422,7 @@ update_status ModulePlayer::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isAttacking && !jumpAttack)
 	{
-		position.x += speed;
+		position.x += walkSpeed;
 		idle_direction = false;
 		if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && !isJumping)
 		{
@@ -408,7 +434,7 @@ update_status ModulePlayer::Update()
 	
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
-		position.y += speed;
+		position.y += walkSpeed;
 		if(idle_direction)
 		{
 			if(current_animation != &left && !isJumping)
@@ -429,7 +455,7 @@ update_status ModulePlayer::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
 	{
-		position.y -= speed;
+		position.y -= walkSpeed;
 		if (idle_direction )
 		{
 			if (current_animation != &up_left && !isJumping)
@@ -470,9 +496,3 @@ update_status ModulePlayer::Update()
 
 	return UPDATE_CONTINUE;
 }
-
-// TODO 13: Make so is the laser collides, it is removed and create an explosion particle at its position
-
-// TODO 14: Make so if the player collides, it is removed and create few explosions at its positions
-// then fade away back to the first screen (use the "destroyed" bool already created 
-// You will need to create, update and destroy the collider with the player
