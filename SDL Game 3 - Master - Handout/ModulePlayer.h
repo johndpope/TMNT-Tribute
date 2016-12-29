@@ -44,7 +44,7 @@ public:
 	Collider* col = nullptr;
 	iPoint position;
 	int attackStep, posAux;
-	bool idle_direction,isAttacking, isJumping,isGoingUp,jumpAttack;
+	bool idle_direction,isAttacking, isJumping,isGoingUp,jumpAttack,movement;
 	bool destroyed = false;
 };
 

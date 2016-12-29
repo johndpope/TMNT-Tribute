@@ -32,11 +32,16 @@ bool ModuleSceneLevel::Start()
 	
 
 
-	App->collision->AddCollider({ 0,224,3930, 16 }, COLLIDER_WALL,this);
-	App->collision->AddCollider({ 142, 192, 63, 48 }, COLLIDER_WALL,this);
-	App->collision->AddCollider({ 1376, 0, 560, 15 }, COLLIDER_WALL,this);
-	App->collision->AddCollider({ 1376, 15, 112, 79 }, COLLIDER_WALL,this);
+	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL,this);
 
+	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 100 }, COLLIDER_WALL, this);
+
+	leftLimit = App->collision->AddCollider({0,0,2,SCREEN_HEIGHT}, COLLIDER_WALL, this);
+
+	rightLimit = App->collision->AddCollider({SCREEN_WIDTH,0,2,SCREEN_HEIGHT }, COLLIDER_WALL, this);
+
+	leftLimitNum = 0;
+	rightLimitNum = SCREEN_WIDTH;
 	return true;
 }
 
@@ -61,6 +66,10 @@ update_status ModuleSceneLevel::Update()
 	if (blockCamera - (App->player->position.x) >= stageCamera && (-App->renderer->camera.x + SCREEN_WIDTH * 3) - (App->player->position.x * 3) <= (stageCamera * 3))
 	{
 		App->renderer->camera.x -= 6;
+		leftLimitNum += 2;
+		rightLimitNum += 2;
+		leftLimit->SetPos(leftLimitNum,0);
+		rightLimit->SetPos(rightLimitNum, 0);
 	}
 
 	// Draw everything --------------------------------------

@@ -266,12 +266,46 @@ bool ModulePlayer::CleanUp()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
+	/*
 	if (destroyed == false)
 	{
 		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_level);
 		destroyed = true;
 		
 	}
+	*/
+
+
+	//izquierda
+	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+	{
+		position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+	}
+	else
+	{
+		//derecha
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+		{
+			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+		}
+		else
+		{
+			//abajo
+			if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && c2->type == COLLIDER_WALL)
+			{
+				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+			}
+			else
+			{
+				//arriba
+				if (c1->rect.h + c1->rect.y > c2->rect.y && c2->type == COLLIDER_WALL)
+				{
+					position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+				}
+			}
+		}
+	}
+
 }
 
 
