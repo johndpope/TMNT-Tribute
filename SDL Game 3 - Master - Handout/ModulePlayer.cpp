@@ -246,9 +246,7 @@ bool ModulePlayer::Start()
 	position.y = 120;
 	posAux = 0;
 	srand(time(NULL));
-	col = App->collision->AddCollider({ position.x, position.y, 32, 14 }, COLLIDER_PLAYER,this);
-	col->SetPos(position.x, position.y);
-
+	footCollider = App->collision->AddCollider({ position.x, position.y, 50, 10 }, COLLIDER_PLAYER,this);
 	return true;
 }
 
@@ -525,7 +523,7 @@ update_status ModulePlayer::Update()
 		else
 			App->renderer->Blit(graphics,position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 		
-		col->SetPos(position.x, position.y);
+		footCollider->SetPos(position.x, position.y+50);
 	}
 
 	return UPDATE_CONTINUE;

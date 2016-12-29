@@ -41,7 +41,7 @@ public:
 	Animation attack_left2;
 	Animation jump_left, jump_right;
 	Animation jump_right_attack_1, jump_left_attack_1, jump_left_attack_2, jump_right_attack_2;
-	Collider* col = nullptr;
+	Collider* footCollider = nullptr;
 	iPoint position;
 	int attackStep, posAux;
 	bool idle_direction,isAttacking, isJumping,isGoingUp,jumpAttack,movement;
