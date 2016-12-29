@@ -7,6 +7,7 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleSceneLevel.h"
+#include "ModuleInput.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -36,9 +37,6 @@ bool ModuleSceneLevel::Start()
 	App->collision->AddCollider({ 1376, 0, 560, 15 }, COLLIDER_WALL,this);
 	App->collision->AddCollider({ 1376, 15, 112, 79 }, COLLIDER_WALL,this);
 
-	// TODO 15: create some colliders for the walls
-	// solution wall coords: {0, 224, 3930, 16} {1375, 0, 111, 96} {1375, 145, 111, 96}
-
 	return true;
 }
 
@@ -59,11 +57,12 @@ bool ModuleSceneLevel::CleanUp()
 update_status ModuleSceneLevel::Update()
 {
 	// Move camera forward -----------------------------
-	int scroll_speed = 1;
 
-	App->player->position.x += 0;
-	App->renderer->camera.x -= 0;
-	
+	if (blockCamera - (App->player->position.x) >= stageCamera && (-App->renderer->camera.x + SCREEN_WIDTH * 3) - (App->player->position.x * 3) <= (stageCamera * 3))
+	{
+		App->renderer->camera.x -= 6;
+	}
+
 	// Draw everything --------------------------------------
 	App->renderer->Blit(background, 0, 0, NULL);
 	

@@ -17,6 +17,8 @@ public:
 
 public:
 	
+	int const blockCamera = 764;
+	int const stageCamera = SCREEN_WIDTH / 2;
 	SDL_Texture* background = nullptr;
 	SDL_Texture* stars = nullptr;
 };
