@@ -245,7 +245,7 @@ bool ModulePlayer::Start()
 	position.y = 120;
 	posAux = 0;
 	srand(time(NULL));
-	footCollider = App->collision->AddCollider({ position.x, position.y, 50, 10 }, COLLIDER_PLAYER,this);
+	currentCollider = App->collision->AddCollider({ position.x, position.y, widthColliderFoot, heightColliderFoot }, COLLIDER_PLAYER,this);
 	return true;
 }
 
@@ -398,8 +398,11 @@ update_status ModulePlayer::Update()
 		
 				isGoingUp = true;
 				posAux = position.y;
+				currentCollider->SetSize(0, 0);
 				current_state = JUMPING;
 			}
+			
+			currentCollider->SetPos(position.x, position.y + widthColliderFoot);
 			break;
 
 		case ATTACK:
@@ -442,6 +445,8 @@ update_status ModulePlayer::Update()
 
 		case JUMPING:
 
+		
+			
 			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
 				jumpAttack = true;
 			
@@ -525,8 +530,9 @@ update_status ModulePlayer::Update()
 				jump_left_attack_1.Reset();
 				jump_right_attack_2.Reset();
 				jump_left_attack_2.Reset();
-				current_state = IDLE;
 				jumpAttack = false;
+				currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
+				current_state = IDLE;
 			}
 
 			break;
@@ -539,8 +545,6 @@ update_status ModulePlayer::Update()
 			App->renderer->Blit(graphics2, position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 		else
 			App->renderer->Blit(graphics, position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
-
-		footCollider->SetPos(position.x, position.y + 50);
 	}
 
 	return UPDATE_CONTINUE;

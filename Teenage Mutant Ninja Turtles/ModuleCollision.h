@@ -38,6 +38,11 @@ struct Collider
 		rect.x = x;
 		rect.y = y;
 	}
+	void SetSize(int x, int y)
+	{
+		rect.w = x;
+		rect.h = y;
+	}
 
 	bool CheckCollision(const SDL_Rect& r) const;
 };

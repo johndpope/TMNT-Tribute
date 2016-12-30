@@ -31,6 +31,8 @@ public:
 	const int jumpAttackSpeed = 4;
 	const int jumpSpeed = 5;
 	const int walkSpeed = 2;
+	const int heightColliderFoot = 10;
+	const int widthColliderFoot = 50;
 
 	STATE current_state;
 	SDL_Texture* graphics = nullptr;
@@ -49,7 +51,7 @@ public:
 	Animation attack_left2;
 	Animation jump_left, jump_right;
 	Animation jump_right_attack_1, jump_left_attack_1, jump_left_attack_2, jump_right_attack_2;
-	Collider* footCollider = nullptr;
+	Collider* currentCollider = nullptr;
 	iPoint position;
 	int attackStep, posAux;
 	bool idle_direction,isGoingUp,jumpAttack;
