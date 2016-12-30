@@ -14,8 +14,9 @@ enum COLLIDER_TYPE
 	COLLIDER_WALL,
 	COLLIDER_PLAYER,
 	COLLIDER_ENEMY,
-	COLLIDER_PLAYER_SHOT,
 	COLLIDER_ENEMY_SHOT,
+	COLLIDER_PLAYER_ATTACK,
+
 
 	COLLIDER_MAX
 };
@@ -42,6 +43,11 @@ struct Collider
 	{
 		rect.w = x;
 		rect.h = y;
+	}
+
+	void SetType(COLLIDER_TYPE t)
+	{
+		type = t;
 	}
 
 	bool CheckCollision(const SDL_Rect& r) const;

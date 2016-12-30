@@ -11,8 +11,9 @@ enum STATE {
 	IDLE,
 	JUMPING,
 	ATTACK,
+	JUMP_ATTACK,
+	WALKING
 };
-
 
 class ModulePlayer : public Module
 {

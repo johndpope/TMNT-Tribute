@@ -314,7 +314,31 @@ update_status ModulePlayer::Update()
 	{
 		case IDLE:
 
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			currentCollider->SetPos(position.x, position.y + widthColliderFoot);
+
+			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
+			{
+				attackStep = rand() % 2;
+				current_state = ATTACK;
+				currentCollider->SetType(COLLIDER_PLAYER_ATTACK);
+				//currentCollider->SetSize(0,0);
+				//currentCollider->SetPos(-10, -10);
+				break;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT)
+			{
+
+				isGoingUp = true;
+				posAux = position.y;
+				currentCollider->SetType(COLLIDER_PLAYER_ATTACK);
+				//currentCollider->SetSize(0, 0);
+				//currentCollider->SetPos(-10, -10);
+				current_state = JUMPING;
+				break;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT  && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
 			{
 				position.x -= walkSpeed;
 				idle_direction = true;
@@ -337,7 +361,7 @@ update_status ModulePlayer::Update()
 			}
 
 
-			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE)
 			{
 				position.y += walkSpeed;
 				if (idle_direction)
@@ -386,23 +410,7 @@ update_status ModulePlayer::Update()
 				else
 					current_animation = &idle_right;
 			}
-
-			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
-			{
-				current_state = ATTACK;
-				attackStep = rand() % 2;
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT)
-			{
 		
-				isGoingUp = true;
-				posAux = position.y;
-				currentCollider->SetSize(0, 0);
-				current_state = JUMPING;
-			}
-			
-			currentCollider->SetPos(position.x, position.y + widthColliderFoot);
 			break;
 
 		case ATTACK:
@@ -419,9 +427,9 @@ update_status ModulePlayer::Update()
 					current_animation = &attack_right2;
 					break;
 				}
-
 			}
 			else
+			{
 				switch (attackStep)
 				{
 				case 0:
@@ -432,6 +440,7 @@ update_status ModulePlayer::Update()
 					current_animation = &attack_left2;
 					break;
 				}
+			}
 
 			if (attack_right1.Finished() || attack_right2.Finished() || attack_left1.Finished() || attack_left2.Finished())
 			{
@@ -439,16 +448,25 @@ update_status ModulePlayer::Update()
 				attack_right2.Reset();
 				attack_left1.Reset();
 				attack_left2.Reset();
+				currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
+				currentCollider->SetType(COLLIDER_PLAYER);
 				current_state = IDLE;
 			}
+
 			break;
 
 		case JUMPING:
 
-		
-			
 			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
-				jumpAttack = true;
+			{
+				current_state = JUMP_ATTACK;
+				break;
+			}
+
+			if (posAux - jumpHeight >= position.y)
+			{
+				isGoingUp = false;
+			}
 			
 			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumpAttack)
 			{
@@ -461,64 +479,71 @@ update_status ModulePlayer::Update()
 				position.x += walkSpeed;
 				idle_direction = false;
 			}
-
-			if (posAux - jumpHeight >= position.y)
+		
+			if (!idle_direction)
 			{
-				isGoingUp = false;
+				current_animation = &jump_right;
+				jump_left.GetCurrentFrame();
+			}
+			else
+			{
+				current_animation = &jump_left;
+				jump_right.GetCurrentFrame();
 			}
 
-
-			if (!jumpAttack)
+			if (isGoingUp)
 			{
-				if (!idle_direction)
-				{
-					current_animation = &jump_right;
-					jump_left.GetCurrentFrame();
-				}
-				else
-				{
-					current_animation = &jump_left;
-					jump_right.GetCurrentFrame();
-				}
+				position.y -= jumpSpeed;
+			}
+			else
+			{
+				position.y += jumpSpeed;
+			}
 
-				if (isGoingUp)
+			if (posAux <= position.y)
+			{
+				jump_right.Reset();
+				jump_left.Reset();
+				jump_right_attack_1.Reset();
+				jump_left_attack_1.Reset();
+				jump_right_attack_2.Reset();
+				jump_left_attack_2.Reset();
+				jumpAttack = false;
+				currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
+				currentCollider->SetType(COLLIDER_PLAYER);
+				current_state = IDLE;
+			}
+
+			break;
+
+		case JUMP_ATTACK:
+
+			if (!idle_direction)
+			{
+				if (!isGoingUp)
 				{
-					position.y -= jumpSpeed;
+					current_animation = &jump_right_attack_2;
+					position.y += jumpAttackSpeed;
 				}
 				else
 				{
-					position.y += jumpSpeed;
+					current_animation = &jump_right_attack_1;
+					position.x += jumpAttackSpeed;
+					position.y += jumpAttackSpeed;
 				}
 			}
 			else
 			{
-				if (!idle_direction)
+				if (!isGoingUp)
 				{
-					if (!isGoingUp)
-					{
-						current_animation = &jump_right_attack_2;
-						position.y += jumpAttackSpeed;
-					}
-					else
-					{
-						current_animation = &jump_right_attack_1;
-						position.x += jumpAttackSpeed;
-						position.y += jumpAttackSpeed;
-					}
+					current_animation = &jump_left_attack_2;
+					position.y += jumpAttackSpeed;
 				}
 				else
 				{
-					if (!isGoingUp)
-					{
-						current_animation = &jump_left_attack_2;
-						position.y += jumpAttackSpeed;
-					}
-					else
-					{
-						current_animation = &jump_left_attack_1;
-						position.x -= jumpAttackSpeed;
-						position.y += jumpAttackSpeed;
-					}
+					current_animation = &jump_left_attack_1;
+					position.x -= jumpAttackSpeed;
+					position.y += jumpAttackSpeed;
 				}
 			}
 
@@ -532,6 +557,7 @@ update_status ModulePlayer::Update()
 				jump_left_attack_2.Reset();
 				jumpAttack = false;
 				currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
+				currentCollider->SetType(COLLIDER_PLAYER);
 				current_state = IDLE;
 			}
 
