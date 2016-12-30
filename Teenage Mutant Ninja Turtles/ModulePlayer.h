@@ -7,6 +7,13 @@
 
 struct SDL_Texture;
 
+enum STATE {
+	IDLE,
+	JUMPING,
+	ATTACK,
+};
+
+
 class ModulePlayer : public Module
 {
 public:
@@ -25,6 +32,7 @@ public:
 	const int jumpSpeed = 5;
 	const int walkSpeed = 2;
 
+	STATE current_state;
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* graphics2 = nullptr;
 	Animation* current_animation = nullptr;
@@ -44,7 +52,7 @@ public:
 	Collider* footCollider = nullptr;
 	iPoint position;
 	int attackStep, posAux;
-	bool idle_direction,isAttacking, isJumping,isGoingUp,jumpAttack,movement;
+	bool idle_direction,isGoingUp,jumpAttack;
 	bool destroyed = false;
 };
 

@@ -236,11 +236,10 @@ bool ModulePlayer::Start()
 	graphics2 = App->textures->Load("rtype/michelangeloizquierda.png");
 
 	idle_direction = false;
-	isAttacking = false;
 	isGoingUp = false;
-	isJumping = false;
 	destroyed = false;
 	jumpAttack = false;
+	current_state = IDLE;
 	attackStep = 0;
 	position.x = 150;
 	position.y = 120;
@@ -310,93 +309,105 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
-	{
-		isAttacking = true;
-		attackStep = rand() % 2;
-	}
 
-	if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT && !isAttacking && isJumping)
+	switch (current_state)
 	{
-		jumpAttack = true;
-	}
+		case IDLE:
+
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			{
+				position.x -= walkSpeed;
+				idle_direction = true;
+				if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+				{
+					left.Reset();
+					current_animation = &left;
+				}
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			{
+				position.x += walkSpeed;
+				idle_direction = false;
+				if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE)
+				{
+					right.Reset();
+					current_animation = &right;
+				}
+			}
 
 
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
-	{
-		isJumping = true;
-		isGoingUp = true;
-		posAux = position.y;
-	}
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			{
+				position.y += walkSpeed;
+				if (idle_direction)
+				{
+					if (current_animation != &left)
+					{
+						left.Reset();
+						current_animation = &left;
+					}
+				}
+				else
+				{
+					if (current_animation != &right)
+					{
+						right.Reset();
+						current_animation = &right;
+					}
+				}
+			}
 
-	if (posAux - jumpHeight >= position.y && isJumping)
-	{
-		isGoingUp = false;
-	}
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			{
+				position.y -= walkSpeed;
+				if (idle_direction)
+				{
+					if (current_animation != &up_left)
+					{
+						up_left.Reset();
+						current_animation = &up_left;
+					}
+				}
+				else
+				{
+					if (current_animation != &up_right)
+					{
+						up_right.Reset();
+						current_animation = &up_right;
+					}
+				}
+			}
 
-	if (isJumping)
-	{
-		if (!jumpAttack)
-		{
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+			{
+				if (idle_direction)
+					current_animation = &idle_left;
+				else
+					current_animation = &idle_right;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
+			{
+				current_state = ATTACK;
+				attackStep = rand() % 2;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT)
+			{
+		
+				isGoingUp = true;
+				posAux = position.y;
+				current_state = JUMPING;
+			}
+			break;
+
+		case ATTACK:
+
 			if (!idle_direction)
 			{
-				current_animation = &jump_right;
-				jump_left.GetCurrentFrame();
-			}
-			else
-			{
-				current_animation = &jump_left;
-				jump_right.GetCurrentFrame();
-			}
-
-			if (isGoingUp)
-			{
-				position.y -= jumpSpeed;
-			}
-			else
-			{
-				position.y += jumpSpeed;
-			}
-		}
-		else
-		{
-			if(!idle_direction)
-			{
-				if (!isGoingUp)
+				switch (attackStep)
 				{
-					current_animation = &jump_right_attack_2;
-					position.y += jumpAttackSpeed;
-				}
-				else
-				{
-					current_animation = &jump_right_attack_1;
-					position.x += jumpAttackSpeed;
-					position.y += jumpAttackSpeed;
-				}
-			}
-			else
-			{
-				if (!isGoingUp)
-				{
-					current_animation = &jump_left_attack_2;
-					position.y += jumpAttackSpeed;
-				}
-				else
-				{
-					current_animation = &jump_left_attack_1;
-					position.x -= jumpAttackSpeed;
-					position.y += jumpAttackSpeed;
-				}
-			}
-		}
-	}
-
-	if (isAttacking)
-	{
-		if (!idle_direction)
-		{
-			switch (attackStep)
-			{
 				case 0:
 					current_animation = &attack_right1;
 					break;
@@ -404,12 +415,12 @@ update_status ModulePlayer::Update()
 				case 1:
 					current_animation = &attack_right2;
 					break;
+				}
+
 			}
-			
-		}
-		else
-			switch (attackStep)
-			{
+			else
+				switch (attackStep)
+				{
 				case 0:
 					current_animation = &attack_left1;
 					break;
@@ -417,113 +428,119 @@ update_status ModulePlayer::Update()
 				case 1:
 					current_animation = &attack_left2;
 					break;
-			}
-	}
+				}
 
-	if (attack_right1.Finished() || attack_right2.Finished() || attack_left1.Finished() || attack_left2.Finished())
-	{
-		attack_right1.Reset();
-		attack_right2.Reset();
-		attack_left1.Reset();
-		attack_left2.Reset();
-		isAttacking = false;
-	}
-
-	if(posAux <= position.y && isJumping)
-	{
-		jump_right.Reset();
-		jump_left.Reset();
-		jump_right_attack_1.Reset();
-		jump_left_attack_1.Reset();
-		jump_right_attack_2.Reset();
-		jump_left_attack_2.Reset();
-		isJumping = false;
-		jumpAttack = false;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !isAttacking && !jumpAttack)
-	{
-		position.x -= walkSpeed;
-		idle_direction = true;
-		if (current_animation != &left && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && !isJumping)
-		{
-			left.Reset();
-			current_animation = &left;
-		}
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !isAttacking && !jumpAttack)
-	{
-		position.x += walkSpeed;
-		idle_direction = false;
-		if (current_animation != &right && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && !isJumping)
-		{
-			right.Reset();
-			current_animation = &right;
-		}
-	}
-
-	
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
-	{
-		position.y += walkSpeed;
-		if(idle_direction)
-		{
-			if(current_animation != &left && !isJumping)
+			if (attack_right1.Finished() || attack_right2.Finished() || attack_left1.Finished() || attack_left2.Finished())
 			{
-				left.Reset();
-				current_animation = &left;
-			}	
-		}
-		else
-		{
-			if (current_animation != &right && !isJumping)
-			{
-				right.Reset();
-				current_animation = &right;
+				attack_right1.Reset();
+				attack_right2.Reset();
+				attack_left1.Reset();
+				attack_left2.Reset();
+				current_state = IDLE;
 			}
-		}
-	}
+			break;
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && !isAttacking && !isJumping && !jumpAttack)
-	{
-		position.y -= walkSpeed;
-		if (idle_direction )
-		{
-			if (current_animation != &up_left && !isJumping)
-			{
-				up_left.Reset();
-				current_animation = &up_left;
-			}
-		}
-		else
-		{
-			if (current_animation != &up_right && !isJumping)
-			{
-				up_right.Reset();
-				current_animation = &up_right;
-			}
-		}
-	}
-	
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE && !isAttacking && !isJumping)
-	{
-		if (idle_direction)
-			current_animation = &idle_left;
-		else
-			current_animation = &idle_right;
-	}
+		case JUMPING:
 
+			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
+				jumpAttack = true;
+			
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumpAttack)
+			{
+				position.x -= walkSpeed;
+				idle_direction = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !jumpAttack)
+			{
+				position.x += walkSpeed;
+				idle_direction = false;
+			}
+
+			if (posAux - jumpHeight >= position.y)
+			{
+				isGoingUp = false;
+			}
+
+
+			if (!jumpAttack)
+			{
+				if (!idle_direction)
+				{
+					current_animation = &jump_right;
+					jump_left.GetCurrentFrame();
+				}
+				else
+				{
+					current_animation = &jump_left;
+					jump_right.GetCurrentFrame();
+				}
+
+				if (isGoingUp)
+				{
+					position.y -= jumpSpeed;
+				}
+				else
+				{
+					position.y += jumpSpeed;
+				}
+			}
+			else
+			{
+				if (!idle_direction)
+				{
+					if (!isGoingUp)
+					{
+						current_animation = &jump_right_attack_2;
+						position.y += jumpAttackSpeed;
+					}
+					else
+					{
+						current_animation = &jump_right_attack_1;
+						position.x += jumpAttackSpeed;
+						position.y += jumpAttackSpeed;
+					}
+				}
+				else
+				{
+					if (!isGoingUp)
+					{
+						current_animation = &jump_left_attack_2;
+						position.y += jumpAttackSpeed;
+					}
+					else
+					{
+						current_animation = &jump_left_attack_1;
+						position.x -= jumpAttackSpeed;
+						position.y += jumpAttackSpeed;
+					}
+				}
+			}
+
+			if (posAux <= position.y)
+			{
+				jump_right.Reset();
+				jump_left.Reset();
+				jump_right_attack_1.Reset();
+				jump_left_attack_1.Reset();
+				jump_right_attack_2.Reset();
+				jump_left_attack_2.Reset();
+				current_state = IDLE;
+				jumpAttack = false;
+			}
+
+			break;
+	}
 
 	// Draw everything --------------------------------------
 	if (destroyed == false)
 	{
 		if (idle_direction)
-			App->renderer->Blit(graphics2, position.x-current_animation->pivotX, position.y-current_animation->pivotY, &(current_animation->GetCurrentFrame()));
+			App->renderer->Blit(graphics2, position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
 		else
-			App->renderer->Blit(graphics,position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
-		
-		footCollider->SetPos(position.x, position.y+50);
+			App->renderer->Blit(graphics, position.x - current_animation->pivotX, position.y - current_animation->pivotY, &(current_animation->GetCurrentFrame()));
+
+		footCollider->SetPos(position.x, position.y + 50);
 	}
 
 	return UPDATE_CONTINUE;
