@@ -12,7 +12,6 @@ enum STATE {
 	JUMPING,
 	ATTACK,
 	JUMP_ATTACK,
-	WALKING
 };
 
 class ModulePlayer : public Module
@@ -34,6 +33,9 @@ public:
 	const int walkSpeed = 2;
 	const int heightColliderFoot = 10;
 	const int widthColliderFoot = 50;
+	int attackStep, posAux;
+	bool idle_direction, isGoingUp, jumpAttack;
+	bool destroyed = false;
 
 	STATE current_state;
 	SDL_Texture* graphics = nullptr;
@@ -54,9 +56,8 @@ public:
 	Animation jump_right_attack_1, jump_left_attack_1, jump_left_attack_2, jump_right_attack_2;
 	Collider* currentCollider = nullptr;
 	iPoint position;
-	int attackStep, posAux;
-	bool idle_direction,isGoingUp,jumpAttack;
-	bool destroyed = false;
+
+	
 };
 
 #endif
