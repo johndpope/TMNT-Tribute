@@ -8,6 +8,7 @@
 #include "ModuleParticles.h"
 #include "ModuleSceneLevel.h"
 #include "ModuleInput.h"
+#include "ModuleEnemy.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -42,6 +43,16 @@ bool ModuleSceneLevel::Start()
 
 	leftLimitNum = 0;
 	rightLimitNum = SCREEN_WIDTH;
+
+
+
+	iPoint aux;
+
+	aux.x = App->player->position.x + 50;
+	aux.y = App->player->position.y;
+
+	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+
 	return true;
 }
 

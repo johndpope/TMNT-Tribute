@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include "Point.h"
 
+struct SDL_Texture;
 
 enum enemy_type
 {
@@ -35,7 +36,7 @@ class Enemy
 	public:
 
 		bool to_delete = false;
-		Animation* currentAnimation = nullptr;
+		Animation* current_animation = nullptr;
 
 		Animation right_attack;
 		Animation left_attack;
@@ -47,6 +48,8 @@ class Enemy
 		Collider* collider;
 		enemy_type type;
 		enemy_state state;
+		SDL_Texture* graphics = nullptr;
+
 };
 
 #endif

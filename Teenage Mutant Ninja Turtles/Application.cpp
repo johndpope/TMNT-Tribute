@@ -7,7 +7,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
-
+#include "ModuleEnemy.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleSceneLevel.h"
 #include "ModulePlayer.h"
@@ -28,11 +28,13 @@ Application::Application()
 	modules.push_back(scene_intro = new ModuleSceneIntro(false));
 	modules.push_back(scene_level = new ModuleSceneLevel(false));
 	modules.push_back(player = new ModulePlayer(false));
+	modules.push_back(enemies = new ModuleEnemy());
 
 	// Modules to draw on top of game logic
 	modules.push_back(collision = new ModuleCollision());
 	modules.push_back(particles = new ModuleParticles());
 	modules.push_back(fade = new ModuleFadeToBlack());
+
 }
 
 Application::~Application()

@@ -6,7 +6,6 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
-#include "ModuleCollision.h"
 #include "Enemy.h"
 
 
@@ -25,9 +24,8 @@ public:
 	void AddEnemy(const Enemy& Enemy, iPoint position, enemy_type type); 
 
 private:
-
-	SDL_Texture* graphics = nullptr;
 	std::list<Enemy*> active;
+	SDL_Texture* graphics = nullptr;
 
 public:
 

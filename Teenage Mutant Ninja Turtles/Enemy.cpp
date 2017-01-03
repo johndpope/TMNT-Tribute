@@ -1,7 +1,6 @@
-#include "ModuleEnemy.h"
 #include "Application.h"
 #include "ModulePlayer.h"
-
+#include "Enemy.h"
 
 Enemy::Enemy() : collider(NULL)
 {}
@@ -22,10 +21,14 @@ bool Enemy::Update()
 		case idle:
 		case attack:
 		case walking:
-
+			break;
 	}
 
-	return false;
+	current_animation = &idle_left;
+
+	
+
+	return true;
 }
 
 
