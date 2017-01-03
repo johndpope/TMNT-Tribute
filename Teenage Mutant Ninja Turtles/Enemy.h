@@ -30,6 +30,7 @@ class Enemy
 		Enemy(const Enemy& p);
 		~Enemy();
 		bool Update();
+		iPoint GoToPosition(iPoint target);
 	
 	public:
 
@@ -39,6 +40,7 @@ class Enemy
 		Animation right_attack;
 		Animation left_attack;
 		Animation idle_right, idle_left;
+		iPoint target,targetPosition;
 
 		iPoint position;
 		unsigned int fx;

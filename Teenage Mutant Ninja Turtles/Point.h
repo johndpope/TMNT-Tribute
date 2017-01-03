@@ -84,6 +84,43 @@ public:
 		return(*this);
 	}
 
+	float Length()
+	{
+		return (float)sqrt((x*x) + (y*y));
+	}
+
+	Point Divide(float e)
+	{
+		float xx = x / e;
+		float yy = y / e;
+
+		//escala para que no de fallos
+		x = (int)(xx * 1.5f);
+		y = (int)(yy * 1.5f);
+
+		return(*this);
+	}
+
+	Point Normalize()
+	{
+		float lon = Length();
+
+		if (lon != 0)
+		{
+			return Divide(lon);
+		}
+		else
+			return SetToZero();
+	}
+
+	Point Scale(float e)
+	{
+		x = (TYPE)x * e;
+		y = (TYPE)y * e;
+
+		return(*this);
+	}
+
 	// Distances ---------------------------------------------
 	TYPE DistanceTo(const Point& v) const
 	{
