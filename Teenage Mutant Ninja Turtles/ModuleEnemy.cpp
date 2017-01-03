@@ -70,21 +70,3 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, enemy_type type
 	active.push_back(p);
 }
 
-			///////////////////////////
-
-Enemy::Enemy() : collider(NULL)
-{}
-
-
-Enemy::Enemy(const Enemy & p) : right_attack(p.right_attack),left_attack(p.left_attack),idle_right(p.idle_left),idle_left(p.idle_left)
-{}
-
-Enemy::~Enemy()
-{}
-
-bool Enemy::Update()
-{
-
-	//Comportamiento de enemigos y cambios de animaciones
-	return false;
-}

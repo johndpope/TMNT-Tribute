@@ -7,48 +7,10 @@
 #include "Animation.h"
 #include "Point.h"
 #include "ModuleCollision.h"
-
+#include "Enemy.h"
 
 
 struct SDL_Texture;
-
-enum enemy_type
-{
-	type_1,
-	type_2,
-	type_3
-};
-
-enum enemy_state
-{
-	attack,
-	walking,
-	idle
-
-
-};
-
-
-struct Enemy
-{
-	bool to_delete = false;
-	Animation* currentAnimation = nullptr;
-
-	Animation right_attack;
-	Animation left_attack;
-	Animation idle_right, idle_left;
-
-	iPoint position;
-	unsigned int fx;
-	Collider* collider;
-	enemy_type type;
-	enemy_state state;
-
-	Enemy();
-	Enemy(const Enemy& p);
-	~Enemy();
-	bool Update();
-};
 
 class ModuleEnemy : public Module
 {
