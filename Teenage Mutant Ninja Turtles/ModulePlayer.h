@@ -33,6 +33,8 @@ public:
 	const int walkSpeed = 2;
 	const int heightColliderFoot = 10;
 	const int widthColliderFoot = 50;
+
+	int enemiesAttacking;
 	int attackStep, posAux;
 	bool idle_direction, isGoingUp, jumpAttack;
 	bool destroyed = false;

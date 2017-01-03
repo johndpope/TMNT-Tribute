@@ -19,7 +19,6 @@ enum enemy_state
 {
 	attack,
 	walking,
-	idle
 };
 
 
@@ -40,10 +39,12 @@ class Enemy
 
 		Animation right_attack;
 		Animation left_attack;
-		Animation idle_right, idle_left;
+		Animation idle_right;
+		Animation idle_left;
+
 		iPoint target,targetPosition;
 
-		iPoint position;
+		iPoint position,aux,aux2;
 		unsigned int fx;
 		Collider* collider;
 		enemy_type type;

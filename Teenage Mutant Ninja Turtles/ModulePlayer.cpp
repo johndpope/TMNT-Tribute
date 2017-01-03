@@ -235,6 +235,7 @@ bool ModulePlayer::Start()
 	graphics = App->textures->Load("rtype/michelangeloderecha.png");
 	graphics2 = App->textures->Load("rtype/michelangeloizquierda.png");
 
+	enemiesAttacking = 0;
 	idle_direction = false;
 	isGoingUp = false;
 	destroyed = false;

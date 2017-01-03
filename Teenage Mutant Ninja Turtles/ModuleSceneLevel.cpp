@@ -48,7 +48,7 @@ bool ModuleSceneLevel::Start()
 
 	iPoint aux;
 
-	aux.x = App->player->position.x + 50;
+	aux.x = App->player->position.x + 200;
 	aux.y = App->player->position.y;
 
 	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
