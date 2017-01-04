@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "Enemy.h"
+#include "ModuleCollision.h"
 
 Enemy::Enemy() : collider(NULL)
 {}
@@ -13,13 +14,15 @@ Enemy::~Enemy()
 
 bool Enemy::Update()
 {
-
+	
 	vel.SetToZero();
 
 	switch (state)
 	{
 		case searching:
 
+			collider->SetPos(position.x, position.y + 50);
+			collider->SetType(COLLIDER_ENEMY);
 			if (abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 			{
 				state = x;
@@ -92,7 +95,7 @@ bool Enemy::Update()
 			else
 					state = searching;
 			
-
+			collider->SetPos(position.x, position.y + 50);
 			break;
 
 		case x:
@@ -105,7 +108,10 @@ bool Enemy::Update()
 					idle_direction = false;
 
 					if (abs(App->player->position.x - position.x) <= 25)
+					{
 						state = attack;
+						collider->SetType(COLLIDER_ENEMY_ATTACK);
+					}
 
 					if (current_animation != &idle_left)
 						current_animation = &idle_left;
@@ -118,7 +124,10 @@ bool Enemy::Update()
 						idle_direction = true;
 
 						if (abs(App->player->position.x - position.x) <= 25)
+						{
 							state = attack;
+							collider->SetType(COLLIDER_ENEMY_ATTACK);
+						}
 
 						if (current_animation != &idle_right)
 							current_animation = &idle_right;
@@ -131,6 +140,7 @@ bool Enemy::Update()
 			else
 					state = searching;
 		
+			collider->SetPos(position.x, position.y + 50);
 			break;
 
 		case attack:
@@ -138,6 +148,8 @@ bool Enemy::Update()
 			if (idle_direction)
 			{
 				current_animation = &right_attack;
+
+				collider->SetPos(position.x+30, position.y+7);
 				if (right_attack.Finished())
 				{
 					right_attack.Reset();
@@ -147,6 +159,8 @@ bool Enemy::Update()
 			else
 			{
 				current_animation = &left_attack;
+
+				collider->SetPos(position.x-10 , position.y+7);
 				if (left_attack.Finished())
 				{
 					left_attack.Reset();
@@ -158,6 +172,7 @@ bool Enemy::Update()
 	}
 
 	
+	colliderBody->SetPos(position.x, position.y);
 	position += vel;
 
 	return true;

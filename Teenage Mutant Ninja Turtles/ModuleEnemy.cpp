@@ -56,14 +56,16 @@ ModuleEnemy::ModuleEnemy()
 	enemy_1.left_attack.frames.push_back({ 161, 643, 60, 64 });
 	enemy_1.left_attack.frames.push_back({ 91, 643, 60, 64 });
 	enemy_1.left_attack.frames.push_back({ 16, 643, 60, 64 });
-	enemy_1.left_attack.loop = true;
+	enemy_1.left_attack.loop = false;
 	enemy_1.left_attack.speed = 0.12f;
 
 	enemy_1.right_attack.frames.push_back({ 577, 643, 60, 64 });
 	enemy_1.right_attack.frames.push_back({ 668, 643, 60, 64 });
 	enemy_1.right_attack.frames.push_back({ 753, 643, 60, 64 });
-	enemy_1.right_attack.loop = true;
+	enemy_1.right_attack.loop = false;
 	enemy_1.right_attack.speed = 0.12f;
+
+
 	
 }
 
@@ -113,6 +115,45 @@ bool ModuleEnemy::CleanUp()
 	return true;
 }
 
+void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
+{
+	for (list<Enemy*>::iterator it = active.begin(); it != active.end();)
+	{
+		Enemy* aux = *it;
+
+		//left
+		if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+		{
+			aux->position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
+		}
+		else
+		{
+			//right
+			if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+			{
+				aux->position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
+			}
+			else
+			{
+				//down
+				if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && c2->type == COLLIDER_WALL)
+				{
+					aux->position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
+				}
+				else
+				{
+					//up
+					if (c1->rect.h + c1->rect.y > c2->rect.y && c2->type == COLLIDER_WALL)
+					{
+						aux->position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
+					}
+				}
+			}
+		}
+		break;
+	}
+}
+
 
 void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, enemy_type type)
 {
@@ -122,7 +163,8 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, enemy_type type
 	p->state = searching;
 	p->type = type;
 	p->current_animation = &p->idle_right;
-	p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 30, 30 }, COLLIDER_ENEMY, this);
+	p->collider = App->collision->AddCollider({ p->position.x, p->position.y+50, 30, 10 }, COLLIDER_ENEMY, this);
+	p->colliderBody = App->collision->AddCollider({ p->position.x, p->position.y, 30, 60 }, COLLIDER_ENEMY_BODY, this);
 
 	active.push_back(p);
 }

@@ -12,6 +12,7 @@ enum STATE {
 	JUMPING,
 	ATTACK,
 	JUMP_ATTACK,
+	DAMAGED
 };
 
 class ModulePlayer : public Module
@@ -27,12 +28,12 @@ public:
 
 public:
 
-	const int jumpHeight = 130;
-	const int jumpAttackSpeed = 4;
-	const int jumpSpeed = 5;
-	const int walkSpeed = 2;
-	const int heightColliderFoot = 10;
-	const int widthColliderFoot = 50;
+	int jumpHeight = 130;
+	int jumpAttackSpeed = 4;
+	int jumpSpeed = 5;
+	int walkSpeed = 2;
+	int heightColliderFoot = 10;
+	int widthColliderFoot = 50;
 
 	int enemiesAttacking;
 	int attackStep, posAux;
@@ -40,6 +41,7 @@ public:
 	bool destroyed = false;
 
 	STATE current_state;
+
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* graphics2 = nullptr;
 	Animation* current_animation = nullptr;
@@ -57,6 +59,7 @@ public:
 	Animation jump_left, jump_right;
 	Animation jump_right_attack_1, jump_left_attack_1, jump_left_attack_2, jump_right_attack_2;
 	Collider* currentCollider = nullptr;
+	Collider* colliderBody = nullptr;
 	iPoint position;
 
 	

@@ -52,6 +52,7 @@ class Enemy
 		iPoint position,vel;
 		unsigned int fx;
 		Collider* collider;
+		Collider* colliderBody;
 		enemy_type type;
 		enemy_state state;
 		SDL_Texture* graphics = nullptr;

@@ -13,6 +13,8 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY_SHOT] = true;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER_ATTACK] = false;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY_BODY] = false;
+	matrix[COLLIDER_WALL][COLLIDER_ENEMY_ATTACK] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
@@ -31,6 +33,19 @@ ModuleCollision::ModuleCollision()
 
 
 	matrix[COLLIDER_PLAYER_ATTACK][COLLIDER_WALL] = false;
+	matrix[COLLIDER_PLAYER_ATTACK][COLLIDER_PLAYER_BODY] = false;
+	
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_WALL] = false;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_PLAYER_ATTACK] = false;
+	matrix[COLLIDER_PLAYER_BODY][COLLIDER_ENEMY_ATTACK] = true;
+
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_WALL] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_ATTACK] = true;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_BODY] = false;
+
+	matrix[COLLIDER_ENEMY_ATTACK][COLLIDER_WALL] = false;
+	matrix[COLLIDER_ENEMY_ATTACK][COLLIDER_PLAYER_BODY] = true;
+	
 }
 
 // Destructor
@@ -89,7 +104,36 @@ update_status ModuleCollision::Update()
 void ModuleCollision::DebugDraw()
 {
 	for (list<Collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it)
-		App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+	{
+		switch ((*it)->type)
+		{
+			case COLLIDER_PLAYER_BODY:
+				App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
+				break;
+
+			case COLLIDER_PLAYER_ATTACK:
+				App->renderer->DrawQuad((*it)->rect, 0, 255, 0, 80);
+				break;
+			
+			case COLLIDER_PLAYER:
+				App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
+				break;
+			
+			case COLLIDER_ENEMY:
+				App->renderer->DrawQuad((*it)->rect, 0, 255, 255, 80);
+				break;
+
+			case COLLIDER_ENEMY_BODY:
+				App->renderer->DrawQuad((*it)->rect, 255, 255, 255, 80);
+				break;
+
+			case COLLIDER_ENEMY_ATTACK:
+				App->renderer->DrawQuad((*it)->rect, 255, 0, 255, 80);
+				break;
+		}
+		
+	}
+		
 }
 
 // Called before quitting
