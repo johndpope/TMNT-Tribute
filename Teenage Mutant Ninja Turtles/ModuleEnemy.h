@@ -25,7 +25,6 @@ public:
 
 private:
 	std::list<Enemy*> active;
-	SDL_Texture* graphics = nullptr;
 
 public:
 

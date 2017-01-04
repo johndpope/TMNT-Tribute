@@ -17,8 +17,11 @@ enum enemy_type
 
 enum enemy_state
 {
-	attack,
-	walking,
+	searching,
+	x,
+	y,
+	jumping,
+	attack
 };
 
 
@@ -36,15 +39,17 @@ class Enemy
 
 		bool to_delete = false;
 		Animation* current_animation = nullptr;
+		bool idle_direction = false;
 
 		Animation right_attack;
 		Animation left_attack;
 		Animation idle_right;
 		Animation idle_left;
+		Animation up_left, up_right;
 
 		iPoint target,targetPosition;
 
-		iPoint position,aux,aux2;
+		iPoint position,vel;
 		unsigned int fx;
 		Collider* collider;
 		enemy_type type;

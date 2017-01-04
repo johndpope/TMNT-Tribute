@@ -18,22 +18,29 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("rtype/particles.png");
+	graphics = App->textures->Load("rtype/stagepart.png");
 
+	//fire1 
+	fire.anim.frames.push_back({ 17, 430, 304, 65 });
+	fire.anim.frames.push_back({ 335, 430, 304, 65 });
+	fire.anim.frames.push_back({ 17, 495, 304, 65 });
+	fire.anim.frames.push_back({ 335, 495, 304, 65 });
+	fire.anim.frames.push_back({ 17, 560, 304, 65 });
+	fire.anim.frames.push_back({ 335, 560, 304, 65 });
+	fire.anim.frames.push_back({ 710, 533, 304, 65 });
+	fire.anim.frames.push_back({ 1029, 533, 304, 65 });
+	fire.anim.loop = true;
+	fire.anim.speed = 0.09f;
 
-	// TODO 2: Create a prototype for the laser particle
-	// audio: rtype/laser.wav
-	// coords: {232, 103, 16, 12}; {249, 103, 16, 12};
-	laser.fx = App->audio->LoadFx("rtype/slimeball.wav");
-	laser.anim.frames.push_back({ 200, 120, 32, 12 });
-	laser.anim.frames.push_back({ 230, 120, 32, 12 });
-	laser.vel.x = 7;
-	laser.anim.speed = 0.05f;
-	laser.anim.loop = true;
-
-	// TODO 12: Create a new "Explosion" particle 
-	// audio: rtype/explosion.wav
-	// coords: {274, 296, 33, 30}; {313, 296, 33, 30}; {346, 296, 33, 30}; {382, 296, 33, 30}; {419, 296, 33, 30}; {457, 296, 33, 30};
+	//fire2
+	fire2.anim.frames.push_back({ 335, 560, 304, 65 });
+	fire2.anim.frames.push_back({ 17, 560, 304, 65 });
+	fire2.anim.frames.push_back({ 335, 495, 304, 65 });
+	fire2.anim.frames.push_back({ 17, 495, 304, 65 });
+	fire2.anim.frames.push_back({ 335, 430, 304, 65 });
+	fire2.anim.frames.push_back({ 17, 430, 304, 65 });
+	fire2.anim.loop = true;
+	fire2.anim.speed = 0.09f;
 
 	return true;
 }
@@ -107,11 +114,6 @@ bool Particle::Update()
 {
 	bool ret = true;
 
-
-	// TODO 5: This is the core of the particle functionality.
-	// Return false if the particle must be destroyed
-	if (anim.Finished())
-		ret = false;
 
 	if (collider != NULL)
 	{
