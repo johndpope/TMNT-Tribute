@@ -5,6 +5,14 @@
 #include "Globals.h"
 #include "Animation.h"
 #include "Point.h"
+#include <random>
+#include <chrono>
+#include <time.h>
+#include "SDL/include/SDL.h"
+
+
+using namespace std;
+
 
 struct SDL_Texture;
 
@@ -40,7 +48,10 @@ class Enemy
 		bool to_delete = false;
 		Animation* current_animation = nullptr;
 		bool idle_direction = false;
+		
+		Uint64 t1, t2;
 
+		
 		Animation right_attack;
 		Animation left_attack;
 		Animation idle_right;

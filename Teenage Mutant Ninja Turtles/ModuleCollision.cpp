@@ -16,6 +16,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY_BODY] = false;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY_ATTACK] = false;
 
+
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
@@ -42,6 +43,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY_BODY][COLLIDER_WALL] = false;
 	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_ATTACK] = true;
 	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER_BODY] = false;
+	matrix[COLLIDER_ENEMY_BODY][COLLIDER_PLAYER] = true;
 
 	matrix[COLLIDER_ENEMY_ATTACK][COLLIDER_WALL] = false;
 	matrix[COLLIDER_ENEMY_ATTACK][COLLIDER_PLAYER_BODY] = true;
@@ -107,6 +109,7 @@ void ModuleCollision::DebugDraw()
 	{
 		switch ((*it)->type)
 		{
+			/*
 			case COLLIDER_PLAYER_BODY:
 				App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
 				break;
@@ -118,7 +121,7 @@ void ModuleCollision::DebugDraw()
 			case COLLIDER_PLAYER:
 				App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
 				break;
-			
+			*/
 			case COLLIDER_ENEMY:
 				App->renderer->DrawQuad((*it)->rect, 0, 255, 255, 80);
 				break;
@@ -126,9 +129,10 @@ void ModuleCollision::DebugDraw()
 			case COLLIDER_ENEMY_BODY:
 				App->renderer->DrawQuad((*it)->rect, 255, 255, 255, 80);
 				break;
+				
 
 			case COLLIDER_ENEMY_ATTACK:
-				App->renderer->DrawQuad((*it)->rect, 255, 0, 255, 80);
+				App->renderer->DrawQuad((*it)->rect, 0, 0, 0, 80);
 				break;
 		}
 		

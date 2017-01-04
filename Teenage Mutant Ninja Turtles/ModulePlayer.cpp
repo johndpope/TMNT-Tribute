@@ -221,7 +221,24 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	jump_left_attack_2.loop = true;
 	jump_left_attack_2.speed = 0.35f;
 
+	//hit right
 
+	receiveDamage_right_1.frames.push_back({ 679, 699, 64, 70 });
+	receiveDamage_right_1.frames.push_back({ 27, 795, 64, 70 });
+	receiveDamage_right_1.frames.push_back({ 96, 795, 64, 70 });
+	receiveDamage_right_1.frames.push_back({ 187, 795, 64, 70 });
+
+	receiveDamage_right_1.loop = false;
+	receiveDamage_right_1.speed = 0.1f;
+
+	//hit left
+	receiveDamage_left_1.frames.push_back({ 17, 699, 64, 70 });
+	receiveDamage_left_1.frames.push_back({ 754, 795, 64, 70 });
+	receiveDamage_left_1.frames.push_back({ 664, 795, 64, 70 });
+	receiveDamage_left_1.frames.push_back({ 592, 795, 64, 70 });
+
+	receiveDamage_left_1.loop = false;
+	receiveDamage_left_1.speed = 0.1f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -273,11 +290,12 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		
 	}
 	*/
-
-	if (c2->type == COLLIDER_ENEMY_ATTACK)
+	
+	if (c2->type == COLLIDER_ENEMY_ATTACK && c1->type == COLLIDER_PLAYER_BODY)
 	{
 		current_state = DAMAGED;
 	}
+	
 
 	//izquierda
 	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
@@ -583,6 +601,32 @@ update_status ModulePlayer::Update()
 			break;
 
 		case DAMAGED:
+
+
+			
+			currentCollider->SetType(COLLIDER_PLAYER_BODY);
+			
+			if(!idle_direction)
+			{
+				current_animation = &receiveDamage_right_1;
+				if (receiveDamage_right_1.Finished())
+				{
+					receiveDamage_right_1.Reset();
+					current_state = IDLE;
+				}
+			}
+
+			else
+			{
+				current_animation = &receiveDamage_left_1;
+				if (receiveDamage_left_1.Finished())
+				{
+					receiveDamage_left_1.Reset();
+					current_state = IDLE;
+				}
+			}
+			
+			
 			break;
 	}
 

@@ -17,10 +17,13 @@ bool Enemy::Update()
 	
 	vel.SetToZero();
 
+
+
+
 	switch (state)
 	{
 		case searching:
-
+			t1 = SDL_GetPerformanceCounter();
 			collider->SetPos(position.x, position.y + 50);
 			collider->SetType(COLLIDER_ENEMY);
 			if (abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
@@ -110,7 +113,6 @@ bool Enemy::Update()
 					if (abs(App->player->position.x - position.x) <= 25)
 					{
 						state = attack;
-						collider->SetType(COLLIDER_ENEMY_ATTACK);
 					}
 
 					if (current_animation != &idle_left)
@@ -126,7 +128,6 @@ bool Enemy::Update()
 						if (abs(App->player->position.x - position.x) <= 25)
 						{
 							state = attack;
-							collider->SetType(COLLIDER_ENEMY_ATTACK);
 						}
 
 						if (current_animation != &idle_right)
@@ -145,27 +146,44 @@ bool Enemy::Update()
 
 		case attack:
 
-			if (idle_direction)
-			{
-				current_animation = &right_attack;
+			t2 = SDL_GetPerformanceCounter();
+			Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
 
-				collider->SetPos(position.x+30, position.y+7);
-				if (right_attack.Finished())
-				{
-					right_attack.Reset();
-					state = searching;
-				}
-			}
-			else
+			if(time >=  700)
 			{
-				current_animation = &left_attack;
-
-				collider->SetPos(position.x-10 , position.y+7);
-				if (left_attack.Finished())
+				if (abs(App->player->position.x - position.x) >= 25  || abs(App->player->position.y - position.y) >= 25)
 				{
-					left_attack.Reset();
 					state = searching;
+					break;
 				}
+
+
+
+				collider->SetType(COLLIDER_ENEMY_ATTACK);
+				if (idle_direction)
+				{
+						current_animation = &right_attack;
+
+						collider->SetPos(position.x+30, position.y+7);
+						if (right_attack.Finished())
+						{
+							right_attack.Reset();
+							state = searching;
+							break;
+						}
+				}
+				else
+				{
+					current_animation = &left_attack;
+
+					collider->SetPos(position.x-10 , position.y+7);
+					if (left_attack.Finished())
+					{
+							left_attack.Reset();
+							state = searching;
+							break;
+					}
+				}			
 			}
 			
 			break;

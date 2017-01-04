@@ -58,6 +58,7 @@ public:
 	Animation attack_left2;
 	Animation jump_left, jump_right;
 	Animation jump_right_attack_1, jump_left_attack_1, jump_left_attack_2, jump_right_attack_2;
+	Animation receiveDamage_right_1, receiveDamage_right_2, receiveDamage_right_3, receiveDamage_left_1;
 	Collider* currentCollider = nullptr;
 	Collider* colliderBody = nullptr;
 	iPoint position;

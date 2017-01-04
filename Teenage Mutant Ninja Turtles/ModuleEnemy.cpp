@@ -57,13 +57,13 @@ ModuleEnemy::ModuleEnemy()
 	enemy_1.left_attack.frames.push_back({ 91, 643, 60, 64 });
 	enemy_1.left_attack.frames.push_back({ 16, 643, 60, 64 });
 	enemy_1.left_attack.loop = false;
-	enemy_1.left_attack.speed = 0.12f;
+	enemy_1.left_attack.speed = 0.2f;
 
 	enemy_1.right_attack.frames.push_back({ 577, 643, 60, 64 });
 	enemy_1.right_attack.frames.push_back({ 668, 643, 60, 64 });
 	enemy_1.right_attack.frames.push_back({ 753, 643, 60, 64 });
 	enemy_1.right_attack.loop = false;
-	enemy_1.right_attack.speed = 0.12f;
+	enemy_1.right_attack.speed = 0.2f;
 
 
 	
