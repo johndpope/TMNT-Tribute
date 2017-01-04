@@ -8,65 +8,63 @@
 ModuleEnemy::ModuleEnemy()
 {
 	//Animaciones de cada enemigo y sonidos. Prototipos
-
-	enemy_1.idle_left.frames.push_back({ 17, 0, 52, 64 });
-	enemy_1.idle_left.frames.push_back({ 98, 0, 52, 64 });
-	enemy_1.idle_left.frames.push_back({ 176, 0, 52, 64 });
-	enemy_1.idle_left.frames.push_back({ 253, 0, 52, 64 });
-	enemy_1.idle_left.frames.push_back({ 337, 0, 52, 64 });
-	enemy_1.idle_left.frames.push_back({ 19, 80, 52, 64 });
-	enemy_1.idle_left.frames.push_back({ 96, 80, 52, 64 });
 	enemy_1.idle_left.frames.push_back({ 172, 80, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 96, 80, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 19, 80, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 337, 0, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 253, 0, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 176, 0, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 98, 0, 52, 64 });
+	enemy_1.idle_left.frames.push_back({ 17, 0, 52, 64 });
 	enemy_1.idle_left.loop = true;
-	enemy_1.idle_left.speed = 0.05f;
+	enemy_1.idle_left.speed = 0.2f;
 
-
-	enemy_1.idle_right.frames.push_back({ 751, 0, 52, 64 });
-	enemy_1.idle_right.frames.push_back({ 674, 0, 52, 64 });
-	enemy_1.idle_right.frames.push_back({ 593, 0, 52, 64 });
-	enemy_1.idle_right.frames.push_back({ 508, 0, 52, 64 });
-	enemy_1.idle_right.frames.push_back({ 433, 0, 52, 64 });
-	enemy_1.idle_right.frames.push_back({ 757, 80, 52, 64 });
-	enemy_1.idle_right.frames.push_back({ 671, 80, 52, 64 });
 	enemy_1.idle_right.frames.push_back({ 589, 80, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 671, 80, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 757, 80, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 433, 0, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 508, 0, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 593, 0, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 674, 0, 52, 64 });
+	enemy_1.idle_right.frames.push_back({ 751, 0, 52, 64 });
 	enemy_1.idle_right.loop = true;
-	enemy_1.idle_right.speed = 0.05f;
+	enemy_1.idle_right.speed = 0.2f;
 
-
-	enemy_1.up_left.frames.push_back({ 256, 81, 52, 64 });
-	enemy_1.up_left.frames.push_back({ 336, 81, 52, 64 });
-	enemy_1.up_left.frames.push_back({ 17, 160, 52, 64 });
-	enemy_1.up_left.frames.push_back({ 96, 160, 52, 64 });
-	enemy_1.up_left.frames.push_back({ 176, 160, 52, 64 });
-	enemy_1.up_left.frames.push_back({ 252, 160, 52, 64 });
-	enemy_1.up_left.frames.push_back({ 333, 160, 52, 64 });
 	enemy_1.up_left.frames.push_back({ 14, 240, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 333, 160, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 252, 160, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 176, 160, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 96, 160, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 17, 160, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 336, 81, 52, 64 });
+	enemy_1.up_left.frames.push_back({ 256, 81, 52, 64 });
 	enemy_1.up_left.loop = true;
-	enemy_1.up_left.speed = 0.05f;
+	enemy_1.up_left.speed = 0.2f;
 
 
-	enemy_1.up_right.frames.push_back({ 512, 81, 52, 64 });
-	enemy_1.up_right.frames.push_back({ 433, 81, 52, 64 });
-	enemy_1.up_right.frames.push_back({ 753, 160, 52, 64 });
-	enemy_1.up_right.frames.push_back({ 671, 160, 52, 64 });
-	enemy_1.up_right.frames.push_back({ 595, 160, 52, 64 });
-	enemy_1.up_right.frames.push_back({ 509, 160, 52, 64 });
-	enemy_1.up_right.frames.push_back({ 431, 160, 52, 64 });
 	enemy_1.up_right.frames.push_back({ 749, 240, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 431, 160, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 509, 160, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 595, 160, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 671, 160, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 753, 160, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 433, 81, 52, 64 });
+	enemy_1.up_right.frames.push_back({ 512, 81, 52, 64 });
 	enemy_1.up_right.loop = true;
-	enemy_1.up_right.speed = 0.05f;
+	enemy_1.up_right.speed = 0.2f;
 
-	/*
-	enemy_1.left_attack.frames.push_back({ 753, 30, 50, 60 });
-	enemy_1.left_attack.frames.push_back({ 753, 30, 50, 60 });
+	enemy_1.left_attack.frames.push_back({ 161, 643, 60, 64 });
+	enemy_1.left_attack.frames.push_back({ 91, 643, 60, 64 });
+	enemy_1.left_attack.frames.push_back({ 16, 643, 60, 64 });
 	enemy_1.left_attack.loop = true;
-	enemy_1.left_attack.speed = 0.05f;
+	enemy_1.left_attack.speed = 0.12f;
 
-	enemy_1.right_attack.frames.push_back({ 753, 30, 50, 60 });
-	enemy_1.right_attack.frames.push_back({ 753, 30, 50, 60 });
+	enemy_1.right_attack.frames.push_back({ 577, 643, 60, 64 });
+	enemy_1.right_attack.frames.push_back({ 668, 643, 60, 64 });
+	enemy_1.right_attack.frames.push_back({ 753, 643, 60, 64 });
 	enemy_1.right_attack.loop = true;
-	enemy_1.right_attack.speed = 0.05f;
-	*/
+	enemy_1.right_attack.speed = 0.12f;
+	
 }
 
 ModuleEnemy::~ModuleEnemy()

@@ -38,12 +38,15 @@ bool Enemy::Update()
 					}
 				}
 			}
+
 			break;
 
 		case jumping:
+
 			break;
 
 		case y:
+
 			if (abs(App->player->position.x - position.x) <= SCREEN_WIDTH / 4)
 			{
 				if ((App->player->position.y - position.y) < 0)
@@ -82,54 +85,80 @@ bool Enemy::Update()
 					}
 					else
 						state = searching;
-
-
-
 				}
+
 			}
+
 			else
-				state = searching;
+					state = searching;
+			
 
 			break;
 
 		case x:
+
 			if (abs(App->player->position.y - position.y) == 0 || abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 			{
 				if ((App->player->position.x - position.x) < 0)
 				{
 					vel.x = -1;
+					idle_direction = false;
+
+					if (abs(App->player->position.x - position.x) <= 25)
+						state = attack;
+
 					if (current_animation != &idle_left)
-					{
-						idle_direction = false;
 						current_animation = &idle_left;
-					}
 				}
 				else
 				{
 					if ((App->player->position.x - position.x) > 0)
 					{
 						vel.x = 1;
+						idle_direction = true;
+
+						if (abs(App->player->position.x - position.x) <= 25)
+							state = attack;
+
 						if (current_animation != &idle_right)
-						{
-							idle_direction = true;
 							current_animation = &idle_right;
-						}
+		
 					}
 					else
 						state = searching;
-
-
 				}
 			}
 			else
-				state = searching;
+					state = searching;
+		
+			break;
 
 		case attack:
+
+			if (idle_direction)
+			{
+				current_animation = &right_attack;
+				if (right_attack.Finished())
+				{
+					right_attack.Reset();
+					state = searching;
+				}
+			}
+			else
+			{
+				current_animation = &left_attack;
+				if (left_attack.Finished())
+				{
+					left_attack.Reset();
+					state = searching;
+				}
+			}
+			
 			break;
 	}
 
-	position += vel;
 	
+	position += vel;
 
 	return true;
 }
