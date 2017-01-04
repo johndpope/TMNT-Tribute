@@ -5,14 +5,7 @@
 #include "Globals.h"
 #include "Animation.h"
 #include "Point.h"
-#include <random>
-#include <chrono>
-#include <time.h>
-#include "SDL/include/SDL.h"
-
-
-using namespace std;
-
+#include "Timer.h"
 
 struct SDL_Texture;
 
@@ -41,16 +34,14 @@ class Enemy
 		Enemy(const Enemy& p);
 		~Enemy();
 		bool Update();
-		iPoint GoToPosition(iPoint target);
 	
 	public:
 
 		bool to_delete = false;
 		Animation* current_animation = nullptr;
 		bool idle_direction = false;
-		
-		Uint64 t1, t2;
-
+	
+		Timer timer;
 		
 		Animation right_attack;
 		Animation left_attack;

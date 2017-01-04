@@ -109,7 +109,7 @@ void ModuleCollision::DebugDraw()
 	{
 		switch ((*it)->type)
 		{
-			/*
+			
 			case COLLIDER_PLAYER_BODY:
 				App->renderer->DrawQuad((*it)->rect, 255, 0, 0, 80);
 				break;
@@ -121,7 +121,7 @@ void ModuleCollision::DebugDraw()
 			case COLLIDER_PLAYER:
 				App->renderer->DrawQuad((*it)->rect, 0, 0, 255, 80);
 				break;
-			*/
+			
 			case COLLIDER_ENEMY:
 				App->renderer->DrawQuad((*it)->rect, 0, 255, 255, 80);
 				break;

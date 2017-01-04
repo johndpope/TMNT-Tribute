@@ -23,9 +23,12 @@ bool Enemy::Update()
 	switch (state)
 	{
 		case searching:
-			t1 = SDL_GetPerformanceCounter();
+
+			timer.setFirstTime();
+
 			collider->SetPos(position.x, position.y + 50);
 			collider->SetType(COLLIDER_ENEMY);
+
 			if (abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 			{
 				state = x;
@@ -146,10 +149,8 @@ bool Enemy::Update()
 
 		case attack:
 
-			t2 = SDL_GetPerformanceCounter();
-			Uint64 time = (double)((t2 - t1) * 1000 / SDL_GetPerformanceFrequency());
-
-			if(time >=  700)
+			timer.setSecondTime();
+			if(timer.getTime() >=  700)
 			{
 				if (abs(App->player->position.x - position.x) >= 25  || abs(App->player->position.y - position.y) >= 25)
 				{
