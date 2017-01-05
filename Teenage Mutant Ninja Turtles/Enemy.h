@@ -22,7 +22,9 @@ enum enemy_state
 	x,
 	y,
 	jumping,
-	attack
+	attack,
+	jump_attack,
+	damaged
 };
 
 
@@ -42,12 +44,14 @@ class Enemy
 		bool idle_direction = false;
 	
 		Timer timer;
-		
+		bool first = true;
 		Animation right_attack;
 		Animation left_attack;
 		Animation idle_right;
 		Animation idle_left;
-		Animation up_left, up_right;
+		Animation up_left, up_right,jump_attack_1,jump_attack_2,receive_damage_1, receive_damage_2;
+		
+		int attackStep;
 
 		iPoint target,targetPosition;
 

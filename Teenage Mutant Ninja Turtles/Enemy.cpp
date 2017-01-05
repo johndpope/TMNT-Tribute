@@ -6,8 +6,10 @@
 Enemy::Enemy() : collider(NULL)
 {}
 
-Enemy::Enemy(const Enemy & p) : right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics)
-{}
+Enemy::Enemy(const Enemy & p) : receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics)
+{
+	srand(time(NULL));
+}
 
 Enemy::~Enemy()
 {}
@@ -17,13 +19,12 @@ bool Enemy::Update()
 	
 	vel.SetToZero();
 
-
-
+	attackStep = rand() % 2;
 
 	switch (state)
 	{
 		case searching:
-
+			first = true;
 			timer.setFirstTime();
 
 			collider->SetPos(position.x, position.y + 50);
@@ -93,7 +94,18 @@ bool Enemy::Update()
 							}
 					}
 					else
-						state = searching;
+					{
+						switch (attackStep)
+						{
+							case 0:
+								state = searching;
+								break;
+							case 1:
+								state = jump_attack;
+								break;
+						}
+						
+					}
 				}
 
 			}
@@ -108,7 +120,7 @@ bool Enemy::Update()
 
 			if (abs(App->player->position.y - position.y) == 0 || abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
 			{
-				if ((App->player->position.x - position.x) < 0)
+				if ((App->player->position.x - position.x) <= 0)
 				{
 					vel.x = -1;
 					idle_direction = false;
@@ -116,6 +128,11 @@ bool Enemy::Update()
 					if (abs(App->player->position.x - position.x) <= 25)
 					{
 						state = attack;
+						App->player->hitCount++;
+						if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+						{
+							App->player->hitFromBehind = true;	
+						}
 					}
 
 					if (current_animation != &idle_left)
@@ -131,6 +148,11 @@ bool Enemy::Update()
 						if (abs(App->player->position.x - position.x) <= 25)
 						{
 							state = attack;
+							App->player->hitCount++;
+							if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+							{
+								App->player->hitFromBehind = true;
+							}
 						}
 
 						if (current_animation != &idle_right)
@@ -149,44 +171,130 @@ bool Enemy::Update()
 
 		case attack:
 
-			timer.setSecondTime();
-			if(timer.getTime() >=  700)
+			if(App->player->current_state != DAMAGED)
 			{
-				if (abs(App->player->position.x - position.x) >= 25  || abs(App->player->position.y - position.y) >= 25)
+				timer.setSecondTime();
+				if(timer.getTime() >=  700)
 				{
-					state = searching;
-					break;
-				}
-
-
-
-				collider->SetType(COLLIDER_ENEMY_ATTACK);
-				if (idle_direction)
-				{
-						current_animation = &right_attack;
-
-						collider->SetPos(position.x+30, position.y+7);
-						if (right_attack.Finished())
-						{
-							right_attack.Reset();
-							state = searching;
-							break;
-						}
-				}
-				else
-				{
-					current_animation = &left_attack;
-
-					collider->SetPos(position.x-10 , position.y+7);
-					if (left_attack.Finished())
+				
+					if (abs(App->player->position.x - position.x) >= 25  || abs(App->player->position.y - position.y) >= 25)
 					{
-							left_attack.Reset();
-							state = searching;
-							break;
+						state = searching;
+						break;
 					}
-				}			
+
+					if (first)
+					{
+						collider->SetType(COLLIDER_ENEMY_ATTACK);
+						first = false;
+					}
+					else
+					{
+						collider->SetType(COLLIDER_ENEMY_BODY);
+					}
+					
+					if (idle_direction)
+					{
+							current_animation = &right_attack;
+
+							collider->SetPos(position.x+30, position.y+7);
+							if (right_attack.Finished())
+							{
+								right_attack.Reset();
+								current_animation = &idle_right;
+								first = true;
+								state = searching;
+							
+								break;
+							}
+					}
+					else
+					{
+						current_animation = &left_attack;
+
+						collider->SetPos(position.x-10 , position.y+7);
+						if (left_attack.Finished())
+						{
+								left_attack.Reset();
+								current_animation = &idle_left;
+								first = true;
+								state = searching;
+								
+								break;
+						}
+					}			
+				}
 			}
+			break;
+
+		case jump_attack:
+
+		
+			collider->SetType(COLLIDER_ENEMY_ATTACK);
 			
+
+			if (!idle_direction)
+			{
+				collider->SetPos(position.x - 30, position.y + 7);
+				current_animation = &jump_attack_1;
+				position.x -= 2;
+
+				if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+				{
+					App->player->hitFromBehind = true;
+				}
+
+				if (jump_attack_1.Finished())
+				{
+					jump_attack_1.Reset();
+					first = true;
+					state = searching;
+				}
+			}
+			else
+			{
+				collider->SetPos(position.x + 30, position.y + 7);
+				current_animation = &jump_attack_2;
+				position.x += 2;
+
+				if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+				{
+					App->player->hitFromBehind = true;
+				}
+
+				if (jump_attack_2.Finished())
+				{
+					jump_attack_2.Reset();
+					first = true;
+					state = searching;
+				}
+			}
+
+			break;
+
+		case damaged:
+
+			if (idle_direction)
+			{
+				current_animation = &receive_damage_1;
+				if (receive_damage_1.Finished())
+				{
+					receive_damage_1.Reset();
+					first = true;
+					state = searching;
+				}
+			}
+			else
+			{
+				current_animation = &receive_damage_2;
+				if (receive_damage_2.Finished())
+				{
+					receive_damage_2.Reset();
+					first = true;
+					state = searching;
+				}
+			}
+
 			break;
 	}
 

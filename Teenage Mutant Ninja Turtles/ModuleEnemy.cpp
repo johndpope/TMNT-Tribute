@@ -56,15 +56,42 @@ ModuleEnemy::ModuleEnemy()
 	enemy_1.left_attack.frames.push_back({ 161, 643, 60, 64 });
 	enemy_1.left_attack.frames.push_back({ 91, 643, 60, 64 });
 	enemy_1.left_attack.frames.push_back({ 16, 643, 60, 64 });
-	enemy_1.left_attack.loop = true;
+	enemy_1.left_attack.loop = false;
 	enemy_1.left_attack.speed = 0.2f;
 
 	enemy_1.right_attack.frames.push_back({ 577, 643, 60, 64 });
 	enemy_1.right_attack.frames.push_back({ 668, 643, 60, 64 });
 	enemy_1.right_attack.frames.push_back({ 753, 643, 60, 64 });
-	enemy_1.right_attack.loop = true;
+	enemy_1.right_attack.loop = false;
 	enemy_1.right_attack.speed = 0.2f;
 
+	enemy_1.jump_attack_1.frames.push_back({ 167, 727, 60, 51 });
+	enemy_1.jump_attack_1.frames.push_back({ 80, 727, 60, 51 });
+	enemy_1.jump_attack_1.frames.push_back({ 80, 727, 60, 51 });
+	enemy_1.jump_attack_1.frames.push_back({ 80, 727, 60, 51 });
+	enemy_1.jump_attack_1.loop = false;
+	enemy_1.jump_attack_1.speed = 0.2f;
+
+	enemy_1.jump_attack_2.frames.push_back({ 583, 727, 60, 51 });
+	enemy_1.jump_attack_2.frames.push_back({ 656, 727, 60, 51 });
+	enemy_1.jump_attack_2.frames.push_back({ 656, 727, 60, 51 });
+	enemy_1.jump_attack_2.frames.push_back({ 656, 727, 60, 51 });
+	enemy_1.jump_attack_2.loop = false;
+	enemy_1.jump_attack_2.speed = 0.2f;
+
+	enemy_1.receive_damage_1.frames.push_back({ 251, 802, 60, 60 });
+	enemy_1.receive_damage_1.frames.push_back({ 169, 802, 60, 60 });
+	enemy_1.receive_damage_1.frames.push_back({ 81, 802, 60, 60 });
+	enemy_1.receive_damage_1.frames.push_back({ 12, 802, 60, 60 });
+	enemy_1.receive_damage_1.loop = false;
+	enemy_1.receive_damage_1.speed = 0.12f;
+
+	enemy_1.receive_damage_2.frames.push_back({ 506, 802, 60, 60 });
+	enemy_1.receive_damage_2.frames.push_back({ 584, 802, 60, 60 });
+	enemy_1.receive_damage_2.frames.push_back({ 659, 802, 60, 60 });
+	enemy_1.receive_damage_2.frames.push_back({ 728, 802, 60, 60 });
+	enemy_1.receive_damage_2.loop = false;
+	enemy_1.receive_damage_2.speed = 0.12f;
 
 	
 }
@@ -150,6 +177,12 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 				}
 			}
 		}
+
+		if (c2->type == COLLIDER_PLAYER_ATTACK)
+		{
+			aux->state = damaged;
+		}
+
 		break;
 	}
 }

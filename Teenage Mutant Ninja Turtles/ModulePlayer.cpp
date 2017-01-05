@@ -229,7 +229,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	receiveDamage_right_1.frames.push_back({ 187, 795, 64, 70 });
 
 	receiveDamage_right_1.loop = false;
-	receiveDamage_right_1.speed = 0.1f;
+	receiveDamage_right_1.speed = 0.2f;
 
 	//hit left
 	receiveDamage_left_1.frames.push_back({ 17, 699, 64, 70 });
@@ -238,7 +238,76 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	receiveDamage_left_1.frames.push_back({ 592, 795, 64, 70 });
 
 	receiveDamage_left_1.loop = false;
-	receiveDamage_left_1.speed = 0.1f;
+	receiveDamage_left_1.speed = 0.2f;
+
+	//hit right 2
+
+	receiveDamage_right_2.frames.push_back({ 352, 889, 64, 70 });
+	receiveDamage_right_2.frames.push_back({ 425, 889, 64, 70 });
+	receiveDamage_right_2.frames.push_back({ 508, 889, 64, 70 });
+
+
+	receiveDamage_right_2.loop = false;
+	receiveDamage_right_2.speed = 0.15f;
+
+	//hit left 2
+
+	receiveDamage_left_2.frames.push_back({ 428, 889, 64, 70 });
+	receiveDamage_left_2.frames.push_back({ 336, 889, 64, 70 });
+	receiveDamage_left_2.frames.push_back({ 254, 889, 64, 70 });
+
+	receiveDamage_left_2.loop = false;
+	receiveDamage_left_2.speed = 0.15f;
+
+
+
+	//hit right 3
+
+	receiveDamage_right_3.frames.push_back({ 267, 886, 64, 70 });
+	receiveDamage_right_3.frames.push_back({ 180, 889, 64, 70 });
+	receiveDamage_right_3.frames.push_back({ 100, 889, 64, 70 });
+	receiveDamage_right_3.frames.push_back({ 21, 889, 64, 70 });
+
+
+	receiveDamage_right_3.loop = false;
+	receiveDamage_right_3.speed = 0.08f;
+
+
+	//hit right 4
+
+	receiveDamage_right_4.frames.push_back({ 598, 886, 64, 70 });
+	receiveDamage_right_4.frames.push_back({ 670, 889, 64, 70 });
+	receiveDamage_right_4.frames.push_back({ 752, 889, 64, 70 });
+	receiveDamage_right_4.frames.push_back({ 678, 982, 64, 70 });
+	receiveDamage_right_4.frames.push_back({ 758, 982, 64, 70 });
+
+	receiveDamage_right_4.loop = false;
+	receiveDamage_right_4.speed = 0.08f;
+
+
+	//hit left 3
+
+	receiveDamage_left_3.frames.push_back({ 507, 886, 64, 70 });
+	receiveDamage_left_3.frames.push_back({ 584, 889, 64, 70 });
+	receiveDamage_left_3.frames.push_back({ 667, 889, 64, 70 });
+	receiveDamage_left_3.frames.push_back({ 752, 889, 64, 70 });
+
+
+	receiveDamage_left_3.loop = false;
+	receiveDamage_left_3.speed = 0.08f;
+
+	//hit left 4
+
+	receiveDamage_left_4.frames.push_back({ 181, 886, 64, 70 });
+	receiveDamage_left_4.frames.push_back({ 89, 889, 64, 70 });
+	receiveDamage_left_4.frames.push_back({ 9, 889, 64, 70 });
+	receiveDamage_left_4.frames.push_back({ 97, 982, 64, 70 });
+	receiveDamage_left_4.frames.push_back({ 12, 982, 64, 70 });
+
+	receiveDamage_left_4.loop = false;
+	receiveDamage_left_4.speed = 0.08f;
+	
+
 }
 
 ModulePlayer::~ModulePlayer()
@@ -253,6 +322,7 @@ bool ModulePlayer::Start()
 	graphics2 = App->textures->Load("rtype/michelangeloizquierda.png");
 
 	enemiesAttacking = 0;
+	hitCount = 0;
 	idle_direction = false;
 	isGoingUp = false;
 	destroyed = false;
@@ -355,9 +425,7 @@ update_status ModulePlayer::Update()
 
 				isGoingUp = true;
 				posAux = position.y;
-				currentCollider->SetType(COLLIDER_PLAYER_ATTACK);
-				//currentCollider->SetSize(0, 0);
-				//currentCollider->SetPos(-10, -10);
+				currentCollider->SetType(COLLIDER_PLAYER_BODY);
 				current_state = JUMPING;
 				break;
 			}
@@ -550,6 +618,7 @@ update_status ModulePlayer::Update()
 
 		case JUMP_ATTACK:
 
+			currentCollider->SetType(COLLIDER_PLAYER_ATTACK);
 			if (!idle_direction)
 			{
 				if (!isGoingUp)
@@ -601,32 +670,125 @@ update_status ModulePlayer::Update()
 			break;
 
 		case DAMAGED:
-
-
 			
 			currentCollider->SetType(COLLIDER_PLAYER_BODY);
 			
-			if(!idle_direction)
+
+			if (3 > hitCount)
 			{
-				current_animation = &receiveDamage_right_1;
-				if (receiveDamage_right_1.Finished())
+				if (!idle_direction)
 				{
-					receiveDamage_right_1.Reset();
-					current_state = IDLE;
+					if (hitFromBehind)
+					{
+						current_animation = &receiveDamage_right_1;
+						if (receiveDamage_right_1.Finished())
+						{
+							receiveDamage_right_1.Reset();
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
+					}
+					else
+					{
+						current_animation = &receiveDamage_right_2;
+						if (receiveDamage_right_2.Finished())
+						{
+							receiveDamage_right_2.Reset();
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
+					}
+				}
+
+
+				else
+				{
+					if (hitFromBehind)
+					{
+						current_animation = &receiveDamage_left_1;
+						if (receiveDamage_left_1.Finished())
+						{
+							receiveDamage_left_1.Reset();
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
+					}
+					else
+					{
+						current_animation = &receiveDamage_left_2;
+						if (receiveDamage_left_2.Finished())
+						{
+							receiveDamage_left_2.Reset();
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
+					}
+				}
+			}
+			else
+				current_state = KO;
+
+			break;
+
+		case KO:
+
+			hitCount = 0;
+			if (!idle_direction)
+			{
+				if (hitFromBehind)
+				{
+					current_animation = &receiveDamage_right_3;
+					position.x -= 1;
+					if (receiveDamage_right_3.Finished())
+					{
+						receiveDamage_right_3.Reset();
+						
+						current_state = IDLE;
+						
+						App->player->hitFromBehind = false;
+					}
+				}
+				else
+				{
+					current_animation = &receiveDamage_right_4;
+					position.x += 1;
+					if (receiveDamage_right_4.Finished())
+					{
+						receiveDamage_right_4.Reset();
+						
+						current_state = IDLE;
+					
+						App->player->hitFromBehind = false;
+					}
 				}
 			}
 
+
 			else
 			{
-				current_animation = &receiveDamage_left_1;
-				if (receiveDamage_left_1.Finished())
+				if (!hitFromBehind)
 				{
-					receiveDamage_left_1.Reset();
-					current_state = IDLE;
+					current_animation = &receiveDamage_left_4;
+					position.x -= 1;
+					if (receiveDamage_left_4.Finished())
+					{
+						receiveDamage_left_4.Reset();
+						current_state = IDLE;
+						App->player->hitFromBehind = false;
+					}
+				}
+				else
+				{
+					current_animation = &receiveDamage_left_3;
+					position.x += 1;
+					if (receiveDamage_left_3.Finished())
+					{
+						receiveDamage_left_3.Reset();
+						current_state = IDLE;
+						App->player->hitFromBehind = false;
+					}
 				}
 			}
-			
-			
 			break;
 	}
 

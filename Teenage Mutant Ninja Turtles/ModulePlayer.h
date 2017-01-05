@@ -12,7 +12,8 @@ enum STATE {
 	JUMPING,
 	ATTACK,
 	JUMP_ATTACK,
-	DAMAGED
+	DAMAGED,
+	KO
 };
 
 class ModulePlayer : public Module
@@ -34,7 +35,8 @@ public:
 	int walkSpeed = 2;
 	int heightColliderFoot = 10;
 	int widthColliderFoot = 50;
-
+	int hitCount;
+	bool hitFromBehind = false;
 	int enemiesAttacking;
 	int attackStep, posAux;
 	bool idle_direction, isGoingUp, jumpAttack;
@@ -58,7 +60,7 @@ public:
 	Animation attack_left2;
 	Animation jump_left, jump_right;
 	Animation jump_right_attack_1, jump_left_attack_1, jump_left_attack_2, jump_right_attack_2;
-	Animation receiveDamage_right_1, receiveDamage_right_2, receiveDamage_right_3, receiveDamage_left_1;
+	Animation receiveDamage_right_1, receiveDamage_right_2, receiveDamage_right_3, receiveDamage_left_1, receiveDamage_left_2, receiveDamage_left_3, receiveDamage_left_4, receiveDamage_right_4;
 	Collider* currentCollider = nullptr;
 	Collider* colliderBody = nullptr;
 	iPoint position;
