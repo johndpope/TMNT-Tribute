@@ -48,9 +48,6 @@ bool ModuleSceneLevel::Start()
 
 	iPoint aux;
 
-	
-
-
 	App->particles->AddParticle(App->particles->fire, 0,157, COLLIDER_NONE);
 	App->particles->AddParticle(App->particles->fire2, 0, 168, COLLIDER_NONE);
 
@@ -68,13 +65,13 @@ bool ModuleSceneLevel::Start()
 
 	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
 
-	/*
+	
 	aux.x = App->player->position.x + 70;
 	aux.y = App->player->position.y +30 ;
 
 	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
 
-	*/
+
 
 	return true;
 }

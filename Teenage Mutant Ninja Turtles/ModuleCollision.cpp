@@ -111,7 +111,6 @@ void ModuleCollision::DebugDraw()
 		{
 			
 			
-			
 			case COLLIDER_ENEMY:
 				App->renderer->DrawQuad((*it)->rect, 0, 255, 255, 80);
 				break;
@@ -140,6 +139,7 @@ bool ModuleCollision::CleanUp()
 
 	return true;
 }
+
 
 Collider* ModuleCollision::AddCollider(const SDL_Rect& rect, COLLIDER_TYPE type, Module* callback)
 {

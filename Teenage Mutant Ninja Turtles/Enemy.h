@@ -21,10 +21,11 @@ enum enemy_state
 	searching,
 	x,
 	y,
-	jumping,
 	attack,
 	jump_attack,
-	damaged
+	damaged,
+	ko
+
 };
 
 
@@ -52,6 +53,7 @@ class Enemy
 		Animation up_left, up_right,jump_attack_1,jump_attack_2,receive_damage_1, receive_damage_2;
 		
 		int attackStep;
+		int hitCount;
 
 		iPoint target,targetPosition;
 

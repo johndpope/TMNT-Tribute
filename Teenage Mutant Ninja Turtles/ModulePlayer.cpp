@@ -270,7 +270,7 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 
 
 	receiveDamage_right_3.loop = false;
-	receiveDamage_right_3.speed = 0.08f;
+	receiveDamage_right_3.speed = 0.1f;
 
 
 	//hit right 4
@@ -278,11 +278,11 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 	receiveDamage_right_4.frames.push_back({ 598, 886, 64, 70 });
 	receiveDamage_right_4.frames.push_back({ 670, 889, 64, 70 });
 	receiveDamage_right_4.frames.push_back({ 752, 889, 64, 70 });
-	receiveDamage_right_4.frames.push_back({ 678, 982, 64, 70 });
-	receiveDamage_right_4.frames.push_back({ 758, 982, 64, 70 });
+	receiveDamage_right_4.frames.push_back({ 678, 972, 64, 70 });
+	receiveDamage_right_4.frames.push_back({ 758, 972, 64, 70 });
 
 	receiveDamage_right_4.loop = false;
-	receiveDamage_right_4.speed = 0.08f;
+	receiveDamage_right_4.speed = 0.12f;
 
 
 	//hit left 3
@@ -294,18 +294,18 @@ ModulePlayer::ModulePlayer(bool active) : Module(active)
 
 
 	receiveDamage_left_3.loop = false;
-	receiveDamage_left_3.speed = 0.08f;
+	receiveDamage_left_3.speed = 0.1f;
 
 	//hit left 4
 
 	receiveDamage_left_4.frames.push_back({ 181, 886, 64, 70 });
 	receiveDamage_left_4.frames.push_back({ 89, 889, 64, 70 });
 	receiveDamage_left_4.frames.push_back({ 9, 889, 64, 70 });
-	receiveDamage_left_4.frames.push_back({ 97, 982, 64, 70 });
-	receiveDamage_left_4.frames.push_back({ 12, 982, 64, 70 });
+	receiveDamage_left_4.frames.push_back({ 97, 972, 64, 70 });
+	receiveDamage_left_4.frames.push_back({ 12, 972, 64, 70 });
 
 	receiveDamage_left_4.loop = false;
-	receiveDamage_left_4.speed = 0.08f;
+	receiveDamage_left_4.speed = 0.12f;
 	
 
 }
@@ -738,7 +738,7 @@ update_status ModulePlayer::Update()
 				if (hitFromBehind)
 				{
 					current_animation = &receiveDamage_right_3;
-					position.x -= 1;
+					position.x -= 2;
 					if (receiveDamage_right_3.Finished())
 					{
 						receiveDamage_right_3.Reset();
@@ -751,7 +751,7 @@ update_status ModulePlayer::Update()
 				else
 				{
 					current_animation = &receiveDamage_right_4;
-					position.x += 1;
+					position.x += 2;
 					if (receiveDamage_right_4.Finished())
 					{
 						receiveDamage_right_4.Reset();
@@ -769,7 +769,7 @@ update_status ModulePlayer::Update()
 				if (!hitFromBehind)
 				{
 					current_animation = &receiveDamage_left_4;
-					position.x -= 1;
+					position.x -= 2;
 					if (receiveDamage_left_4.Finished())
 					{
 						receiveDamage_left_4.Reset();
@@ -780,7 +780,7 @@ update_status ModulePlayer::Update()
 				else
 				{
 					current_animation = &receiveDamage_left_3;
-					position.x += 1;
+					position.x += 2;
 					if (receiveDamage_left_3.Finished())
 					{
 						receiveDamage_left_3.Reset();

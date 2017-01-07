@@ -70,10 +70,11 @@ public:
 
 	Collider* AddCollider(const SDL_Rect& rect,COLLIDER_TYPE type,Module* callback);
 	void DebugDraw();
+	std::list<Collider*> colliders;
 
 private:
 
-	std::list<Collider*> colliders;
+	
 	bool debug = false;
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 };

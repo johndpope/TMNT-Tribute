@@ -178,12 +178,12 @@ void ModuleEnemy::OnCollision(Collider* c1, Collider* c2)
 			}
 		}
 
-		if (c2->type == COLLIDER_PLAYER_ATTACK)
+		if (c2->type == COLLIDER_PLAYER_ATTACK && c1== aux->colliderBody)
 		{
 			aux->state = damaged;
 		}
 
-		break;
+		++it;
 	}
 }
 
@@ -195,6 +195,7 @@ void ModuleEnemy::AddEnemy(const Enemy & enemy, iPoint position, enemy_type type
 	p->position.y = position.y;
 	p->state = searching;
 	p->type = type;
+	p->hitCount = 0;
 	p->current_animation = &p->idle_right;
 	p->collider = App->collision->AddCollider({ p->position.x, p->position.y+50, 30, 10 }, COLLIDER_ENEMY, this);
 	p->colliderBody = App->collision->AddCollider({ p->position.x, p->position.y, 30, 60 }, COLLIDER_ENEMY_BODY, this);

@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "ModuleCollision.h"
 
+
 Enemy::Enemy() : collider(NULL)
 {}
 
@@ -48,10 +49,6 @@ bool Enemy::Update()
 					}
 				}
 			}
-
-			break;
-
-		case jumping:
 
 			break;
 
@@ -274,6 +271,13 @@ bool Enemy::Update()
 
 		case damaged:
 
+			if (hitCount == 2)
+			{
+				state = ko;
+				break;
+			}
+
+		
 			if (idle_direction)
 			{
 				current_animation = &receive_damage_1;
@@ -282,6 +286,7 @@ bool Enemy::Update()
 					receive_damage_1.Reset();
 					first = true;
 					state = searching;
+					hitCount++;
 				}
 			}
 			else
@@ -292,9 +297,42 @@ bool Enemy::Update()
 					receive_damage_2.Reset();
 					first = true;
 					state = searching;
+					hitCount++;
 				}
 			}
+		
+			break;
 
+		case ko:
+
+			if (idle_direction)
+			{
+				current_animation = &receive_damage_1;
+				if (receive_damage_1.Finished())
+				{
+					receive_damage_1.Reset();
+					App->collision->colliders.remove(colliderBody);
+					App->collision->colliders.remove(collider);
+					RELEASE(colliderBody);
+					RELEASE(collider);
+			
+					return false;
+				}
+			}
+			else
+			{
+				current_animation = &receive_damage_2;
+				if (receive_damage_2.Finished())
+				{
+					receive_damage_2.Reset();
+					App->collision->colliders.remove(colliderBody);
+					App->collision->colliders.remove(collider);
+					RELEASE(colliderBody);
+					RELEASE(collider);
+					
+					return false;
+				}
+			}
 			break;
 	}
 
