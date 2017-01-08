@@ -48,17 +48,17 @@ bool ModuleSceneLevel::Start()
 
 	iPoint aux;
 
-	App->particles->AddParticle(App->particles->fire, 0,157, COLLIDER_NONE);
-	App->particles->AddParticle(App->particles->fire2, 0, 168, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire, 0,157, 0,fire,COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire2, 0, 168,0, fire, COLLIDER_NONE);
 
-	App->particles->AddParticle(App->particles->fire, 301, 157, COLLIDER_NONE);
-	App->particles->AddParticle(App->particles->fire2, 301, 168, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire, 301, 157,0, fire, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire2, 301, 168,0, fire, COLLIDER_NONE);
 
-	App->particles->AddParticle(App->particles->fire, 602, 157, COLLIDER_NONE);
-	App->particles->AddParticle(App->particles->fire2, 602, 168, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire, 602, 157,0, fire, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire2, 602, 168,0, fire, COLLIDER_NONE);
 
-	App->particles->AddParticle(App->particles->fire, 903, 157, COLLIDER_NONE);
-	App->particles->AddParticle(App->particles->fire2, 903, 168, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire, 903, 157,0, fire, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire2, 903, 168, 0, fire, COLLIDER_NONE);
 
 	/*
 	aux.x = App->player->position.x + 70;

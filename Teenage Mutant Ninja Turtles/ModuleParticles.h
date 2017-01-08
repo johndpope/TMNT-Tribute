@@ -7,8 +7,18 @@
 #include "Animation.h"
 #include "Point.h"
 #include "ModuleCollision.h"
+#include "Timer.h"
 
 struct SDL_Texture;
+
+
+enum particle_type
+{
+	fire,
+	ninja_star,
+
+	noone
+};
 
 struct Particle
 {
@@ -19,14 +29,15 @@ struct Particle
 	iPoint pos, vel;
 	unsigned int fx;
 
-
 	// TODO 11: Add an optional collider to each particle
 	Collider* collider;
-
+	particle_type ptype = noone;
+	Timer t;
 	Particle();
 	Particle(const Particle& p);
 	~Particle();
 	bool Update();
+	void setType(particle_type);
 };
 
 class ModuleParticles : public Module
@@ -39,7 +50,10 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type); // feel free to expand this call
+	void OnCollision(Collider * c1, Collider * c2);
+
+
+	void AddParticle(const Particle& particle, int x, int y,int vel,particle_type type, COLLIDER_TYPE collider_type); // feel free to expand this call
 
 private:
 
@@ -48,7 +62,7 @@ private:
 public:
 
 	// prototype particles go here ...
-	Particle fire,fire2;
+	Particle fire,fire2,ninja_stars;
 };
 
 #endif // __MODULEPARTICLES_H__

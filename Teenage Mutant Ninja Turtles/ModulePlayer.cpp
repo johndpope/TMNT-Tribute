@@ -361,9 +361,15 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 	*/
 	
-	if (c2->type == COLLIDER_ENEMY_ATTACK && c1->type == COLLIDER_PLAYER_BODY)
+	if (c2->type == COLLIDER_ENEMY_ATTACK  && c1->type == COLLIDER_PLAYER_BODY)
 	{
 		current_state = DAMAGED;
+	}
+
+	if ( c2->type == COLLIDER_ENEMY_SHOT && c1->type == COLLIDER_PLAYER_BODY && current_state != KO)
+	{
+		current_state = DAMAGED;
+		hitCount++;
 	}
 	
 

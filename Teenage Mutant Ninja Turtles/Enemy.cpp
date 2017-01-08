@@ -2,6 +2,7 @@
 #include "ModulePlayer.h"
 #include "Enemy.h"
 #include "ModuleCollision.h"
+#include "ModuleParticles.h"
 
 
 Enemy::Enemy() : collider(NULL)
@@ -248,6 +249,7 @@ bool Enemy::Update()
 				{
 					jump_attack_1.Reset();
 					first = true;
+					App->player->hitCount++;
 					state = searching;
 				}
 			}
@@ -266,6 +268,7 @@ bool Enemy::Update()
 				{
 					jump_attack_2.Reset();
 					first = true;
+					App->player->hitCount++;
 					state = searching;
 				}
 			}
@@ -344,20 +347,27 @@ bool Enemy::Update()
 
 			if (idle_direction)
 			{
+
 				current_animation = &attack2;
 				if (attack2.Finished())
 				{
 					attack2.Reset();
+					App->particles->AddParticle(App->particles->ninja_stars, position.x + 25, position.y + 10, 1, ninja_star,COLLIDER_ENEMY_SHOT);
+
 					state = searching;
+					first = true;
 				}
 			}
 			else
 			{
 				current_animation = &attack2Left;
+
 				if (attack2Left.Finished())
 				{
 					attack2Left.Reset();
+					App->particles->AddParticle(App->particles->ninja_stars, position.x - 25, position.y + 10, -1, ninja_star, COLLIDER_ENEMY_SHOT);
 					state = searching;
+					first = true;
 				}
 			}
 			break;
