@@ -51,7 +51,7 @@ class Enemy
 		Animation left_attack;
 		Animation idle_right;
 		Animation idle_left;
-		Animation up_left, up_right,jump_attack_1,jump_attack_2,receive_damage_1, receive_damage_2, receive_damage_3, receive_damage_4;
+		Animation up_left, up_right,jump_attack_1,jump_attack_2,receive_damage_1, receive_damage_2, receive_damage_3, receive_damage_4,attack2, attack2Left;
 		
 		int attackStep;
 		int hitCount;

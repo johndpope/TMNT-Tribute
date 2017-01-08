@@ -7,7 +7,7 @@
 Enemy::Enemy() : collider(NULL)
 {}
 
-Enemy::Enemy(const Enemy & p) : receive_damage_4(p.receive_damage_4), receive_damage_3(p.receive_damage_3), receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics),graphics2(p.graphics2)
+Enemy::Enemy(const Enemy & p) : attack2(p.attack2),attack2Left(p.attack2Left),receive_damage_4(p.receive_damage_4), receive_damage_3(p.receive_damage_3), receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics),graphics2(p.graphics2)
 {
 	srand(time(NULL));
 }
@@ -101,7 +101,7 @@ bool Enemy::Update()
 								if (type == type_1)
 									state = jump_attack;
 								else
-									state = jump_attack;
+									state = ninja_attack;
 								break;
 						}
 						
@@ -336,6 +336,28 @@ bool Enemy::Update()
 					RELEASE(collider);
 					
 					return false;
+				}
+			}
+			break;
+
+		case ninja_attack:
+
+			if (idle_direction)
+			{
+				current_animation = &attack2;
+				if (attack2.Finished())
+				{
+					attack2.Reset();
+					state = searching;
+				}
+			}
+			else
+			{
+				current_animation = &attack2Left;
+				if (attack2Left.Finished())
+				{
+					attack2Left.Reset();
+					state = searching;
 				}
 			}
 			break;

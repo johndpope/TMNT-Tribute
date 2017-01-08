@@ -60,11 +60,12 @@ bool ModuleSceneLevel::Start()
 	App->particles->AddParticle(App->particles->fire, 903, 157, COLLIDER_NONE);
 	App->particles->AddParticle(App->particles->fire2, 903, 168, COLLIDER_NONE);
 
+	/*
 	aux.x = App->player->position.x + 70;
 	aux.y = App->player->position.y;
 
 	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
-
+	*/
 	
 	aux.x = App->player->position.x + 70;
 	aux.y = App->player->position.y +30 ;
