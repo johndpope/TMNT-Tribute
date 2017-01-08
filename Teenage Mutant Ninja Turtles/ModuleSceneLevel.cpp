@@ -69,7 +69,7 @@ bool ModuleSceneLevel::Start()
 	aux.x = App->player->position.x + 70;
 	aux.y = App->player->position.y +30 ;
 
-	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+	App->enemies->AddEnemy(App->enemies->enemy_2, aux, type_2);
 
 
 

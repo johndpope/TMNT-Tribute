@@ -111,6 +111,113 @@ ModuleEnemy::ModuleEnemy()
 	enemy_1.receive_damage_4.loop = false;
 	enemy_1.receive_damage_4.speed = 0.15f;
 	
+
+
+	////
+
+
+	enemy_2.idle_left.frames.push_back({ 172, 80, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 96, 80, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 19, 80, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 337, 0, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 253, 0, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 176, 0, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 98, 0, 52, 64 });
+	enemy_2.idle_left.frames.push_back({ 17, 0, 52, 64 });
+	enemy_2.idle_left.loop = true;
+	enemy_2.idle_left.speed = 0.2f;
+
+	enemy_2.idle_right.frames.push_back({ 589, 80, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 671, 80, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 757, 80, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 433, 0, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 508, 0, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 593, 0, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 674, 0, 52, 64 });
+	enemy_2.idle_right.frames.push_back({ 751, 0, 52, 64 });
+	enemy_2.idle_right.loop = true;
+	enemy_2.idle_right.speed = 0.2f;
+
+	enemy_2.up_left.frames.push_back({ 14, 240, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 333, 160, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 252, 160, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 176, 160, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 96, 160, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 17, 160, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 336, 81, 52, 64 });
+	enemy_2.up_left.frames.push_back({ 256, 81, 52, 64 });
+	enemy_2.up_left.loop = true;
+	enemy_2.up_left.speed = 0.2f;
+
+
+	enemy_2.up_right.frames.push_back({ 749, 240, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 431, 160, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 509, 160, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 595, 160, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 671, 160, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 753, 160, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 433, 81, 52, 64 });
+	enemy_2.up_right.frames.push_back({ 512, 81, 52, 64 });
+	enemy_2.up_right.loop = true;
+	enemy_2.up_right.speed = 0.2f;
+
+	enemy_2.left_attack.frames.push_back({ 161, 643, 60, 64 });
+	enemy_2.left_attack.frames.push_back({ 91, 643, 60, 64 });
+	enemy_2.left_attack.frames.push_back({ 16, 643, 60, 64 });
+	enemy_2.left_attack.loop = false;
+	enemy_2.left_attack.speed = 0.2f;
+
+	enemy_2.right_attack.frames.push_back({ 577, 643, 60, 64 });
+	enemy_2.right_attack.frames.push_back({ 668, 643, 60, 64 });
+	enemy_2.right_attack.frames.push_back({ 753, 643, 60, 64 });
+	enemy_2.right_attack.loop = false;
+	enemy_2.right_attack.speed = 0.2f;
+
+	enemy_2.jump_attack_1.frames.push_back({ 167, 727, 60, 51 });
+	enemy_2.jump_attack_1.frames.push_back({ 80, 727, 60, 51 });
+	enemy_2.jump_attack_1.frames.push_back({ 80, 727, 60, 51 });
+	enemy_2.jump_attack_1.frames.push_back({ 80, 727, 60, 51 });
+	enemy_2.jump_attack_1.loop = false;
+	enemy_2.jump_attack_1.speed = 0.2f;
+
+	enemy_2.jump_attack_2.frames.push_back({ 583, 727, 60, 51 });
+	enemy_2.jump_attack_2.frames.push_back({ 656, 727, 60, 51 });
+	enemy_2.jump_attack_2.frames.push_back({ 656, 727, 60, 51 });
+	enemy_2.jump_attack_2.frames.push_back({ 656, 727, 60, 51 });
+	enemy_2.jump_attack_2.loop = false;
+	enemy_2.jump_attack_2.speed = 0.2f;
+
+	enemy_2.receive_damage_1.frames.push_back({ 251, 802, 60, 60 });
+	enemy_2.receive_damage_1.frames.push_back({ 169, 802, 60, 60 });
+	enemy_2.receive_damage_1.frames.push_back({ 81, 802, 60, 60 });
+	enemy_2.receive_damage_1.frames.push_back({ 12, 802, 60, 60 });
+	enemy_2.receive_damage_1.loop = false;
+	enemy_2.receive_damage_1.speed = 0.12f;
+
+	enemy_2.receive_damage_2.frames.push_back({ 506, 802, 60, 60 });
+	enemy_2.receive_damage_2.frames.push_back({ 584, 802, 60, 60 });
+	enemy_2.receive_damage_2.frames.push_back({ 659, 802, 60, 60 });
+	enemy_2.receive_damage_2.frames.push_back({ 728, 802, 60, 60 });
+	enemy_2.receive_damage_2.loop = false;
+	enemy_2.receive_damage_2.speed = 0.12f;
+
+	enemy_2.receive_damage_3.frames.push_back({ 332, 1940, 60, 64 });
+	enemy_2.receive_damage_3.frames.push_back({ 251, 1940, 60, 64 });
+	enemy_2.receive_damage_3.frames.push_back({ 171, 1940, 60, 64 });
+	enemy_2.receive_damage_3.frames.push_back({ 17, 2016, 60, 64 });
+	enemy_2.receive_damage_3.frames.push_back({ 91, 2016, 80, 64 });
+	enemy_2.receive_damage_3.frames.push_back({ 159, 1998, 80, 64 });
+	enemy_2.receive_damage_3.loop = false;
+	enemy_2.receive_damage_3.speed = 0.15f;
+
+	enemy_2.receive_damage_4.frames.push_back({ 418, 1940, 60, 64 });
+	enemy_2.receive_damage_4.frames.push_back({ 498, 1940, 60, 64 });
+	enemy_2.receive_damage_4.frames.push_back({ 576, 1940, 60, 64 });
+	enemy_2.receive_damage_4.frames.push_back({ 565, 2016, 60, 64 });
+	enemy_2.receive_damage_4.frames.push_back({ 657, 2016, 80, 64 });
+	enemy_2.receive_damage_4.frames.push_back({ 740, 1998, 80, 64 });
+	enemy_2.receive_damage_4.loop = false;
+	enemy_2.receive_damage_4.speed = 0.15f;
 }
 
 ModuleEnemy::~ModuleEnemy()
@@ -120,7 +227,8 @@ bool ModuleEnemy::Start()
 {
 	LOG("Loading Enemy 1 graphics");
 	enemy_1.graphics = App->textures->Load("rtype/enemy1.png");
-
+	LOG("Loading Enemy 2 graphics");
+	enemy_2.graphics2 = App->textures->Load("rtype/enemy2.png");
 
 	return true;
 }
@@ -139,7 +247,10 @@ update_status ModuleEnemy::Update()
 		else
 		{
 			++it;
-			App->renderer->Blit(p->graphics, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
+			if (p->type == type_1)
+				App->renderer->Blit(p->graphics, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
+			else
+				App->renderer->Blit(p->graphics2, p->position.x, p->position.y, &(p->current_animation->GetCurrentFrame()));
 		}
 	}
 

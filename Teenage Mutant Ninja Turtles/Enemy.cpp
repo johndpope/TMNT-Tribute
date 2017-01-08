@@ -7,7 +7,7 @@
 Enemy::Enemy() : collider(NULL)
 {}
 
-Enemy::Enemy(const Enemy & p) : receive_damage_4(p.receive_damage_4), receive_damage_3(p.receive_damage_3), receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics)
+Enemy::Enemy(const Enemy & p) : receive_damage_4(p.receive_damage_4), receive_damage_3(p.receive_damage_3), receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics),graphics2(p.graphics2)
 {
 	srand(time(NULL));
 }
@@ -101,7 +101,7 @@ bool Enemy::Update()
 								if (type == type_1)
 									state = jump_attack;
 								else
-									state = ninja_attack;
+									state = jump_attack;
 								break;
 						}
 						

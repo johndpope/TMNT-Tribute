@@ -65,6 +65,7 @@ class Enemy
 		enemy_type type;
 		enemy_state state;
 		SDL_Texture* graphics = nullptr;
+		SDL_Texture* graphics2 = nullptr;
 
 };
 
