@@ -7,7 +7,7 @@
 Enemy::Enemy() : collider(NULL)
 {}
 
-Enemy::Enemy(const Enemy & p) : receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics)
+Enemy::Enemy(const Enemy & p) : receive_damage_4(p.receive_damage_4), receive_damage_3(p.receive_damage_3), receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics)
 {
 	srand(time(NULL));
 }
@@ -98,7 +98,10 @@ bool Enemy::Update()
 								state = searching;
 								break;
 							case 1:
-								state = jump_attack;
+								if (type == type_1)
+									state = jump_attack;
+								else
+									state = ninja_attack;
 								break;
 						}
 						
@@ -307,10 +310,11 @@ bool Enemy::Update()
 
 			if (idle_direction)
 			{
-				current_animation = &receive_damage_1;
-				if (receive_damage_1.Finished())
+				current_animation = &receive_damage_4;
+				position.x += 2;
+				if (receive_damage_4.Finished())
 				{
-					receive_damage_1.Reset();
+					receive_damage_4.Reset();
 					App->collision->colliders.remove(colliderBody);
 					App->collision->colliders.remove(collider);
 					RELEASE(colliderBody);
@@ -321,10 +325,11 @@ bool Enemy::Update()
 			}
 			else
 			{
-				current_animation = &receive_damage_2;
-				if (receive_damage_2.Finished())
+				current_animation = &receive_damage_3;
+				position.x += 1;
+				if (receive_damage_3.Finished())
 				{
-					receive_damage_2.Reset();
+					receive_damage_3.Reset();
 					App->collision->colliders.remove(colliderBody);
 					App->collision->colliders.remove(collider);
 					RELEASE(colliderBody);

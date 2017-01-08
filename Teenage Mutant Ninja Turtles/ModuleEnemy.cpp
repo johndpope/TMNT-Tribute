@@ -93,6 +93,23 @@ ModuleEnemy::ModuleEnemy()
 	enemy_1.receive_damage_2.loop = false;
 	enemy_1.receive_damage_2.speed = 0.12f;
 
+	enemy_1.receive_damage_3.frames.push_back({ 332, 1940, 60, 64 });
+	enemy_1.receive_damage_3.frames.push_back({ 251, 1940, 60, 64 });
+	enemy_1.receive_damage_3.frames.push_back({ 171, 1940, 60, 64 });
+	enemy_1.receive_damage_3.frames.push_back({ 17, 2016, 60, 64 });
+	enemy_1.receive_damage_3.frames.push_back({ 91, 2016, 80, 64 });
+	enemy_1.receive_damage_3.frames.push_back({ 159, 1998, 80, 64 });
+	enemy_1.receive_damage_3.loop = false;
+	enemy_1.receive_damage_3.speed = 0.15f;
+
+	enemy_1.receive_damage_4.frames.push_back({ 418, 1940, 60, 64 });
+	enemy_1.receive_damage_4.frames.push_back({ 498, 1940, 60, 64 });
+	enemy_1.receive_damage_4.frames.push_back({ 576, 1940, 60, 64 });
+	enemy_1.receive_damage_4.frames.push_back({ 565, 2016, 60, 64 });
+	enemy_1.receive_damage_4.frames.push_back({ 657, 2016, 80, 64 });
+	enemy_1.receive_damage_4.frames.push_back({ 740, 1998, 80, 64 });
+	enemy_1.receive_damage_4.loop = false;
+	enemy_1.receive_damage_4.speed = 0.15f;
 	
 }
 
