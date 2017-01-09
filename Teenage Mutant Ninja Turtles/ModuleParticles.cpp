@@ -5,6 +5,8 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleCollision.h"
+#include "ModulePlayer.h"
+#include "ModuleEnemy.h"
 
 #include "SDL/include/SDL_timer.h"
 
@@ -48,6 +50,15 @@ bool ModuleParticles::Start()
 	ninja_stars.anim.frames.push_back({ 180, 328, 12, 12 });
 	ninja_stars.anim.loop = true;
 	ninja_stars.anim.speed = 0.2f;
+
+	//door
+	door.anim.frames.push_back({ 269, 242, 34, 79 });
+	door.anim.frames.push_back({ 309, 242, 34, 79 });
+	door.anim.frames.push_back({ 349, 242, 34, 79 });
+	door.anim.frames.push_back({ 401, 242, 56, 79 });
+	door.anim.loop = false;
+	door.anim.speed = 0.2f;
+	door.activeDoor = false;
 
 	return true;
 }
@@ -98,7 +109,10 @@ update_status ModuleParticles::Update()
 		else
 		{
 			++it;
-			App->renderer->Blit(graphics, p->pos.x, p->pos.y, &(p->anim.GetCurrentFrame()));
+			if(p->activeDoor == true)
+				App->renderer->Blit(graphics, p->pos.x, p->pos.y, &(p->anim.GetCurrentFrame()));
+			else
+				App->renderer->Blit(graphics, p->pos.x, p->pos.y, &(p->anim.frames[0]));
 		}
 	}
 
@@ -130,7 +144,7 @@ Particle::Particle() : collider(NULL)
 {}
 
 // TODO 3: Fill in a copy constructor
-Particle::Particle(const Particle& p) : anim(p.anim), pos(p.pos), vel(p.vel), collider(p.collider)
+Particle::Particle(const Particle& p) : anim(p.anim), pos(p.pos), vel(p.vel), collider(p.collider),activeDoor(p.activeDoor)
 {
 	t.setFirstTime();
 }
@@ -157,6 +171,20 @@ bool Particle::Update()
 		collider->SetPos(pos.x, pos.y);
 	}
 	
+	if (ptype == door && App->player->position.x + 100 > pos.x && first)
+	{
+		activeDoor = true;
+		first = false;
+		aux.x = pos.x + 10;
+		aux.y = pos.y + 30;
+		App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+	}
+
+	if (ptype == door && anim.Finished())
+	{
+		to_delete = true;
+	}
+
 	return ret;
 }
 

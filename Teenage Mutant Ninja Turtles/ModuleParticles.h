@@ -16,6 +16,7 @@ enum particle_type
 {
 	fire,
 	ninja_star,
+	door,
 
 	noone
 };
@@ -31,13 +32,15 @@ struct Particle
 
 	// TODO 11: Add an optional collider to each particle
 	Collider* collider;
+	bool activeDoor = true;
+	bool first = true;
+	iPoint aux;
 	particle_type ptype = noone;
 	Timer t;
 	Particle();
 	Particle(const Particle& p);
 	~Particle();
 	bool Update();
-	void setType(particle_type);
 };
 
 class ModuleParticles : public Module
@@ -62,7 +65,7 @@ private:
 public:
 
 	// prototype particles go here ...
-	Particle fire,fire2,ninja_stars;
+	Particle fire,fire2,ninja_stars,door;
 };
 
 #endif // __MODULEPARTICLES_H__

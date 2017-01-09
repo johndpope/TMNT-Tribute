@@ -59,6 +59,15 @@ bool ModuleSceneLevel::Start()
 	App->particles->AddParticle(App->particles->fire, 1204, 157, 0, fire, COLLIDER_NONE);
 	App->particles->AddParticle(App->particles->fire2, 1204, 168, 0, fire, COLLIDER_NONE);
 
+
+	App->particles->AddParticle(App->particles->door, 411, 49, 0,door,COLLIDER_NONE);
+
+	App->particles->AddParticle(App->particles->door, 700, 49, 0, door, COLLIDER_NONE);
+
+	App->particles->AddParticle(App->particles->door, 828, 49, 0, door, COLLIDER_NONE);
+
+
+
 	aux.x = 500;
 	aux.y = App->player->position.y;
 
