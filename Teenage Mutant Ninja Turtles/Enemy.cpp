@@ -18,9 +18,8 @@ Enemy::~Enemy()
 
 bool Enemy::Update()
 {
-	
-	vel.SetToZero();
 
+	vel.SetToZero();
 	attackStep = rand() % 2;
 
 	switch (state)
@@ -33,22 +32,15 @@ bool Enemy::Update()
 			collider->SetType(COLLIDER_ENEMY);
 
 			if (abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
-			{
 				state = x;
-			}
 			else
 			{
 				if (abs(App->player->position.y - position.y) > 0)
-				{
 					state = y;
-				}
+
 				else
-				{
 					if (abs(App->player->position.x - position.x) > 0)
-					{
 						state = x;
-					}
-				}
 			}
 
 			break;
@@ -63,15 +55,12 @@ bool Enemy::Update()
 					if (idle_direction)
 					{
 						if (current_animation != &up_right)
-						{
 							current_animation = &up_right;
-						}
 					}
 					else
 						if (current_animation != &up_left)
-						{
 							current_animation = &up_left;
-						}
+
 				}
 				else
 				{
@@ -81,40 +70,36 @@ bool Enemy::Update()
 						if (idle_direction)
 						{
 							if (current_animation != &idle_right)
-							{
 								current_animation = &idle_right;
-							}
 						}
 						else
 							if (current_animation != &idle_left)
-							{
 								current_animation = &idle_left;
-							}
 					}
 					else
 					{
 						switch (attackStep)
 						{
 							case 0:
+
 								state = searching;
 								break;
 							case 1:
+
 								if (type == type_1)
 									state = jump_attack;
 								else
 									state = ninja_attack;
 								break;
 						}
-						
 					}
 				}
-
 			}
-
 			else
 					state = searching;
-			
+
 			collider->SetPos(position.x, position.y + 50);
+
 			break;
 
 		case x:
@@ -135,7 +120,6 @@ bool Enemy::Update()
 							App->player->hitFromBehind = true;	
 						}
 					}
-
 					if (current_animation != &idle_left)
 						current_animation = &idle_left;
 				}
@@ -168,6 +152,7 @@ bool Enemy::Update()
 					state = searching;
 		
 			collider->SetPos(position.x, position.y + 50);
+
 			break;
 
 		case attack:
@@ -177,7 +162,6 @@ bool Enemy::Update()
 				timer.setSecondTime();
 				if(timer.getTime() >=  700)
 				{
-				
 					if (abs(App->player->position.x - position.x) >= 25  || abs(App->player->position.y - position.y) >= 25)
 					{
 						state = searching;
@@ -226,14 +210,13 @@ bool Enemy::Update()
 					}			
 				}
 			}
+
 			break;
 
 		case jump_attack:
 
-		
 			collider->SetType(COLLIDER_ENEMY_ATTACK);
-			
-
+		
 			if (!idle_direction)
 			{
 				collider->SetPos(position.x - 30, position.y + 7);
@@ -282,7 +265,6 @@ bool Enemy::Update()
 				state = ko;
 				break;
 			}
-
 		
 			if (idle_direction)
 			{
@@ -314,7 +296,7 @@ bool Enemy::Update()
 			if (idle_direction)
 			{
 				current_animation = &receive_damage_4;
-				position.x += 2;
+				position.x -= 2;
 				if (receive_damage_4.Finished())
 				{
 					receive_damage_4.Reset();
@@ -322,14 +304,13 @@ bool Enemy::Update()
 					App->collision->colliders.remove(collider);
 					RELEASE(colliderBody);
 					RELEASE(collider);
-			
 					return false;
 				}
 			}
 			else
 			{
 				current_animation = &receive_damage_3;
-				position.x += 1;
+				position.x += 2;
 				if (receive_damage_3.Finished())
 				{
 					receive_damage_3.Reset();
@@ -337,7 +318,6 @@ bool Enemy::Update()
 					App->collision->colliders.remove(collider);
 					RELEASE(colliderBody);
 					RELEASE(collider);
-					
 					return false;
 				}
 			}
@@ -347,33 +327,28 @@ bool Enemy::Update()
 
 			if (idle_direction)
 			{
-
 				current_animation = &attack2;
 				if (attack2.Finished())
 				{
 					attack2.Reset();
-					App->particles->AddParticle(App->particles->ninja_stars, position.x + 25, position.y + 10, 1, ninja_star,COLLIDER_ENEMY_SHOT);
-
+					App->particles->AddParticle(App->particles->ninja_stars, position.x + 25, position.y + 10, 3, ninja_star,COLLIDER_ENEMY_SHOT);
 					state = searching;
-					first = true;
 				}
 			}
 			else
 			{
 				current_animation = &attack2Left;
-
 				if (attack2Left.Finished())
 				{
 					attack2Left.Reset();
-					App->particles->AddParticle(App->particles->ninja_stars, position.x - 25, position.y + 10, -1, ninja_star, COLLIDER_ENEMY_SHOT);
+					App->particles->AddParticle(App->particles->ninja_stars, position.x - 25, position.y + 10, -3, ninja_star, COLLIDER_ENEMY_SHOT);
 					state = searching;
-					first = true;
 				}
 			}
+
 			break;
 	}
 
-	
 	colliderBody->SetPos(position.x, position.y);
 	position += vel;
 
