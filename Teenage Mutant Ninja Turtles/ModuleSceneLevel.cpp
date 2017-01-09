@@ -37,9 +37,9 @@ bool ModuleSceneLevel::Start()
 
 	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 2 }, COLLIDER_WALL, this);
 
-	leftLimit = App->collision->AddCollider({0,0,2,SCREEN_HEIGHT}, COLLIDER_WALL, this);
+	leftLimit = App->collision->AddCollider({0,0,2,SCREEN_HEIGHT}, COLLIDER_WALL_2, this);
 
-	rightLimit = App->collision->AddCollider({SCREEN_WIDTH,0,2,SCREEN_HEIGHT }, COLLIDER_WALL, this);
+	rightLimit = App->collision->AddCollider({SCREEN_WIDTH,0,2,SCREEN_HEIGHT }, COLLIDER_WALL_2, this);
 
 	leftLimitNum = 0;
 	rightLimitNum = SCREEN_WIDTH;
@@ -67,10 +67,10 @@ bool ModuleSceneLevel::Start()
 	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
 	*/
 	
-	aux.x = App->player->position.x + 70;
+	aux.x = -50;
 	aux.y = App->player->position.y +30 ;
 
-	App->enemies->AddEnemy(App->enemies->enemy_2, aux, type_2);
+	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
 
 
 

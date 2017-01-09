@@ -39,7 +39,7 @@ public:
 	bool hitFromBehind = false;
 	int enemiesAttacking;
 	int attackStep, posAux;
-	bool idle_direction, isGoingUp, jumpAttack;
+	bool idle_direction, isGoingUp;
 	bool destroyed = false;
 
 	STATE current_state;

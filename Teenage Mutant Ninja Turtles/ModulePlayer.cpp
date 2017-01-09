@@ -326,7 +326,6 @@ bool ModulePlayer::Start()
 	idle_direction = false;
 	isGoingUp = false;
 	destroyed = false;
-	jumpAttack = false;
 	current_state = IDLE;
 	attackStep = 0;
 	position.x = 150;
@@ -374,28 +373,28 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	
 
 	//izquierda
-	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+	if ((c1->rect.x < c2->rect.x + c2->rect.w) && ((c2->rect.x + c2->rect.w) - c1->rect.x) < c1->rect.w && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_WALL_2))
 	{
 		position.x += ((c2->rect.x + c2->rect.w) - c1->rect.x);
 	}
 	else
 	{
 		//derecha
-		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && c2->type == COLLIDER_WALL)
+		if (c1->rect.x + c1->rect.w > c2->rect.x && ((c2->rect.y + c2->rect.h) - c1->rect.y) >4 && (c2->rect.y - (c1->rect.h + c1->rect.y)) <-4 && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_WALL_2))
 		{
 			position.x += (c2->rect.x - (c1->rect.x + c1->rect.w));
 		}
 		else
 		{
 			//abajo
-			if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && c2->type == COLLIDER_WALL)
+			if ((c1->rect.y < c2->rect.y + c2->rect.h) && ((c1->rect.h + c1->rect.y) - c2->rect.y) > c1->rect.h && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_WALL_2))
 			{
 				position.y += ((c2->rect.y + c2->rect.h) - c1->rect.y);
 			}
 			else
 			{
 				//arriba
-				if (c1->rect.h + c1->rect.y > c2->rect.y && c2->type == COLLIDER_WALL)
+				if (c1->rect.h + c1->rect.y > c2->rect.y && (c2->type == COLLIDER_WALL || c2->type == COLLIDER_WALL_2))
 				{
 					position.y += (c2->rect.y - (c1->rect.h + c1->rect.y));
 				}
@@ -431,7 +430,7 @@ update_status ModulePlayer::Update()
 
 				isGoingUp = true;
 				posAux = position.y;
-				currentCollider->SetType(COLLIDER_PLAYER_BODY);
+				//currentCollider->SetType(COLLIDER_PLAYER_BODY);
 				current_state = JUMPING;
 				break;
 			}
@@ -563,6 +562,8 @@ update_status ModulePlayer::Update()
 
 		case JUMPING:
 
+			currentCollider->SetPos(position.x,currentCollider->rect.y);
+
 			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
 			{
 				current_state = JUMP_ATTACK;
@@ -574,13 +575,13 @@ update_status ModulePlayer::Update()
 				isGoingUp = false;
 			}
 			
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !jumpAttack)
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 			{
 				position.x -= walkSpeed;
 				idle_direction = true;
 			}
 
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !jumpAttack)
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 			{
 				position.x += walkSpeed;
 				idle_direction = false;
@@ -614,7 +615,6 @@ update_status ModulePlayer::Update()
 				jump_left_attack_1.Reset();
 				jump_right_attack_2.Reset();
 				jump_left_attack_2.Reset();
-				jumpAttack = false;
 				currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
 				currentCollider->SetType(COLLIDER_PLAYER);
 				current_state = IDLE;
@@ -670,7 +670,6 @@ update_status ModulePlayer::Update()
 				jump_left_attack_1.Reset();
 				jump_right_attack_2.Reset();
 				jump_left_attack_2.Reset();
-				jumpAttack = false;
 				current_state = IDLE;
 			}
 			break;
@@ -739,6 +738,8 @@ update_status ModulePlayer::Update()
 		case KO:
 
 			hitCount = 0;
+			currentCollider->SetType(COLLIDER_PLAYER);
+			currentCollider->SetPos(position.x, position.y + widthColliderFoot);
 			if (!idle_direction)
 			{
 				if (hitFromBehind)
