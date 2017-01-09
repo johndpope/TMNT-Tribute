@@ -677,7 +677,7 @@ update_status ModulePlayer::Update()
 		case DAMAGED:
 			
 			currentCollider->SetType(COLLIDER_PLAYER_BODY);
-			
+			colliderBody->SetType(COLLIDER_PLAYER_BODY);
 
 			if (3 > hitCount)
 			{

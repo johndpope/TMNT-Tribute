@@ -33,9 +33,9 @@ bool ModuleSceneLevel::Start()
 	
 
 
-	App->collision->AddCollider({ 0,0,SCREEN_WIDTH*SCREEN_SIZE, 130 }, COLLIDER_WALL,this);
+	App->collision->AddCollider({ 0,0,1350, 130 }, COLLIDER_WALL,this);
 
-	App->collision->AddCollider({ 0,SCREEN_HEIGHT,SCREEN_WIDTH*SCREEN_SIZE, 2 }, COLLIDER_WALL, this);
+	App->collision->AddCollider({ 0,SCREEN_HEIGHT,1350, 2 }, COLLIDER_WALL, this);
 
 	leftLimit = App->collision->AddCollider({0,0,2,SCREEN_HEIGHT}, COLLIDER_WALL_2, this);
 
@@ -43,10 +43,6 @@ bool ModuleSceneLevel::Start()
 
 	leftLimitNum = 0;
 	rightLimitNum = SCREEN_WIDTH;
-
-
-
-	iPoint aux;
 
 	App->particles->AddParticle(App->particles->fire, 0,157, 0,fire,COLLIDER_NONE);
 	App->particles->AddParticle(App->particles->fire2, 0, 168,0, fire, COLLIDER_NONE);
@@ -60,20 +56,23 @@ bool ModuleSceneLevel::Start()
 	App->particles->AddParticle(App->particles->fire, 903, 157,0, fire, COLLIDER_NONE);
 	App->particles->AddParticle(App->particles->fire2, 903, 168, 0, fire, COLLIDER_NONE);
 
-	/*
-	aux.x = App->player->position.x + 70;
+	App->particles->AddParticle(App->particles->fire, 1204, 157, 0, fire, COLLIDER_NONE);
+	App->particles->AddParticle(App->particles->fire2, 1204, 168, 0, fire, COLLIDER_NONE);
+
+	aux.x = 500;
 	aux.y = App->player->position.y;
 
-	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
-	*/
+	App->enemies->AddEnemy(App->enemies->enemy_2, aux, type_2);
 	
-	aux.x = -50;
+	
+	aux.x = -20;
 	aux.y = App->player->position.y +30 ;
 
 	App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
 
-
-
+	blockCamera = 400;
+	stageCamera = SCREEN_WIDTH / 2;
+	stage = 1;
 	return true;
 }
 
@@ -95,6 +94,47 @@ update_status ModuleSceneLevel::Update()
 {
 	// Move camera forward -----------------------------
 
+	if (blockCamera - (App->player->position.x) <= stageCamera && App->enemies->active.size() == 0)
+	{
+		switch (stage)
+		{
+			case 1:
+
+				blockCamera = 800;
+				stage++;
+
+				aux.x = 900;
+				aux.y = App->player->position.y;
+				App->enemies->AddEnemy(App->enemies->enemy_2, aux, type_2);
+
+				aux.x = 400;
+				aux.y = App->player->position.y + 30;
+				App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+
+				break;
+
+			case 2:
+
+				blockCamera = 1350;
+				stage++;
+
+				aux.x = 1300;
+				aux.y = App->player->position.y;
+				App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+
+				aux.x = 800;
+				aux.y = App->player->position.y + 30;
+				App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+
+				aux.x = 800;
+				aux.y = App->player->position.y;
+				App->enemies->AddEnemy(App->enemies->enemy_2, aux, type_2);
+
+				break;
+		}
+	}
+
+
 	if (blockCamera - (App->player->position.x) >= stageCamera && (-App->renderer->camera.x + SCREEN_WIDTH * 3) - (App->player->position.x * 3) <= (stageCamera * 3))
 	{
 		App->renderer->camera.x -= 6;
@@ -102,6 +142,7 @@ update_status ModuleSceneLevel::Update()
 		rightLimitNum += 2;
 		leftLimit->SetPos(leftLimitNum,0);
 		rightLimit->SetPos(rightLimitNum, 0);
+
 	}
 
 	// Draw everything --------------------------------------

@@ -16,12 +16,13 @@ public:
 	bool CleanUp();
 
 public:
-	
+	iPoint aux;
 	Collider* rightLimit = nullptr;
 	Collider* leftLimit = nullptr;
 	int leftLimitNum, rightLimitNum;
-	int blockCamera = 764;
-	int const stageCamera = SCREEN_WIDTH / 2;
+	int blockCamera;
+	int stageCamera;
+	int stage;
 	SDL_Texture* background = nullptr;
 	SDL_Texture* stars = nullptr;
 };
