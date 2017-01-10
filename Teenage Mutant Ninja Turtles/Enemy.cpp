@@ -27,7 +27,7 @@ bool Enemy::Update()
 		first = true;
 		timer.setFirstTime();
 
-		collider->SetPos(position.x, position.y + 50);
+		collider->SetPos(position.x, position.y + 60);
 		collider->SetType(COLLIDER_ENEMY);
 
 		if (abs(App->player->position.x - position.x) > SCREEN_WIDTH / 4)
@@ -36,7 +36,6 @@ bool Enemy::Update()
 		{
 			if (abs(App->player->position.y - position.y) > 0)
 				state = y;
-
 			else
 				if (abs(App->player->position.x - position.x) > 0)
 					state = x;
@@ -45,6 +44,7 @@ bool Enemy::Update()
 		break;
 
 	case y:
+
 
 		if (abs(App->player->position.x - position.x) <= SCREEN_WIDTH / 4)
 		{
@@ -97,7 +97,7 @@ bool Enemy::Update()
 		else
 			state = searching;
 
-		collider->SetPos(position.x, position.y + 50);
+		collider->SetPos(position.x, position.y + 60);
 
 		break;
 
@@ -114,7 +114,7 @@ bool Enemy::Update()
 				{
 					state = attack;
 					App->player->hitCount++;
-					if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+					if (App->player->idle_direction == idle_direction && !App->player->ko)
 					{
 						App->player->hitFromBehind = true;
 					}
@@ -133,7 +133,7 @@ bool Enemy::Update()
 					{
 						state = attack;
 						App->player->hitCount++;
-						if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+						if (App->player->idle_direction == idle_direction && !App->player->ko)
 						{
 							App->player->hitFromBehind = true;
 						}
@@ -150,7 +150,7 @@ bool Enemy::Update()
 		else
 			state = searching;
 
-		collider->SetPos(position.x, position.y + 50);
+		collider->SetPos(position.x, position.y + 60);
 
 		break;
 
@@ -218,11 +218,11 @@ bool Enemy::Update()
 
 		if (!idle_direction)
 		{
-			collider->SetPos(position.x - 30, position.y + 7);
+			collider->SetPos(position.x - 30, position.y + 40);
 			current_animation = &jump_attack_1;
 			position.x -= 2;
 
-			if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+			if (App->player->idle_direction == idle_direction && !App->player->ko)
 			{
 				App->player->hitFromBehind = true;
 			}
@@ -237,11 +237,11 @@ bool Enemy::Update()
 		}
 		else
 		{
-			collider->SetPos(position.x + 30, position.y + 7);
+			collider->SetPos(position.x + 30, position.y + 40);
 			current_animation = &jump_attack_2;
 			position.x += 2;
 
-			if (App->player->idle_direction == idle_direction && App->player->current_state != KO)
+			if (App->player->idle_direction == idle_direction && !App->player->ko)
 			{
 				App->player->hitFromBehind = true;
 			}

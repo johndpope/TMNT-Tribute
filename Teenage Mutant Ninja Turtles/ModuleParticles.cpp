@@ -60,6 +60,14 @@ bool ModuleParticles::Start()
 	door.anim.speed = 0.2f;
 	door.activeDoor = false;
 
+	//door2
+	door2.anim.frames.push_back({ 269, 336, 43, 79 });
+	door2.anim.frames.push_back({ 314, 336, 43, 79 });
+	door2.anim.frames.push_back({ 362, 336, 43, 79 });
+	door2.anim.loop = false;
+	door2.anim.speed = 0.1f;
+	door2.activeDoor = false;
+
 	return true;
 }
 
@@ -171,7 +179,7 @@ bool Particle::Update()
 		collider->SetPos(pos.x, pos.y);
 	}
 	
-	if (ptype == door && App->player->position.x + 100 > pos.x && first)
+	if ((ptype == door || ptype == door2) && App->player->position.x + 100 > pos.x && first)
 	{
 		activeDoor = true;
 		first = false;
@@ -180,7 +188,7 @@ bool Particle::Update()
 		App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
 	}
 
-	if (ptype == door && anim.Finished())
+	if ((ptype == door || ptype == door2) && anim.Finished())
 	{
 		to_delete = true;
 	}

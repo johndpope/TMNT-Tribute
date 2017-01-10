@@ -368,7 +368,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
 	}
 
-	if ( c2->type == COLLIDER_ENEMY_SHOT && c1->type == COLLIDER_PLAYER_BODY && current_state != KO && current_state != JUMPING)
+	if ( c2->type == COLLIDER_ENEMY_SHOT && c1->type == COLLIDER_PLAYER_BODY && !ko && current_state != JUMPING)
 	{
 		current_state = DAMAGED;
 		currentCollider->SetType(COLLIDER_PLAYER);
@@ -435,7 +435,6 @@ update_status ModulePlayer::Update()
 
 				isGoingUp = true;
 				posAux = position.y;
-				//currentCollider->SetType(COLLIDER_PLAYER_BODY);
 				current_state = JUMPING;
 				break;
 			}
@@ -693,7 +692,7 @@ update_status ModulePlayer::Update()
 			currentCollider->SetType(COLLIDER_PLAYER_BODY);
 			colliderBody->SetType(COLLIDER_PLAYER_BODY);
 
-			if (3 > hitCount)
+			if (3 > hitCount && !ko)
 			{
 				if (!idle_direction)
 				{
@@ -718,8 +717,6 @@ update_status ModulePlayer::Update()
 						}
 					}
 				}
-
-
 				else
 				{
 					if (hitFromBehind)
@@ -744,72 +741,71 @@ update_status ModulePlayer::Update()
 					}
 				}
 			}
+
 			else
-				current_state = KO;
-
-			break;
-
-		case KO:
-
-			hitCount = 0;
-			currentCollider->SetType(COLLIDER_PLAYER);
-			currentCollider->SetPos(position.x, position.y + widthColliderFoot);
-			if (!idle_direction)
 			{
-				if (hitFromBehind)
+				hitCount = 0;
+				ko = true;
+				currentCollider->SetType(COLLIDER_PLAYER);
+				currentCollider->SetPos(position.x, position.y + widthColliderFoot);
+				if (!idle_direction)
 				{
-					current_animation = &receiveDamage_right_3;
-					position.x -= 2;
-					if (receiveDamage_right_3.Finished())
+					if (hitFromBehind)
 					{
-						receiveDamage_right_3.Reset();
-						
-						current_state = IDLE;
-						
-						App->player->hitFromBehind = false;
+						current_animation = &receiveDamage_right_3;
+						position.x -= 2;
+						if (receiveDamage_right_3.Finished())
+						{
+							receiveDamage_right_3.Reset();
+							ko = false;
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
+					}
+					else
+					{
+						current_animation = &receiveDamage_right_4;
+						position.x += 2;
+						if (receiveDamage_right_4.Finished())
+						{
+							receiveDamage_right_4.Reset();
+							ko = false;
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
 					}
 				}
+
+
 				else
 				{
-					current_animation = &receiveDamage_right_4;
-					position.x += 2;
-					if (receiveDamage_right_4.Finished())
+					if (!hitFromBehind)
 					{
-						receiveDamage_right_4.Reset();
-						
-						current_state = IDLE;
-					
-						App->player->hitFromBehind = false;
+						current_animation = &receiveDamage_left_4;
+						position.x -= 2;
+						if (receiveDamage_left_4.Finished())
+						{
+							receiveDamage_left_4.Reset();
+							ko = false;
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
+					}
+					else
+					{
+						current_animation = &receiveDamage_left_3;
+						position.x += 2;
+						if (receiveDamage_left_3.Finished())
+						{
+							receiveDamage_left_3.Reset();
+							ko = false;
+							current_state = IDLE;
+							App->player->hitFromBehind = false;
+						}
 					}
 				}
 			}
 
-
-			else
-			{
-				if (!hitFromBehind)
-				{
-					current_animation = &receiveDamage_left_4;
-					position.x -= 2;
-					if (receiveDamage_left_4.Finished())
-					{
-						receiveDamage_left_4.Reset();
-						current_state = IDLE;
-						App->player->hitFromBehind = false;
-					}
-				}
-				else
-				{
-					current_animation = &receiveDamage_left_3;
-					position.x += 2;
-					if (receiveDamage_left_3.Finished())
-					{
-						receiveDamage_left_3.Reset();
-						current_state = IDLE;
-						App->player->hitFromBehind = false;
-					}
-				}
-			}
 			break;
 	}
 

@@ -17,6 +17,7 @@ enum particle_type
 	fire,
 	ninja_star,
 	door,
+	door2,
 
 	noone
 };
@@ -65,7 +66,7 @@ private:
 public:
 
 	// prototype particles go here ...
-	Particle fire,fire2,ninja_stars,door;
+	Particle fire,fire2,ninja_stars,door,door2;
 };
 
 #endif // __MODULEPARTICLES_H__

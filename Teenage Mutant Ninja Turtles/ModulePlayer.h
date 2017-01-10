@@ -13,7 +13,6 @@ enum STATE {
 	ATTACK,
 	JUMP_ATTACK,
 	DAMAGED,
-	KO
 };
 
 class ModulePlayer : public Module
@@ -64,6 +63,7 @@ public:
 	Collider* currentCollider = nullptr;
 	Collider* colliderBody = nullptr;
 	iPoint position;
+	bool ko = false;
 
 	
 };
