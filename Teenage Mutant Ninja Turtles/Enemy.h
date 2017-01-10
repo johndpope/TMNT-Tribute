@@ -24,7 +24,6 @@ enum enemy_state
 	attack,
 	jump_attack,
 	damaged,
-	ko,
 	ninja_attack
 
 };

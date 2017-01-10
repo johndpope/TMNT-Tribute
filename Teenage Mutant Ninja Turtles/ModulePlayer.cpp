@@ -360,12 +360,12 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 	*/
 	
-	if (c2->type == COLLIDER_ENEMY_ATTACK  && c1->type == COLLIDER_PLAYER_BODY)
+	if (c2->type == COLLIDER_ENEMY_ATTACK  && c1->type == COLLIDER_PLAYER_BODY && current_state != JUMPING)
 	{
 		current_state = DAMAGED;
 	}
 
-	if ( c2->type == COLLIDER_ENEMY_SHOT && c1->type == COLLIDER_PLAYER_BODY && current_state != KO)
+	if ( c2->type == COLLIDER_ENEMY_SHOT && c1->type == COLLIDER_PLAYER_BODY && current_state != KO && current_state != JUMPING)
 	{
 		current_state = DAMAGED;
 		hitCount++;
@@ -479,7 +479,7 @@ update_status ModulePlayer::Update()
 				}
 			}
 
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_N) == KEY_IDLE)
 			{
 				position.y -= walkSpeed;
 				if (idle_direction)

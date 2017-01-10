@@ -262,66 +262,65 @@ bool Enemy::Update()
 
 			if (hitCount == 2)
 			{
-				state = ko;
-				break;
-			}
-		
-			if (idle_direction)
-			{
-				current_animation = &receive_damage_1;
-				if (receive_damage_1.Finished())
+				if (idle_direction)
 				{
-					receive_damage_1.Reset();
-					first = true;
-					state = searching;
-					hitCount++;
+					current_animation = &receive_damage_4;
+					position.x -= 2;
+					if (receive_damage_4.Finished())
+					{
+						receive_damage_4.Reset();
+						App->collision->colliders.remove(colliderBody);
+						App->collision->colliders.remove(collider);
+						RELEASE(colliderBody);
+						RELEASE(collider);
+						return false;
+					}
+				}
+				else
+				{
+					current_animation = &receive_damage_3;
+					position.x += 2;
+					if (receive_damage_3.Finished())
+					{
+						receive_damage_3.Reset();
+						App->collision->colliders.remove(colliderBody);
+						App->collision->colliders.remove(collider);
+						RELEASE(colliderBody);
+						RELEASE(collider);
+						return false;
+					}
 				}
 			}
 			else
 			{
-				current_animation = &receive_damage_2;
-				if (receive_damage_2.Finished())
+				if (idle_direction)
 				{
-					receive_damage_2.Reset();
-					first = true;
-					state = searching;
-					hitCount++;
+					current_animation = &receive_damage_1;
+					position.x -= 1;
+					if (receive_damage_1.Finished())
+					{
+						receive_damage_1.Reset();
+						first = true;
+						state = searching;
+						hitCount++;
+					}
+				}
+				else
+				{
+					current_animation = &receive_damage_2;
+					position.x += 1;
+					if (receive_damage_2.Finished())
+					{
+						receive_damage_2.Reset();
+						first = true;
+						state = searching;
+						hitCount++;
+					}
 				}
 			}
-		
+
 			break;
 
-		case ko:
-
-			if (idle_direction)
-			{
-				current_animation = &receive_damage_4;
-				position.x -= 2;
-				if (receive_damage_4.Finished())
-				{
-					receive_damage_4.Reset();
-					App->collision->colliders.remove(colliderBody);
-					App->collision->colliders.remove(collider);
-					RELEASE(colliderBody);
-					RELEASE(collider);
-					return false;
-				}
-			}
-			else
-			{
-				current_animation = &receive_damage_3;
-				position.x += 2;
-				if (receive_damage_3.Finished())
-				{
-					receive_damage_3.Reset();
-					App->collision->colliders.remove(colliderBody);
-					App->collision->colliders.remove(collider);
-					RELEASE(colliderBody);
-					RELEASE(collider);
-					return false;
-				}
-			}
-			break;
 
 		case ninja_attack:
 

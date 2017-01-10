@@ -1,7 +1,7 @@
 #ifndef __ModuleEnemy_H__
 #define __ModuleEnemy_H__
 
-#include<list>
+#include <list>
 #include "Globals.h"
 #include "Module.h"
 #include "Animation.h"
@@ -22,7 +22,10 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
 
-	void AddEnemy(const Enemy& Enemy, iPoint position, enemy_type type); 
+	void AddEnemy(const Enemy& Enemy, iPoint position, enemy_type type);
+	void RadixSortList(std::list<Enemy*>& v, int length, int numMax);
+	int Digit(int index, int num);
+
 
 	std::list<Enemy*> active;
 
