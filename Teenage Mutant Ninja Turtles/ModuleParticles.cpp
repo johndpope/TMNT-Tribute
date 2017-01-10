@@ -57,6 +57,8 @@ ModuleParticles::ModuleParticles()
 	door2.anim.loop = false;
 	door2.anim.speed = 0.1f;
 	door2.activeDoor = false;
+
+
 }
 
 ModuleParticles::~ModuleParticles()
@@ -67,6 +69,7 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 	graphics = App->textures->Load("rtype/stagepart.png");
+
 
 	return true;
 }
@@ -155,10 +158,14 @@ Particle::Particle() : collider(NULL)
 Particle::Particle(const Particle& p) : anim(p.anim), pos(p.pos), vel(p.vel), collider(p.collider),activeDoor(p.activeDoor)
 {
 	t.setFirstTime();
+
+	fx = App->audio->LoadFx("rtype/breakDoor.wav");
+	fx2 = App->audio->LoadFx("rtype/elevator.wav");
 }
 
 Particle::~Particle()
 {
+
 }
 
 bool Particle::Update()
@@ -186,6 +193,12 @@ bool Particle::Update()
 		aux.x = pos.x + 10;
 		aux.y = pos.y + 30;
 		App->enemies->AddEnemy(App->enemies->enemy_1, aux, type_1);
+
+		if (ptype == door)
+			App->audio->PlayFx(fx);
+		else
+			App->audio->PlayFx(fx2);
+
 	}
 
 	if ((ptype == door || ptype == door2) && anim.Finished())

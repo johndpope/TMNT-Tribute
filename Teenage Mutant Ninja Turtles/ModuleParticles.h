@@ -29,7 +29,9 @@ struct Particle
 	// TODO 1: Fill in the structure with all the properties you need for each particle
 	Animation anim;
 	iPoint pos, vel;
-	unsigned int fx;
+
+	uint fx = 0;
+	uint fx2 = 0;
 
 	// TODO 11: Add an optional collider to each particle
 	Collider* collider;
@@ -55,6 +57,7 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider * c1, Collider * c2);
 	void AddParticle(const Particle& particle, int x, int y,int vel,particle_type type, COLLIDER_TYPE collider_type); // feel free to expand this call
+
 
 private:
 
