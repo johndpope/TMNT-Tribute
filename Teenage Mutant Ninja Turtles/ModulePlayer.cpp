@@ -10,6 +10,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include "ModuleAudio.h"
+#include "ModuleEnemy.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -336,6 +337,7 @@ bool ModulePlayer::Start()
 	attackStep = 0;
 	position.x = 150;
 	position.y = 120;
+	end = false;
 	posAux = 0;
 	srand(time(NULL));
 	currentCollider = App->collision->AddCollider({ position.x, position.y, widthColliderFoot, heightColliderFoot }, COLLIDER_PLAYER,this);
@@ -358,9 +360,9 @@ bool ModulePlayer::CleanUp()
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	
-	if (destroyed == true)
+	if (destroyed == false && c2->type == COLLIDER_WALL_2 && end)
 	{
-		//App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_level);
+		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_level);
 	}
 	
 	
@@ -832,6 +834,11 @@ update_status ModulePlayer::Update()
 			break;
 	}
 
+
+	if (position.x > 1300)
+	{
+		end = true;
+	}
 	// Draw everything --------------------------------------
 	if (destroyed == false)
 	{

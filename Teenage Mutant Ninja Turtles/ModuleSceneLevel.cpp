@@ -9,6 +9,7 @@
 #include "ModuleSceneLevel.h"
 #include "ModuleInput.h"
 #include "ModuleEnemy.h"
+#include "ModuleFadeToBlack.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -44,6 +45,7 @@ bool ModuleSceneLevel::Start()
 	leftLimitNum = 0;
 	rightLimitNum = SCREEN_WIDTH;
 
+	
 	App->particles->AddParticle(App->particles->fire, 0,157, 0,fire,COLLIDER_NONE);
 	App->particles->AddParticle(App->particles->fire2, 0, 168,0, fire, COLLIDER_NONE);
 
@@ -111,7 +113,7 @@ update_status ModuleSceneLevel::Update()
 {
 	// Move camera forward -----------------------------
 
-	if (blockCamera - (App->player->position.x) <= stageCamera && App->enemies->active.size() == 0)
+	if (blockCamera - (App->player->position.x) <= stageCamera && App->enemies->active.size() == 0 )
 	{
 		switch (stage)
 		{
@@ -148,6 +150,7 @@ update_status ModuleSceneLevel::Update()
 				App->enemies->AddEnemy(App->enemies->enemy_2, aux, type_2);
 
 				break;
+
 		}
 	}
 

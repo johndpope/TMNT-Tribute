@@ -65,6 +65,7 @@ public:
 	Collider* colliderBody = nullptr;
 	iPoint position;
 	bool ko = false;
+	bool end = false;
 
 	
 };

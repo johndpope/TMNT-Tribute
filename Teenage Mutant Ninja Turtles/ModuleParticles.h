@@ -60,6 +60,7 @@ private:
 
 	SDL_Texture* graphics = nullptr;
 	std::list<Particle*> active;
+	
 public:
 
 	// prototype particles go here ...
