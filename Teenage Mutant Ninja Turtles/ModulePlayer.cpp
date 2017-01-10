@@ -363,11 +363,17 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	if (c2->type == COLLIDER_ENEMY_ATTACK  && c1->type == COLLIDER_PLAYER_BODY && current_state != JUMPING)
 	{
 		current_state = DAMAGED;
+		currentCollider->SetType(COLLIDER_PLAYER);
+		currentCollider->SetPos(position.x, position.y + widthColliderFoot);
+		currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
 	}
 
 	if ( c2->type == COLLIDER_ENEMY_SHOT && c1->type == COLLIDER_PLAYER_BODY && current_state != KO && current_state != JUMPING)
 	{
 		current_state = DAMAGED;
+		currentCollider->SetType(COLLIDER_PLAYER);
+		currentCollider->SetPos(position.x, position.y + widthColliderFoot);
+		currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
 		hitCount++;
 	}
 	
@@ -413,6 +419,7 @@ update_status ModulePlayer::Update()
 	{
 		case IDLE:
 
+			currentCollider->SetType(COLLIDER_PLAYER);
 			currentCollider->SetPos(position.x, position.y + widthColliderFoot);
 			currentCollider->SetSize(widthColliderFoot, heightColliderFoot);
 
@@ -420,8 +427,6 @@ update_status ModulePlayer::Update()
 			{
 				attackStep = rand() % 2;
 				current_state = ATTACK;
-				currentCollider->SetType(COLLIDER_PLAYER_ATTACK);
-		
 				break;
 			}
 
@@ -508,10 +513,12 @@ update_status ModulePlayer::Update()
 					current_animation = &idle_right;
 			}
 		
-			currentCollider->SetType(COLLIDER_PLAYER);
+	
 			break;
 
 		case ATTACK:
+
+			currentCollider->SetType(COLLIDER_PLAYER_ATTACK);
 
 			if (!idle_direction)
 			{
@@ -555,6 +562,13 @@ update_status ModulePlayer::Update()
 				attack_left1.Reset();
 				attack_left2.Reset();
 				current_state = IDLE;
+
+				if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
+				{
+					attackStep = rand() % 2;
+					current_state = ATTACK;
+					break;
+				}
 
 			}
 
