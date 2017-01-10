@@ -24,12 +24,12 @@ bool ModuleSceneLevel::Start()
 	LOG("Loading space scene");
 	
 	background = App->textures->Load("rtype/stage.png");
-
+	App->audio->PlayMusic("rtype/scene_song.wav", 1.0f);
 	App->player->Enable();
 	App->particles->Enable();
 	App->collision->Enable();
 
-	//App->audio->PlayMusic("rtype/stage1.ogg", 1.0f);
+	//App->audio->PlayMusic("rtype/scene_song.ogg", 1.0f);
 	
 
 

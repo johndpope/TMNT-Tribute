@@ -40,9 +40,10 @@ public:
 	int attackStep, posAux;
 	bool idle_direction, isGoingUp;
 	bool destroyed = false;
-
+	uint fx = 0;
+	uint fx2 = 0;
 	STATE current_state;
-
+	bool first = true;
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* graphics2 = nullptr;
 	Animation* current_animation = nullptr;

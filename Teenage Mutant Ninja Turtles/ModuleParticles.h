@@ -53,10 +53,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-
 	void OnCollision(Collider * c1, Collider * c2);
-
-
 	void AddParticle(const Particle& particle, int x, int y,int vel,particle_type type, COLLIDER_TYPE collider_type); // feel free to expand this call
 
 private:

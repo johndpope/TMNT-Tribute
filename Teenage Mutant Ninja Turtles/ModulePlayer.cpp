@@ -9,6 +9,7 @@
 #include "ModulePlayer.h"
 #include<stdlib.h>
 #include<time.h>
+#include "ModuleAudio.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -321,6 +322,11 @@ bool ModulePlayer::Start()
 	graphics = App->textures->Load("rtype/michelangeloderecha.png");
 	graphics2 = App->textures->Load("rtype/michelangeloizquierda.png");
 
+	if (fx == 0)
+		fx = App->audio->LoadFx("rtype/hits_12.wav");
+	if (fx2 == 0)
+		fx2 = App->audio->LoadFx("rtype/hits_3.wav");
+
 	enemiesAttacking = 0;
 	hitCount = 0;
 	idle_direction = false;
@@ -351,14 +357,12 @@ bool ModulePlayer::CleanUp()
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	/*
-	if (destroyed == false)
+	
+	if (destroyed == true)
 	{
-		App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_level);
-		destroyed = true;
-		
+		//App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_level);
 	}
-	*/
+	
 	
 	if (c2->type == COLLIDER_ENEMY_ATTACK  && c1->type == COLLIDER_PLAYER_BODY && current_state != JUMPING)
 	{
@@ -694,6 +698,12 @@ update_status ModulePlayer::Update()
 
 			if (3 > hitCount && !ko)
 			{
+				if (first)
+				{
+					App->audio->PlayFx(fx);
+					first = false;
+				}
+
 				if (!idle_direction)
 				{
 					if (hitFromBehind)
@@ -704,6 +714,7 @@ update_status ModulePlayer::Update()
 							receiveDamage_right_1.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
+							first = true;
 						}
 					}
 					else
@@ -714,6 +725,7 @@ update_status ModulePlayer::Update()
 							receiveDamage_right_2.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
+							first = true;
 						}
 					}
 				}
@@ -727,6 +739,7 @@ update_status ModulePlayer::Update()
 							receiveDamage_left_1.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
+							first = true;
 						}
 					}
 					else
@@ -737,6 +750,7 @@ update_status ModulePlayer::Update()
 							receiveDamage_left_2.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
+							first = true;
 						}
 					}
 				}
@@ -744,6 +758,13 @@ update_status ModulePlayer::Update()
 
 			else
 			{
+
+				if (first)
+				{
+					App->audio->PlayFx(fx);
+					first = false;
+				}
+
 				hitCount = 0;
 				ko = true;
 				currentCollider->SetType(COLLIDER_PLAYER);
@@ -760,6 +781,7 @@ update_status ModulePlayer::Update()
 							ko = false;
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
+							first = true;
 						}
 					}
 					else
@@ -772,6 +794,7 @@ update_status ModulePlayer::Update()
 							ko = false;
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
+							first = true;
 						}
 					}
 				}

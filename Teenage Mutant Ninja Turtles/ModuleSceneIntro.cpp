@@ -22,9 +22,10 @@ bool ModuleSceneIntro::Start()
 	
 	background = App->textures->Load("rtype/intro.png");
 
-	//App->audio->PlayMusic("rtype/intro.ogg", 1.0f);
+	App->audio->PlayMusic("rtype/intro_song.wav", 0.0f);
+
 	if(fx == 0)
-		fx = App->audio->LoadFx("rtype/starting.wav");
+		fx = App->audio->LoadFx("rtype/cowabunga.ogg");
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	
