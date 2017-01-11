@@ -40,7 +40,7 @@ bool ModuleSceneLevel::Start()
 
 	leftLimit = App->collision->AddCollider({0,0,4,SCREEN_HEIGHT}, COLLIDER_WALL_2, this);
 
-	rightLimit = App->collision->AddCollider({SCREEN_WIDTH,0,4,SCREEN_HEIGHT }, COLLIDER_WALL_2, this);
+	rightLimit = App->collision->AddCollider({SCREEN_WIDTH,0,30,SCREEN_HEIGHT }, COLLIDER_WALL_2, this);
 
 	leftLimitNum = 0;
 	rightLimitNum = SCREEN_WIDTH;
