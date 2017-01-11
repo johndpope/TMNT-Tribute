@@ -19,7 +19,9 @@ public:
 
 public:
 
-	int lifeCount = 8;
+	SDL_Texture* ui = nullptr;
+	SDL_Texture* lifes = nullptr;
+	int lifeCount;
 
 };
 

@@ -422,6 +422,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 update_status ModulePlayer::Update()
 {
 
+
 	switch (current_state)
 	{
 		case IDLE:

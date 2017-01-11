@@ -18,7 +18,7 @@ ModuleUI::~ModuleUI()
 bool ModuleUI::Start()
 {
 	LOG("Loading fonts");
-
+	lifeCount = 8;
 	ui = App->textures->Load("rtype/UI.png");
 	lifes = App->textures->Load("rtype/life.png");
 	return true;
@@ -30,6 +30,10 @@ update_status ModuleUI::Update()
 	{
 		App->renderer->Blit(ui, -App->renderer->camera.x / 3, 0, NULL);
 		updateLife();
+	}
+	else
+	{
+		lifeCount = 8;
 	}
 
 	return UPDATE_CONTINUE;
