@@ -28,6 +28,9 @@ The orange ninja hits Michelangelo when he is close to him and has a range attac
 
  ![Image](https://i.gyazo.com/971e3ddfc62eca3b5e22cb6ffad96ed7.png)
 
+### Release
+[Link](https://github.com/sliz3r/TMNT-Tribute/releases/tag/v1.0) 
+
 
 ### Gameplay Video
 [Link](https://youtu.be/jfqF7SWRPpA) 
