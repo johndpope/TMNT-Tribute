@@ -23,7 +23,7 @@ ModuleSceneLevel::~ModuleSceneLevel()
 bool ModuleSceneLevel::Start()
 {
 	LOG("Loading space scene");
-	
+
 	background = App->textures->Load("rtype/stage.png");
 	App->audio->PlayMusic("rtype/scene_song.wav", 1.0f);
 	App->player->Enable();

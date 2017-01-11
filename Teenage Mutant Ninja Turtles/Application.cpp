@@ -11,6 +11,7 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleSceneLevel.h"
 #include "ModulePlayer.h"
+#include "ModuleUI.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ Application::Application()
 	// Game Modules
 	modules.push_back(scene_intro = new ModuleSceneIntro(false));
 	modules.push_back(scene_level = new ModuleSceneLevel(false));
+	modules.push_back(ui = new ModuleUI());
 	modules.push_back(player = new ModulePlayer(false));
 	modules.push_back(enemies = new ModuleEnemy());
 

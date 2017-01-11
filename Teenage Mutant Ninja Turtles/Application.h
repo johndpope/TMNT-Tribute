@@ -13,6 +13,8 @@ class ModuleAudio;
 class ModuleFadeToBlack;
 class ModuleCollision;
 class ModuleParticles;
+class ModuleUI;
+
 
 // Game modules ---
 class ModulePlayer;
@@ -42,6 +44,7 @@ public:
 	ModuleParticles* particles;
 
 	// Game modules ---
+	ModuleUI* ui;
 	ModulePlayer* player;
 	ModuleSceneIntro* scene_intro;
 	ModuleSceneLevel* scene_level;

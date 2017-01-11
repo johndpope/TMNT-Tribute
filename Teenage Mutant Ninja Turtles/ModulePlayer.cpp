@@ -11,6 +11,7 @@
 #include<time.h>
 #include "ModuleAudio.h"
 #include "ModuleEnemy.h"
+#include "ModuleUI.h"
 
 // Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
@@ -713,6 +714,7 @@ update_status ModulePlayer::Update()
 						current_animation = &receiveDamage_right_1;
 						if (receiveDamage_right_1.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_right_1.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
@@ -724,6 +726,7 @@ update_status ModulePlayer::Update()
 						current_animation = &receiveDamage_right_2;
 						if (receiveDamage_right_2.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_right_2.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
@@ -738,6 +741,7 @@ update_status ModulePlayer::Update()
 						current_animation = &receiveDamage_left_1;
 						if (receiveDamage_left_1.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_left_1.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
@@ -749,6 +753,7 @@ update_status ModulePlayer::Update()
 						current_animation = &receiveDamage_left_2;
 						if (receiveDamage_left_2.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_left_2.Reset();
 							current_state = IDLE;
 							App->player->hitFromBehind = false;
@@ -779,6 +784,7 @@ update_status ModulePlayer::Update()
 						position.x -= 2;
 						if (receiveDamage_right_3.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_right_3.Reset();
 							ko = false;
 							current_state = IDLE;
@@ -792,6 +798,7 @@ update_status ModulePlayer::Update()
 						position.x += 2;
 						if (receiveDamage_right_4.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_right_4.Reset();
 							ko = false;
 							current_state = IDLE;
@@ -810,6 +817,7 @@ update_status ModulePlayer::Update()
 						position.x -= 2;
 						if (receiveDamage_left_4.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_left_4.Reset();
 							ko = false;
 							current_state = IDLE;
@@ -822,6 +830,7 @@ update_status ModulePlayer::Update()
 						position.x += 2;
 						if (receiveDamage_left_3.Finished())
 						{
+							App->ui->lifeCount -= 1;
 							receiveDamage_left_3.Reset();
 							ko = false;
 							current_state = IDLE;

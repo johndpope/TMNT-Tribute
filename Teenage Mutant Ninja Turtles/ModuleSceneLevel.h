@@ -16,6 +16,7 @@ public:
 	bool CleanUp();
 
 public:
+
 	iPoint aux;
 	Collider* rightLimit = nullptr;
 	Collider* leftLimit = nullptr;

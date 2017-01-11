@@ -76,6 +76,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleUI.h">
+      <Filter>Game Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleUI.cpp">
+      <Filter>Game Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
