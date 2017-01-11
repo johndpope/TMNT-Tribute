@@ -20,15 +20,17 @@ There are two types of enemies, the orange ninja and the purple ninja:
 
 **Purple Ninja**
 The purple ninja hits Michelangelo when he is close to him and uses him kick-jump to get more closer to you. 
+
  ![Image](https://i.gyazo.com/4e7b4995ac89fcaff53fdebbece6a118.png)
 
 **Orange Ninja**
-The orange ninja hits Michelangelo when he is close to him and has a range attack that use a ninja star. 
+The orange ninja hits Michelangelo when he is close to him and has a range attack that uses a ninja star. 
+
  ![Image](https://i.gyazo.com/971e3ddfc62eca3b5e22cb6ffad96ed7.png)
 
 
 ### Gameplay Video
-[Link](url) 
+[Link](https://youtu.be/jfqF7SWRPpA) 
 
 
 
