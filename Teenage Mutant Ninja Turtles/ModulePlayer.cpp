@@ -7,8 +7,8 @@
 #include "ModuleCollision.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
-#include<stdlib.h>
-#include<time.h>
+#include <stdlib.h>
+#include <time.h>
 #include "ModuleAudio.h"
 #include "ModuleEnemy.h"
 #include "ModuleUI.h"
@@ -340,7 +340,6 @@ bool ModulePlayer::Start()
 	position.y = 120;
 	end = false;
 	posAux = 0;
-	srand(time(NULL));
 	currentCollider = App->collision->AddCollider({ position.x, position.y, widthColliderFoot, heightColliderFoot }, COLLIDER_PLAYER,this);
 	colliderBody = App->collision->AddCollider({ position.x, position.y, widthColliderFoot, 50 }, COLLIDER_PLAYER_BODY, this);
 	return true;
@@ -433,7 +432,7 @@ update_status ModulePlayer::Update()
 
 			if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
 			{
-				attackStep = rand() % 2;
+				attackStep = ran.GetRandom01();
 				current_state = ATTACK;
 				break;
 			}
@@ -572,7 +571,7 @@ update_status ModulePlayer::Update()
 
 				if (App->input->GetKey(SDL_SCANCODE_B) == KEY_REPEAT)
 				{
-					attackStep = rand() % 2;
+					attackStep = ran.GetRandom01();
 					current_state = ATTACK;
 					break;
 				}

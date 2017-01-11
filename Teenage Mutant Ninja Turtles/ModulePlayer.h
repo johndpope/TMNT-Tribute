@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Animation.h"
 #include "Point.h"
+#include "MyRandom.h"
 
 struct SDL_Texture;
 
@@ -66,6 +67,7 @@ public:
 	iPoint position;
 	bool ko = false;
 	bool end = false;
+	MyRandom ran;
 
 	
 };

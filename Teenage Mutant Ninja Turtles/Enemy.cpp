@@ -6,17 +6,17 @@
 #include "ModuleAudio.h"
 
 
+
 Enemy::Enemy() : collider(NULL)
 {}
 
 Enemy::Enemy(const Enemy & p) : attack2(p.attack2),attack2Left(p.attack2Left),receive_damage_4(p.receive_damage_4), receive_damage_3(p.receive_damage_3), receive_damage_1(p.receive_damage_1),receive_damage_2(p.receive_damage_2),jump_attack_1(p.jump_attack_1),jump_attack_2(p.jump_attack_2),right_attack(p.right_attack), left_attack(p.left_attack), idle_right(p.idle_right), idle_left(p.idle_left), up_left(p.up_left), up_right(p.up_right),graphics(p.graphics),graphics2(p.graphics2)
 {
-	srand(time(NULL));
-
 	if (fx == 0)
 		fx = App->audio->LoadFx("rtype/hits_12.wav");
 	if (fx2 == 0)
 		fx2 = App->audio->LoadFx("rtype/hits_3.wav");
+
 }
 
 Enemy::~Enemy()
@@ -25,7 +25,9 @@ Enemy::~Enemy()
 bool Enemy::Update()
 {
 	vel.SetToZero();
-	attackStep = rand() % 2;
+	
+
+	attackStep = App->player->ran.GetRandom01();
 
 	switch (state)
 	{

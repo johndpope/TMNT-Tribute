@@ -8,7 +8,6 @@
 #include "Point.h"
 #include "Enemy.h"
 
-
 struct SDL_Texture;
 
 class ModuleEnemy : public Module
