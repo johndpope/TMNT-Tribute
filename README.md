@@ -1,6 +1,6 @@
 ## Welcome to my tribute of Teenage Mutant Ninja Turtles Arcade (1989)
 
-Here is the first level of the classic game Teenage Mutant Ninja Turtles game made in 1989. The game have been made entirely in C++ with the SDL libray. 
+Here is the first level of the classic game Teenage Mutant Ninja Turtles, made in 1989. This tribute has been made entirely in C++ with the SDL library. 
 
 ### Game
 
