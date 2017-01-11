@@ -1,37 +1,35 @@
-## Welcome to GitHub Pages
+## Welcome to my tribute of Teenage Mutant Ninja Turtles Arcade (1989)
 
-You can use the [editor on GitHub](https://github.com/sliz3r/TMNT_Arcade_Game/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Here is the first level of the classic game Teenage Mutant Ninja Turtles game made in 1989. The game have been made entirely in C++ with the SDL libray. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Game
 
-### Markdown
+When you execute the game you will appear in the initial screen and you have to press **SPACE** to start the game. You control during all the level Michelangelo, the orange turtle, and you have to defeat all the ninjas to go through the map.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Controls
 
-```markdown
-Syntax highlighted code block
+ * A W S D - Movement
+ * B - Attack
+ * N - Jump
+ * N + B - Jump attack
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
+### Enemies
 
-1. Numbered
-2. List
+There are two types of enemies, the orange ninja and the purple ninja:
 
-**Bold** and _Italic_ and `Code` text
+**Purple Ninja**
+The purple ninja hits Michelangelo when he is close to him and uses him kick-jump to get more closer to you. 
+ ![Image](https://i.gyazo.com/4e7b4995ac89fcaff53fdebbece6a118.png)
 
-[Link](url) and ![Image](src)
-```
+**Orange Ninja**
+The orange ninja hits Michelangelo when he is close to him and has a range attack that use a ninja star. 
+ ![Image](https://i.gyazo.com/971e3ddfc62eca3b5e22cb6ffad96ed7.png)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+### Gameplay Video
+[Link](url) 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/sliz3r/TMNT_Arcade_Game/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
